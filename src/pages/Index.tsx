@@ -6,7 +6,7 @@ import CategoryBanner from "@/components/CategoryBanner";
 import ReviewsSection from "@/components/ReviewsSection";
 import Footer from "@/components/Footer";
 
-import heroLifestyle from "@/assets/hero-crowd2.png";
+import heroVideo from "@/assets/hero-video.mp4";
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
 import bannerCargo from "@/assets/banner-cargo.jpg";
@@ -83,7 +83,7 @@ const Index = () => {
 
       <main>
         <HeroSection
-          image={heroLifestyle}
+          video={heroVideo}
           title="NEW ARRIVALS"
           subtitle="The perfect blend of comfort and style."
           ctaText="SHOP NOW"
