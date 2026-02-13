@@ -1,5 +1,6 @@
 import { Menu, Search, User, ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import logo from "@/assets/logo.png";
 
 const navLinks = ["New Arrivals", "Shop All", "Best Sellers", "Fitted Hats", "Accessories"];
 
@@ -9,11 +10,9 @@ const Header = () => {
   return (
     <>
       <header className="bg-header text-header-foreground sticky top-0 z-50 border-b border-border">
-        <div className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center justify-between px-6 py-3">
           <a href="/" className="flex-shrink-0">
-            <span className="text-xl font-black tracking-[0.15em] uppercase">
-              AI NUPES
-            </span>
+            <img src={logo} alt="AI Nupes" className="h-10" />
           </a>
 
           <nav className="hidden md:flex items-center gap-8">
