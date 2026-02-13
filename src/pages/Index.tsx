@@ -21,6 +21,7 @@ import jeansCosmos from "@/assets/products/jeans-cosmos.jpg";
 import jeansTitan from "@/assets/products/jeans-titan.jpg";
 import tee95thFront from "@/assets/products/tee-95th-front.jpg";
 import tee95thBack from "@/assets/products/tee-95th-back.jpg";
+import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side.jpg";
 import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
@@ -90,11 +91,29 @@ const Index = () => {
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
-        <CategoryBanner
-          image={tee95thBack}
-          title="95TH ANNIVERSARY"
-          description="Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy — 1931 to 2026."
-        />
+        <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden bg-foreground flex items-center">
+          <div className="w-1/2 h-full flex items-center justify-center p-8">
+            <img
+              src={tee95thBackNoBg}
+              alt="95th Anniversary Tee"
+              className="max-h-full max-w-full object-contain"
+            />
+          </div>
+          <div className="w-1/2 flex flex-col justify-center pr-10 md:pr-20">
+            <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
+              95TH ANNIVERSARY
+            </h2>
+            <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
+              Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy — 1931 to 2026.
+            </p>
+            <a
+              href="/shop"
+              className="inline-block w-fit bg-background text-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-colors"
+            >
+              SHOP NOW
+            </a>
+          </div>
+        </section>
 
         <ProductCarousel
           title="[ Anniversary Collection ]"
