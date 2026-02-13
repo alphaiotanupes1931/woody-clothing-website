@@ -1,7 +1,7 @@
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import JustLandedSection from "@/components/JustLandedSection";
+import SplitScreenShowcase from "@/components/SplitScreenShowcase";
 import ProductCarousel from "@/components/ProductCarousel";
 import CategoryBanner from "@/components/CategoryBanner";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -82,7 +82,7 @@ const Index = () => {
           ctaText="SHOP NOW"
         />
 
-        <JustLandedSection products={newArrivals} />
+        <SplitScreenShowcase products={newArrivals} />
 
         <ProductCarousel
           title="SERENEDE® Designed for comfort & style"
