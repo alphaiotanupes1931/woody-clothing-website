@@ -1,8 +1,14 @@
 import { Menu, Search, User, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 
-const navLinks = ["New Arrivals", "Shop All", "Best Sellers", "Fitted Hats", "Accessories"];
+const navLinks = [
+  { label: "New Arrivals", href: "/#new-arrivals" },
+  { label: "Shop All", href: "/shop" },
+  { label: "Fitted Hats", href: "/#fitted-hats" },
+  { label: "Accessories", href: "/#accessories" },
+];
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,11 +41,11 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
                 className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
@@ -73,11 +79,12 @@ const Header = () => {
           <nav className="flex flex-col items-start px-8 py-6 gap-5 text-sm font-medium tracking-wider uppercase">
             {navLinks.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
                 className="text-foreground hover:text-muted-foreground transition-colors"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </nav>
