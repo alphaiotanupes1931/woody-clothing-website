@@ -22,14 +22,16 @@ import jeansCosmos from "@/assets/products/jeans-cosmos.jpg";
 import jeansTitan from "@/assets/products/jeans-titan.jpg";
 import tee95thFront from "@/assets/products/tee-95th-front.jpg";
 import tee95thBack from "@/assets/products/tee-95th-back.jpg";
+import krimsonFittedFront from "@/assets/products/krimson-fitted-front.jpg";
+import krimsonFittedSide from "@/assets/products/krimson-fitted-side.jpg";
 
 const newArrivals = [
   { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00", tag: "Anniversary Drop" },
+  { image: krimsonFittedFront, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00", tag: "New Drop" },
+  { image: krimsonFittedSide, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00", tag: "Exclusive" },
   { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00", tag: "Limited Edition" },
-  { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00", tag: "New Drop" },
-  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Essentials" },
-  { image: tshirtMerlot, name: "SOUVENIR Merlot T-shirt", price: "$120.00", tag: "Back in Stock" },
-  { image: jeansFume, name: '"FUME" Jeans', price: "$98.00", tag: "Classic" },
+  { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00", tag: "Essentials" },
+  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Classic" },
 ];
 
 const bestSellers = [
