@@ -28,7 +28,7 @@ const Header = () => {
             <img
               src={logo}
               alt="AI Nupes"
-              className={`h-10 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
+              className={`h-10 transition-all duration-300 ${scrolled ? "" : "invert brightness-[2]"}`}
             />
           </a>
 
