@@ -8,13 +8,13 @@ interface HeroSectionProps {
 
 const HeroSection = ({ image, title, subtitle, ctaText, ctaLink = "#" }: HeroSectionProps) => {
   return (
-    <section className="relative w-full h-screen min-h-[500px] overflow-hidden bg-secondary">
+    <section className="relative w-full h-[90vh] min-h-[500px] overflow-hidden bg-[hsl(0,0%,75%)]">
       <img
         src={image}
         alt={title}
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/50 via-transparent to-transparent" />
       <div className="absolute bottom-14 left-6 md:left-14 z-10">
         <h1 className="font-display text-5xl md:text-8xl tracking-wide text-primary-foreground mb-1 leading-[0.9]">
           {title}
