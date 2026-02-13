@@ -12,7 +12,7 @@ const HeroSection = ({ image, title, subtitle, ctaText, ctaLink = "#" }: HeroSec
       <img
         src={image}
         alt={title}
-        className="absolute inset-0 w-full h-full object-contain"
+        className="absolute inset-0 w-full h-full object-contain object-[center_30%]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
       <div className="absolute bottom-12 left-6 md:left-12 z-10">
