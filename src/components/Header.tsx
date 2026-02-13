@@ -10,15 +10,19 @@ const navLinks = [
   { label: "Accessories", href: "/#accessories" },
 ];
 
-const Header = () => {
+interface HeaderProps {
+  solid?: boolean;
+}
+
+const Header = ({ solid = false }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(solid);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(solid || window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [solid]);
 
   return (
     <>
