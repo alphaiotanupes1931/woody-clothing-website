@@ -80,7 +80,7 @@ const Index = () => {
       <main>
         <HeroSection
           image={heroLifestyle}
-          title="NEW ARRIVALS ARE HERE"
+          title="NEW ARRIVALS"
           subtitle="The perfect blend of comfort and style."
           ctaText="SHOP NOW"
         />
