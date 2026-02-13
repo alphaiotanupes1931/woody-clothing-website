@@ -6,7 +6,7 @@ import CategoryBanner from "@/components/CategoryBanner";
 import ReviewsSection from "@/components/ReviewsSection";
 import Footer from "@/components/Footer";
 
-import heroMain from "@/assets/hero-main.jpg";
+import heroHat from "@/assets/hero-hat.jpg";
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
 import bannerCargo from "@/assets/banner-cargo.jpg";
@@ -79,7 +79,7 @@ const Index = () => {
 
       <main>
         <HeroSection
-          image={heroMain}
+          image={heroHat}
           title="NEW ARRIVALS ARE HERE"
           subtitle="The perfect blend of comfort and style."
           ctaText="SHOP NOW"

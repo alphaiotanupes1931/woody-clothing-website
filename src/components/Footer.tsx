@@ -79,7 +79,7 @@ const Footer = () => {
       </div>
       <div className="border-t border-border px-5 md:px-10 py-5 text-center">
         <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
-          © 2025 SERENEDE®. All rights reserved.
+          © 2025 AI NUPES. All rights reserved.
         </p>
       </div>
     </footer>
