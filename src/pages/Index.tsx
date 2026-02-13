@@ -24,25 +24,34 @@ import tee95thFront from "@/assets/products/tee-95th-front.jpg";
 import tee95thBack from "@/assets/products/tee-95th-back.jpg";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side.jpg";
+import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
+import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
+import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
+import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
+import kreamSocks from "@/assets/products/kream-socks.jpg";
+import ktrZip from "@/assets/products/ktr-zip.jpg";
+import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 
 const newArrivals = [
   { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00", tag: "Anniversary Drop" },
   { image: krimsonFittedFront, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00", tag: "New Drop" },
   { image: krimsonFittedSide, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00", tag: "Exclusive" },
   { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00", tag: "Limited Edition" },
-  { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00", tag: "Essentials" },
-  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Classic" },
+  { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00", tag: "Essentials" },
+  { image: dryFitPolo, name: 'KRIMSON Dry-Fit Polo', price: "$75.00", tag: "Performance" },
+  { image: flexKreamKap, name: 'KREAM FlexFit K-Diamond Kap', price: "$45.00", tag: "New Drop" },
+  { image: flexKrimsonKap, name: 'KRIMSON FlexFit K-Diamond Kap', price: "$45.00", tag: "New Drop" },
 ];
 
 const bestSellers = [
-  { image: jeansCaviar, name: "NANODUST Stacked Jeans", price: "$120.00" },
-  { image: jeansTitan, name: "ZINC Stacked Jeans", price: "$120.00" },
-  { image: jeansCosmos, name: "ONYX Cargo Jeans", price: "$138.00" },
-  { image: jeansOud, name: "CORTADO Jeans", price: "$98.00" },
-  { image: jeansFume, name: "NETWORTH Jeans", price: "$138.00" },
-  { image: jeansPotala, name: "YORU Baggy Jeans", price: "$98.00" },
-  { image: tshirtMerlot, name: "KINETIC Black T-Shirt", price: "$88.00" },
-  { image: hoodieMerlot, name: "SKYLETTER Fog T-Shirt", price: "$88.00" },
+  { image: krimsonFittedFront, name: "KRIMSON K-Diamond Fitted Hat", price: "$55.00" },
+  { image: ktrZip, name: "KRIMSON Quarter-Zip Sweater", price: "$95.00" },
+  { image: kreamTee1, name: 'K-Diamond Outline Tee — Cream', price: "$55.00" },
+  { image: kreamTee2, name: 'K-Diamond Filled Tee — Cream', price: "$55.00" },
+  { image: dryFitPolo, name: "KRIMSON Dry-Fit Polo", price: "$75.00" },
+  { image: kreamSocks, name: "KREAM K-Diamond Socks", price: "$18.00" },
+  { image: flexKreamKap, name: "KREAM FlexFit Kap", price: "$45.00" },
+  { image: tee95thFront, name: '95th Anniversary "KREAM" Tee', price: "$65.00" },
 ];
 
 const fittedCollection = [
