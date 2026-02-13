@@ -6,7 +6,7 @@ import CategoryBanner from "@/components/CategoryBanner";
 import ReviewsSection from "@/components/ReviewsSection";
 import Footer from "@/components/Footer";
 
-import heroLifestyle from "@/assets/hero-crowd.png";
+import heroLifestyle from "@/assets/hero-crowd2.png";
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
 import bannerCargo from "@/assets/banner-cargo.jpg";
