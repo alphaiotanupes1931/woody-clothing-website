@@ -1,6 +1,7 @@
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import JustLandedSection from "@/components/JustLandedSection";
 import ProductCarousel from "@/components/ProductCarousel";
 import CategoryBanner from "@/components/CategoryBanner";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -21,14 +22,10 @@ import jeansCosmos from "@/assets/products/jeans-cosmos.jpg";
 import jeansTitan from "@/assets/products/jeans-titan.jpg";
 
 const newArrivals = [
-  { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00" },
-  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00" },
-  { image: tshirtMerlot, name: "SOUVENIR Merlot T-shirt", price: "$120.00" },
-  { image: jeansFume, name: '"FUME" Jeans', price: "$98.00" },
-  { image: jeansOud, name: '"OUD" Jeans', price: "$98.00" },
-  { image: jeansPotala, name: "POTALA PALACE Jeans", price: "$98.00" },
-  { image: jeansCosmos, name: "COSMOS Jeans", price: "$138.00" },
-  { image: jeansTitan, name: '"TITAN" Jeans', price: "$98.00" },
+  { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00", tag: "New Drop" },
+  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Limited Edition" },
+  { image: tshirtMerlot, name: "SOUVENIR Merlot T-shirt", price: "$120.00", tag: "Essentials" },
+  { image: jeansFume, name: '"FUME" Jeans', price: "$98.00", tag: "Back in Stock" },
 ];
 
 const bestSellers = [
@@ -85,7 +82,7 @@ const Index = () => {
           ctaText="SHOP NOW"
         />
 
-        <ProductCarousel title="Explore New Arrivals" products={newArrivals} />
+        <JustLandedSection products={newArrivals} />
 
         <ProductCarousel
           title="SERENEDE® Designed for comfort & style"
