@@ -45,17 +45,6 @@ const newArrivals = [
   { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
 ];
 
-const bestSellers = [
-  { image: krimsonFittedFront, name: "KRIMSON K-Diamond Fitted Hat", price: "$55.00" },
-  { image: ktrZip, name: "KRIMSON Quarter-Zip Sweater", price: "$95.00" },
-  { image: kreamTee1, name: 'K-Diamond Outline Tee — Cream', price: "$55.00" },
-  { image: kreamTee2, name: 'K-Diamond Filled Tee — Cream', price: "$55.00" },
-  { image: dryFitPolo, name: "KRIMSON Dry-Fit Polo", price: "$75.00" },
-  { image: kreamSocks, name: "KREAM K-Diamond Socks", price: "$18.00" },
-  { image: flexKreamKap, name: "KREAM FlexFit Kap", price: "$45.00" },
-  { image: tee95thFront, name: '95th Anniversary "KREAM" Tee', price: "$65.00" },
-];
-
 const fittedCollection = [
   { image: jeansCaviar, name: '"SHADOW33" Jeans', price: "$98.00" },
   { image: jeansOud, name: '"SEDONA 2.0" Jeans', price: "$98.00" },
@@ -100,11 +89,6 @@ const Index = () => {
         />
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
-
-        <ProductCarousel
-          title="SERENEDE® Designed for comfort & style"
-          products={bestSellers}
-        />
 
         <CategoryBanner
           image={bannerFitted}

@@ -9,7 +9,7 @@ const ProductCard = ({ image, name, price, soldOut = false }: ProductCardProps) 
   return (
     <a
       href="#"
-      className="group flex-shrink-0 w-[200px] md:w-[260px] cursor-pointer"
+      className="group flex-shrink-0 w-[200px] md:w-[260px] cursor-pointer [.grid_&]:w-full"
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
         <img
