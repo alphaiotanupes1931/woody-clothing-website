@@ -18,7 +18,7 @@ const Header = () => {
 
           <a href="/" className="absolute left-1/2 -translate-x-1/2">
             <span className="text-lg font-bold tracking-[0.25em] uppercase">
-              SERENEDE®
+              AI NUPES
             </span>
           </a>
 
