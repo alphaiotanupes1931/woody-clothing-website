@@ -14,11 +14,11 @@ const CategoryBanner = ({
   ctaLink = "#",
 }: CategoryBannerProps) => {
   return (
-    <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden">
+    <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden bg-foreground">
       <img
         src={image}
         alt={title}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
       <div className="absolute bottom-10 left-6 md:left-14 z-10 max-w-lg">
