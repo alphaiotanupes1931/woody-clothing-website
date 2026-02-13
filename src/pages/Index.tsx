@@ -20,12 +20,16 @@ import jeansOud from "@/assets/products/jeans-oud.jpg";
 import jeansPotala from "@/assets/products/jeans-potala.jpg";
 import jeansCosmos from "@/assets/products/jeans-cosmos.jpg";
 import jeansTitan from "@/assets/products/jeans-titan.jpg";
+import tee95thFront from "@/assets/products/tee-95th-front.jpg";
+import tee95thBack from "@/assets/products/tee-95th-back.jpg";
 
 const newArrivals = [
+  { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00", tag: "Anniversary Drop" },
+  { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00", tag: "Limited Edition" },
   { image: hoodieMerlot, name: "MAISON Merlot Hoodie", price: "$150.00", tag: "New Drop" },
-  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Limited Edition" },
-  { image: tshirtMerlot, name: "SOUVENIR Merlot T-shirt", price: "$120.00", tag: "Essentials" },
-  { image: jeansFume, name: '"FUME" Jeans', price: "$98.00", tag: "Back in Stock" },
+  { image: jeansCaviar, name: '"CAVIAR 7" Jeans', price: "$98.00", tag: "Essentials" },
+  { image: tshirtMerlot, name: "SOUVENIR Merlot T-shirt", price: "$120.00", tag: "Back in Stock" },
+  { image: jeansFume, name: '"FUME" Jeans', price: "$98.00", tag: "Classic" },
 ];
 
 const bestSellers = [
