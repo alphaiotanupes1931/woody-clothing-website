@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-background/90 backdrop-blur-md border-b border-border/30 text-foreground"
             : "bg-transparent text-primary-foreground"
@@ -28,7 +28,7 @@ const Header = () => {
             <img
               src={logo}
               alt="AI Nupes"
-              className={`h-10 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
+              className={`h-10 transition-all duration-300 ${scrolled ? "" : "brightness-[10] invert-0"}`}
             />
           </a>
 
