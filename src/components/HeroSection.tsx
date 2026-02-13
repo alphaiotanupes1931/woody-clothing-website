@@ -8,7 +8,7 @@ interface HeroSectionProps {
 
 const HeroSection = ({ image, title, subtitle, ctaText, ctaLink = "#" }: HeroSectionProps) => {
   return (
-    <section className="relative w-full h-[90vh] min-h-[500px] overflow-hidden bg-[hsl(0,0%,75%)]">
+    <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden bg-[hsl(0,0%,75%)]">
       <img
         src={image}
         alt={title}
