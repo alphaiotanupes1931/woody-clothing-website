@@ -104,7 +104,7 @@ const Index = () => {
               95TH ANNIVERSARY
             </h2>
             <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
-              Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy — 1931 to 2026.
+              Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy, 1931 to 2026.
             </p>
             <a
               href="/shop"
