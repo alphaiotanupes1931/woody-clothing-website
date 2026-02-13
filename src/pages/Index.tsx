@@ -85,7 +85,7 @@ const Index = () => {
         <HeroSection
           video={heroVideo}
           title="NEW ARRIVALS"
-          subtitle="The perfect blend of comfort and style."
+          subtitle="Not your typikal Nupes."
           ctaText="SHOP NOW"
         />
 
