@@ -1,18 +1,35 @@
 import { Menu, Search, User, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "@/assets/logo.png";
 
 const navLinks = ["New Arrivals", "Shop All", "Best Sellers", "Fitted Hats", "Accessories"];
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <header className="bg-header text-header-foreground sticky top-0 z-50 border-b border-border">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-background/90 backdrop-blur-md border-b border-border/30 text-foreground"
+            : "bg-transparent text-primary-foreground"
+        }`}
+      >
         <div className="flex items-center justify-between px-6 py-3">
           <a href="/" className="flex-shrink-0">
-            <img src={logo} alt="AI Nupes" className="h-10" />
+            <img
+              src={logo}
+              alt="AI Nupes"
+              className={`h-10 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
+            />
           </a>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -20,7 +37,7 @@ const Header = () => {
               <a
                 key={item}
                 href="#"
-                className="text-[13px] font-medium tracking-wide uppercase text-foreground hover:text-muted-foreground transition-colors"
+                className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
               >
                 {item}
               </a>
