@@ -32,14 +32,17 @@ import ktrZip from "@/assets/products/ktr-zip.jpg";
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 
 const newArrivals = [
-  { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00", tag: "Anniversary Drop" },
-  { image: krimsonFittedFront, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00", tag: "New Drop" },
-  { image: krimsonFittedSide, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00", tag: "Exclusive" },
-  { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00", tag: "Limited Edition" },
-  { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00", tag: "Essentials" },
-  { image: dryFitPolo, name: 'KRIMSON Dry-Fit Polo', price: "$75.00", tag: "Performance" },
-  { image: flexKreamKap, name: 'KREAM FlexFit K-Diamond Kap', price: "$45.00", tag: "New Drop" },
-  { image: flexKrimsonKap, name: 'KRIMSON FlexFit K-Diamond Kap', price: "$45.00", tag: "New Drop" },
+  { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00" },
+  { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00" },
+  { image: krimsonFittedFront, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00" },
+  { image: krimsonFittedSide, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00" },
+  { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00" },
+  { image: dryFitPolo, name: 'KRIMSON Dry-Fit Polo', price: "$75.00" },
+  { image: flexKreamKap, name: 'KREAM FlexFit K-Diamond Kap', price: "$45.00" },
+  { image: flexKrimsonKap, name: 'KRIMSON FlexFit K-Diamond Kap', price: "$45.00" },
+  { image: kreamTee1, name: 'K-Diamond Outline Tee — Cream', price: "$55.00" },
+  { image: kreamTee2, name: 'K-Diamond Filled Tee — Cream', price: "$55.00" },
+  { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
 ];
 
 const bestSellers = [
