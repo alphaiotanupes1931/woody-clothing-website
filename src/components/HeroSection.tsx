@@ -1,19 +1,32 @@
 interface HeroSectionProps {
-  image: string;
+  image?: string;
+  video?: string;
   title: string;
   subtitle: string;
   ctaText: string;
   ctaLink?: string;
 }
 
-const HeroSection = ({ image, title, subtitle, ctaText, ctaLink = "#" }: HeroSectionProps) => {
+const HeroSection = ({ image, video, title, subtitle, ctaText, ctaLink = "#" }: HeroSectionProps) => {
   return (
     <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden bg-[hsl(0,0%,15%)]">
-      <img
-        src={image}
-        alt={title}
-        className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
-      />
+      {video ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : image ? (
+        <img
+          src={image}
+          alt={title}
+          className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+        />
+      ) : null}
       <div className="absolute inset-0 bg-primary/25" />
       <div className="absolute bottom-14 left-6 md:left-14 z-10">
         <h1 className="font-display text-5xl md:text-8xl tracking-wide text-primary-foreground mb-1 leading-[0.9]">
