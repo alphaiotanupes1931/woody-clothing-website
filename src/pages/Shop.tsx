@@ -50,7 +50,7 @@ const Shop = () => {
   return (
     <div className="min-h-screen bg-background">
       <AnnouncementBar />
-      <Header />
+      <Header solid />
 
       <main className="pt-28 md:pt-32 pb-20">
         {/* Page title */}
