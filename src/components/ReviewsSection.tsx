@@ -3,34 +3,34 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 const reviews = [
   {
-    name: "Brandon C.",
-    title: "Only Will Buy Serenede!",
-    text: "Hands down, some of the best looking and very affordable designer pants you can purchase. So many designs and options to choose from. Very modern with excellent quality.",
+    name: "Marcus T.",
+    title: "Best fitted hat I own",
+    text: "The KRIMSON fitted is unmatched. The K-Diamond patch is clean, the suede finish is premium, and the 'Achievers of the Impossible' stitching on the side is a nice touch. Wore it to probate and got nothing but compliments.",
   },
   {
-    name: "Brandon J.",
-    title: "Definitely live up to the hype!",
-    text: "The quality is good, details, and they fit just right! They're stretch jeans and naturally tight so go a size up. Don't hesitate to buy these jeans.",
+    name: "Darius W.",
+    title: "95th Anniversary tee is fire",
+    text: "Copped the KREAM tee as soon as it dropped. The cream colorway with the krimson print is sharp. Fabric is heavyweight and the fit is boxy just how I like it. Already ordered a second one.",
   },
   {
-    name: "Kevin W.",
-    title: "Great Rating",
-    text: "Great fit, Great quality, Great delivery time. Overall just a great company that provides high quality products.",
+    name: "Anthony L.",
+    title: "Quarter-Zip is a must-have",
+    text: "The KRIMSON quarter-zip sweater is perfect for chapter events. Looks polished, feels comfortable, and the K-Diamond logo is subtle but hits. Quality is top tier for the price.",
   },
   {
-    name: "Henry M.",
-    title: "Excellent jeans",
-    text: "I have 6 pairs of Serenede jeans and I plan on buying more soon! Fabric is amazing and keeps me fresher than my peers.",
+    name: "Jamal R.",
+    title: "FlexFit Kap stays on rotation",
+    text: "I got both the Kream and Krimson FlexFit kaps. They fit perfectly and the diamond patch pops. Lightweight enough for summer but still structured. These are daily wears for me.",
   },
   {
-    name: "Jayden C.",
-    title: "Best jeans ever",
-    text: "Best jeans I ever purchased so I had to buy more. They fit perfect. Good quality nice thick denim also with good stretch.",
+    name: "Chris B.",
+    title: "Polo game elevated",
+    text: "The Dry-Fit Polo is exactly what I needed for game days and cookouts. The krimson color is deep and rich, and the K-Diamond embroidery is crisp. Breathable material too.",
   },
   {
-    name: "Jessie Y.",
-    title: "Perfect jeans",
-    text: "I'm a big guy so finding jeans that fit and fit with style is hard. The ankle part of the jeans aren't loose or baggy but also not too tight. Highly recommend.",
+    name: "DeShawn P.",
+    title: "Socks complete the fit",
+    text: "Don't sleep on the KREAM socks. The cream with the K-Diamond logo is subtle flex. Comfortable, good length, and they pair perfectly with the fitted hats. Had to grab multiple pairs.",
   },
 ];
 
