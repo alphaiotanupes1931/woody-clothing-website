@@ -25,30 +25,30 @@ const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
 
   return (
     <section className="py-10 md:py-14">
-      <div className="flex items-center justify-between px-5 md:px-10 mb-6">
-        <h2 className="text-sm md:text-base font-bold tracking-[0.2em] uppercase text-foreground">
+      <div className="flex items-center justify-between px-6 md:px-14 mb-6">
+        <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
           {title}
         </h2>
         <div className="flex gap-2">
           <button
             onClick={() => scroll("left")}
-            className="p-2 border border-border hover:bg-secondary transition-colors"
+            className="p-2 hover:bg-secondary transition-colors rounded-full"
             aria-label="Scroll left"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={18} strokeWidth={1.5} />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="p-2 border border-border hover:bg-secondary transition-colors"
+            className="p-2 hover:bg-secondary transition-colors rounded-full"
             aria-label="Scroll right"
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={18} strokeWidth={1.5} />
           </button>
         </div>
       </div>
       <div
         ref={scrollRef}
-        className="flex gap-4 px-5 md:px-10 overflow-x-auto carousel-scroll"
+        className="flex gap-4 px-6 md:px-14 overflow-x-auto carousel-scroll"
       >
         {products.map((product, i) => (
           <ProductCard key={i} {...product} />

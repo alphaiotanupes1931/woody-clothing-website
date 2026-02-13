@@ -20,17 +20,17 @@ const CategoryBanner = ({
         alt={title}
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/30 to-transparent" />
-      <div className="absolute bottom-10 left-6 md:left-12 z-10 max-w-lg">
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-3">
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" />
+      <div className="absolute bottom-10 left-6 md:left-14 z-10 max-w-lg">
+        <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
           {title}
         </h2>
-        <p className="text-sm text-foreground/75 mb-5 leading-relaxed">
+        <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
           {description}
         </p>
         <a
           href={ctaLink}
-          className="inline-block bg-primary text-primary-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-primary/90 transition-colors"
+          className="inline-block bg-background text-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-colors"
         >
           {ctaText}
         </a>
