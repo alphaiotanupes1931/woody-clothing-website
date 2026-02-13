@@ -91,14 +91,14 @@ const Index = () => {
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
         <CategoryBanner
-          image={bannerFitted}
-          title="FITTED JEANS"
-          description="True to size waist. Fitted from the waist to the ankle. Go one size up for a looser, more relaxed fit."
+          image={tee95thBack}
+          title="95TH ANNIVERSARY"
+          description="Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy — 1931 to 2026."
         />
 
         <ProductCarousel
-          title="[ Fitted Denim Collection ]"
-          products={fittedCollection}
+          title="[ Anniversary Collection ]"
+          products={newArrivals.filter((_, i) => [0, 1, 8, 9].includes(i))}
         />
 
         <CategoryBanner
