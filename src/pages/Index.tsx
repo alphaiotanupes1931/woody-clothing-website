@@ -116,30 +116,32 @@ const Index = () => {
         </section>
 
         <ProductCarousel
-          title="[ Anniversary Collection ]"
-          products={newArrivals.filter((_, i) => [0, 1, 8, 9].includes(i))}
-        />
-
-        <CategoryBanner
-          image={bannerStacked}
-          title="STACKED JEANS"
-          description="Explore our stacked jeans collection, featuring true-to-size waists and wide ankle openings for a stylish, flared finish."
-        />
-
-        <ProductCarousel
-          title="Stacked Collection"
-          products={stackedCollection}
-        />
-
-        <CategoryBanner
-          image={bannerCargo}
-          title="CARGO PANTS"
-          description="Discover our cargo denim collection, designed with true-to-size waists. For a relaxed, looser fit, simply go one size up."
+          title="Hats"
+          products={[
+            { image: krimsonFittedFront, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00" },
+            { image: krimsonFittedSide, name: 'KRIMSON "Achievers" Fitted Hat', price: "$55.00" },
+            { image: flexKreamKap, name: 'KREAM FlexFit K-Diamond Kap', price: "$45.00" },
+            { image: flexKrimsonKap, name: 'KRIMSON FlexFit K-Diamond Kap', price: "$45.00" },
+          ]}
         />
 
         <ProductCarousel
-          title="Cargo Collection"
-          products={cargoCollection}
+          title="Tops"
+          products={[
+            { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00" },
+            { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back', price: "$65.00" },
+            { image: kreamTee1, name: 'K-Diamond Outline Tee — Cream', price: "$55.00" },
+            { image: kreamTee2, name: 'K-Diamond Filled Tee — Cream', price: "$55.00" },
+            { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00" },
+            { image: dryFitPolo, name: 'KRIMSON Dry-Fit Polo', price: "$75.00" },
+          ]}
+        />
+
+        <ProductCarousel
+          title="Bottoms"
+          products={[
+            { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
+          ]}
         />
 
         <ReviewsSection />
