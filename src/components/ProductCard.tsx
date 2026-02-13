@@ -18,15 +18,15 @@ const ProductCard = ({ image, name, price, soldOut = false }: ProductCardProps) 
           className="w-full h-full object-cover product-image-hover"
         />
         {soldOut && (
-          <div className="absolute top-3 left-3 bg-background text-foreground text-[10px] font-bold tracking-wider uppercase px-3 py-1">
+          <div className="absolute top-3 left-3 bg-foreground text-background text-[10px] font-bold tracking-wider uppercase px-3 py-1">
             Sold Out
           </div>
         )}
       </div>
-      <h3 className="text-xs font-semibold tracking-wide uppercase text-foreground truncate">
+      <h3 className="text-[13px] font-medium text-foreground truncate">
         {name}
       </h3>
-      <p className="text-xs text-muted-foreground mt-0.5">{price}</p>
+      <p className="text-[13px] text-muted-foreground mt-0.5">{price}</p>
     </a>
   );
 };
