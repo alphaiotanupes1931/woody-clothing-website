@@ -75,9 +75,9 @@ const Shop = () => {
           ))}
         </div>
 
-        <div className="px-6 md:px-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+        <div className="px-6 md:px-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 stagger-children" key={activeFilter + (queryParam || "")}>
           {filtered.map((product, i) => (
-            <ProductCard key={i} image={product.image} name={product.name} price={product.price} />
+            <ProductCard key={product.id || i} image={product.image} name={product.name} price={product.price} />
           ))}
         </div>
       </main>

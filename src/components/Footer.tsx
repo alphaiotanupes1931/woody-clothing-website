@@ -24,9 +24,9 @@ const Footer = () => {
               About
             </h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Our Story</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Alpha Iota Chapter</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">95th Anniversary</a></li>
+              <li><Link to="/our-story" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Our Story</Link></li>
+              <li><Link to="/our-story" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Alpha Iota Chapter</Link></li>
+              <li><Link to="/our-story" className="text-xs text-muted-foreground hover:text-foreground transition-colors">95th Anniversary</Link></li>
             </ul>
           </div>
           <div>

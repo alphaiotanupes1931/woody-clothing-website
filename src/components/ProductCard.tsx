@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 
 interface ProductCardProps {
   id?: string;
@@ -30,7 +31,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
           src={image}
           alt={name}
           loading="lazy"
-          className={`w-full h-full object-cover product-image-hover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+          className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoad={() => setLoaded(true)}
         />
         {soldOut && (
@@ -38,8 +39,15 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
             Sold Out
           </div>
         )}
+        {/* Quick view indicator */}
+        {!soldOut && (
+          <div className="absolute bottom-0 left-0 right-0 bg-foreground/90 text-background py-2.5 text-center text-[10px] font-semibold tracking-[0.2em] uppercase translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-1.5">
+            <Plus size={12} strokeWidth={2} />
+            Quick View
+          </div>
+        )}
       </div>
-      <h3 className="text-[12px] md:text-[13px] font-medium text-foreground truncate">
+      <h3 className="text-[12px] md:text-[13px] font-medium text-foreground truncate group-hover:text-muted-foreground transition-colors duration-300">
         {name}
       </h3>
       <p className="text-[12px] md:text-[13px] text-muted-foreground mt-0.5">{price}</p>
