@@ -1,37 +1,45 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import heroLifestyle from "@/assets/hero-lifestyle.png";
+import heroHat from "@/assets/hero-hat-nobg.png";
 
 const HeroSection = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <section className="w-full bg-background">
-      {/* Image */}
-      <div className="relative w-full h-[85vh] md:h-[90vh] overflow-hidden">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-secondary animate-pulse" />
-        )}
+    <section className="w-full bg-background flex flex-col items-center justify-center min-h-[85vh] md:min-h-[90vh] px-6">
+      {/* Hat with slow rotate */}
+      <div className="relative flex items-center justify-center flex-1 w-full max-w-md">
         <img
-          src={heroLifestyle}
-          alt="AI Nupes Collection"
-          className="w-full h-full object-cover object-top transition-all duration-700"
-          style={{
-            opacity: imageLoaded ? 1 : 0,
-          }}
+          src={heroHat}
+          alt="KRIMSON K-Diamond Fitted Hat"
+          className="w-[280px] md:w-[340px] lg:w-[380px] object-contain transition-opacity duration-700 animate-[slowSpin_12s_linear_infinite]"
+          style={{ opacity: imageLoaded ? 1 : 0 }}
           onLoad={() => setImageLoaded(true)}
         />
       </div>
 
-      {/* CTA */}
-      <div className="flex justify-center py-6">
+      {/* CTA Button */}
+      <div
+        className="pb-16 transition-all duration-700 delay-300"
+        style={{
+          opacity: imageLoaded ? 1 : 0,
+          transform: imageLoaded ? "translateY(0)" : "translateY(12px)",
+        }}
+      >
         <Link
           to="/shop"
-          className="text-[11px] font-semibold tracking-[0.25em] uppercase text-foreground border-b border-foreground/30 pb-1 hover:border-foreground transition-all duration-300 hover:tracking-[0.35em]"
+          className="inline-block bg-foreground text-primary-foreground px-12 py-3.5 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-foreground/85 transition-all duration-300 hover:tracking-[0.35em]"
         >
           Shop Now
         </Link>
       </div>
+
+      <style>{`
+        @keyframes slowSpin {
+          0% { transform: rotateY(0deg); }
+          100% { transform: rotateY(360deg); }
+        }
+      `}</style>
     </section>
   );
 };
