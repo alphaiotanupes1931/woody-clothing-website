@@ -1,15 +1,22 @@
 import { Menu, ShoppingCart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { allProducts } from "@/data/products";
 import logo from "@/assets/logo.png";
 
+const categories = ["Headwear", "Tees", "Polos", "Outerwear", "Accessories"];
+
+function getCategoryCount(category: string): number {
+  return allProducts.filter((p) => p.category === category).length;
+}
+
 const navLinks = [
-  { label: "Shop All", href: "/shop" },
-  { label: "Headwear", href: "/shop?category=Headwear" },
-  { label: "Tees", href: "/shop?category=Tees" },
-  { label: "Polos", href: "/shop?category=Polos" },
-  { label: "Outerwear", href: "/shop?category=Outerwear" },
-  { label: "Accessories", href: "/shop?category=Accessories" },
+  { label: "Shop All", href: "/shop", count: allProducts.length },
+  ...categories.map((cat) => ({
+    label: cat,
+    href: `/shop?category=${cat}`,
+    count: getCategoryCount(cat),
+  })),
 ];
 
 interface HeaderProps {
@@ -27,7 +34,6 @@ const Header = ({ solid = false }: HeaderProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [solid]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
@@ -59,6 +65,7 @@ const Header = ({ solid = false }: HeaderProps) => {
                 className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
               >
                 {item.label}
+                <span className="text-[10px] text-muted-foreground ml-1">({item.count})</span>
               </a>
             ))}
           </nav>
@@ -99,9 +106,10 @@ const Header = ({ solid = false }: HeaderProps) => {
               key={item.label}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="text-lg font-display tracking-wider uppercase text-foreground hover:text-muted-foreground transition-colors"
+              className="text-lg font-display tracking-wider uppercase text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
             >
               {item.label}
+              <span className="text-xs text-muted-foreground font-sans">({item.count})</span>
             </a>
           ))}
         </nav>
