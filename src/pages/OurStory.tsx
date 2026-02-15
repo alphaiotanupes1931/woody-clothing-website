@@ -11,7 +11,7 @@ import logo from "@/assets/logo.png";
 const values = [
   { title: "God", description: "The spiritual foundation of the organization." },
   { title: "Family", description: "The importance of familial ties and support." },
-  { title: "School", description: "A focus on academic pursuits and intellectual growth." },
+  { title: "Education", description: "A focus on academic pursuits and intellectual growth." },
   { title: "Kappa", description: "The commitment to the brotherhood and objectives of Kappa Alpha Psi." },
 ];
 

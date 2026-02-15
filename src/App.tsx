@@ -12,6 +12,9 @@ import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import OurStory from "./pages/OurStory";
+import FAQs from "./pages/FAQs";
+import Contact from "./pages/Contact";
+import ShippingReturns from "./pages/ShippingReturns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +43,9 @@ const App = () => (
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
             <Route path="/our-story" element={<OurStory />} />
+            <Route path="/faqs" element={<FAQs />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/shipping-returns" element={<ShippingReturns />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
