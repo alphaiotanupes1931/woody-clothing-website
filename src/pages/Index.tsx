@@ -2,11 +2,8 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductCarousel from "@/components/ProductCarousel";
-import CategoryBanner from "@/components/CategoryBanner";
-import ReviewsSection from "@/components/ReviewsSection";
 import Footer from "@/components/Footer";
 
-import heroVideo from "@/assets/hero-video.mp4";
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
 import bannerCargo from "@/assets/banner-cargo.jpg";
@@ -66,35 +63,6 @@ const newArrivals = [
   { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
 ];
 
-const fittedCollection = [
-  { image: jeansCaviar, name: '"SHADOW33" Jeans', price: "$98.00" },
-  { image: jeansOud, name: '"SEDONA 2.0" Jeans', price: "$98.00" },
-  { image: jeansFume, name: '"ROME" Black Jeans', price: "$108.00" },
-  { image: jeansPotala, name: '"SEAFOAM" Jeans', price: "$98.00" },
-  { image: jeansCosmos, name: "COSMOS Jeans", price: "$138.00" },
-  { image: jeansTitan, name: "MOCHA Jeans", price: "$98.00" },
-  { image: jeansCaviar, name: '"MIDNIGHT BLACK" Jeans', price: "$98.00" },
-  { image: jeansOud, name: "NIGHTFALL Jeans", price: "$98.00" },
-];
-
-const stackedCollection = [
-  { image: jeansTitan, name: '"HAVENMIST" Stacked Jeans', price: "$110.00" },
-  { image: jeansCosmos, name: "NEPTUNE Stacked Jeans", price: "$120.00" },
-  { image: jeansCaviar, name: "ONYX Stacked Jeans", price: "$120.00" },
-  { image: jeansPotala, name: '"SEABURST" Stacked Jeans', price: "$110.00" },
-  { image: jeansOud, name: "NEXUS Stacked Jeans", price: "$120.00" },
-  { image: jeansFume, name: '"CAVIAR" Wax Stacked Jeans', price: "$120.00" },
-];
-
-const cargoCollection = [
-  { image: jeansCosmos, name: "ONYX Cargo Jeans", price: "$138.00" },
-  { image: jeansOud, name: "WARSAINT Cargo Jeans", price: "$120.00" },
-  { image: jeansFume, name: '"TIGERS EYE" Cargo Jeans', price: "$108.00" },
-  { image: jeansPotala, name: "PANTHERA Cargo Jeans", price: "$108.00" },
-  { image: jeansTitan, name: '"CURRENT" Cargo Jeans', price: "$116.00" },
-  { image: jeansCaviar, name: '"WAVE" Cargo Jeans', price: "$116.00" },
-];
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -102,12 +70,7 @@ const Index = () => {
       <Header />
 
       <main>
-        <HeroSection
-          video={heroVideo}
-          title="NEW ARRIVALS"
-          subtitle=""
-          ctaText="SHOP NOW"
-        />
+        <HeroSection />
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
@@ -171,8 +134,6 @@ const Index = () => {
             { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
           ]}
         />
-
-        <ReviewsSection />
       </main>
 
       <Footer />
