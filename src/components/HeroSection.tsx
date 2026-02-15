@@ -4,39 +4,23 @@ import heroVideo from "@/assets/hero-video.mp4";
 
 const HeroSection = () => {
   const [videoReady, setVideoReady] = useState(false);
-  const [revealed, setRevealed] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [curtainOpen, setCurtainOpen] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
 
   useEffect(() => {
     if (!videoReady) return;
-    const t = setTimeout(() => setRevealed(true), 600);
-    return () => clearTimeout(t);
+    const t1 = setTimeout(() => setCurtainOpen(true), 800);
+    const t2 = setTimeout(() => setContentVisible(true), 2200);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, [videoReady]);
 
-  // Subtle parallax on mouse move
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: (e.clientX - rect.left) / rect.width,
-      y: (e.clientY - rect.top) / rect.height,
-    });
-  };
-
-  const panelX = (mousePos.x - 0.5) * 8;
-  const panelY = (mousePos.y - 0.5) * 6;
-
   return (
-    <section
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="relative w-full h-screen overflow-hidden bg-foreground"
-    >
-      {/* Video background */}
+    <section className="relative w-full h-screen overflow-hidden bg-foreground">
+      {/* Video background (behind curtains) */}
       <video
-        ref={videoRef}
         src={heroVideo}
         autoPlay
         loop
@@ -44,80 +28,84 @@ const HeroSection = () => {
         playsInline
         onCanPlayThrough={() => setVideoReady(true)}
         className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          filter: "brightness(0.65)",
-        }}
+        style={{ filter: "brightness(0.6)" }}
       />
 
-      {/* Frosted glass panel */}
-      <div className="relative z-10 flex items-center justify-center h-full px-6">
-        <div
-          className="relative backdrop-blur-xl bg-foreground/15 border border-primary-foreground/10 px-10 py-14 md:px-20 md:py-20 flex flex-col items-center text-center transition-all duration-1000 ease-out"
+      {/* Left curtain */}
+      <div
+        className="absolute inset-y-0 left-0 w-1/2 bg-foreground z-20 transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] flex items-center justify-end pr-1"
+        style={{
+          transform: curtainOpen ? "translateX(-100%)" : "translateX(0)",
+        }}
+      >
+        <span className="font-display text-[18vw] md:text-[10vw] leading-none tracking-[0.05em] text-primary-foreground select-none">
+          AI
+        </span>
+      </div>
+
+      {/* Right curtain */}
+      <div
+        className="absolute inset-y-0 right-0 w-1/2 bg-foreground z-20 transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] flex items-center justify-start pl-1"
+        style={{
+          transform: curtainOpen ? "translateX(100%)" : "translateX(0)",
+        }}
+      >
+        <span className="font-display text-[18vw] md:text-[10vw] leading-none tracking-[0.05em] text-primary-foreground select-none">
+          NUPES
+        </span>
+      </div>
+
+      {/* Center seam line (visible before curtain opens) */}
+      <div
+        className="absolute inset-y-0 left-1/2 w-[1px] bg-primary-foreground/20 z-30 transition-opacity duration-500"
+        style={{ opacity: curtainOpen ? 0 : 1 }}
+      />
+
+      {/* Content overlay (appears after curtains open) */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
+        <p
+          className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/60 mb-4 transition-all duration-700"
           style={{
-            opacity: revealed ? 1 : 0,
-            transform: revealed
-              ? `translateX(${panelX}px) translateY(${panelY}px) scale(1)`
-              : "scale(0.92)",
-            boxShadow: "0 8px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
+            opacity: contentVisible ? 1 : 0,
+            transform: contentVisible ? "translateY(0)" : "translateY(16px)",
           }}
         >
-          {/* Logo / Chapter name */}
-          <p
-            className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/60 mb-6 transition-all duration-700 delay-300"
-            style={{
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(12px)",
-            }}
-          >
-            Alpha Iota Chapter
-          </p>
+          Alpha Iota Chapter
+        </p>
 
-          {/* Main title */}
-          <h1
-            className="font-display text-[14vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.85] tracking-[0.06em] text-primary-foreground transition-all duration-700 delay-500"
-            style={{
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(20px)",
-            }}
-          >
-            AI NUPES
-          </h1>
+        <h1
+          className="font-display text-[16vw] md:text-[8vw] lg:text-[6vw] leading-[0.85] tracking-[0.08em] text-primary-foreground transition-all duration-700 delay-200"
+          style={{
+            opacity: contentVisible ? 1 : 0,
+            transform: contentVisible ? "translateY(0)" : "translateY(20px)",
+          }}
+        >
+          BUILT FOR
+          <br />
+          ACHIEVERS
+        </h1>
 
-          {/* Krimson accent line */}
-          <div
-            className="h-[2px] bg-krimson my-6 transition-all duration-700 delay-700 ease-out"
-            style={{
-              width: revealed ? "80px" : "0px",
-              opacity: revealed ? 1 : 0,
-            }}
-          />
+        <div
+          className="h-[2px] bg-krimson my-6 transition-all duration-700 delay-500 ease-out"
+          style={{
+            width: contentVisible ? "100px" : "0px",
+            opacity: contentVisible ? 1 : 0,
+          }}
+        />
 
-          {/* Tagline */}
-          <p
-            className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-primary-foreground/80 font-light mb-8 transition-all duration-700 delay-[900ms]"
-            style={{
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(12px)",
-            }}
+        <div
+          className="transition-all duration-700 delay-700"
+          style={{
+            opacity: contentVisible ? 1 : 0,
+            transform: contentVisible ? "translateY(0)" : "translateY(12px)",
+          }}
+        >
+          <Link
+            to="/shop"
+            className="inline-block border border-primary-foreground/30 text-primary-foreground px-10 py-3 text-[10px] md:text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-300 hover:tracking-[0.35em]"
           >
-            Built for Achievers
-          </p>
-
-          {/* CTA */}
-          <div
-            className="transition-all duration-700 delay-[1100ms]"
-            style={{
-              opacity: revealed ? 1 : 0,
-              transform: revealed ? "translateY(0)" : "translateY(12px)",
-            }}
-          >
-            <Link
-              to="/shop"
-              className="inline-block border border-primary-foreground/30 text-primary-foreground px-10 py-3 text-[10px] md:text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-300 hover:tracking-[0.35em]"
-            >
-              Shop Collection
-            </Link>
-          </div>
+            Shop Collection
+          </Link>
         </div>
       </div>
     </section>
