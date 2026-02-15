@@ -6,7 +6,10 @@ import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Shop All", href: "/shop" },
-  { label: "Fitted Hats", href: "/shop?category=Headwear" },
+  { label: "Headwear", href: "/shop?category=Headwear" },
+  { label: "Tees", href: "/shop?category=Tees" },
+  { label: "Polos", href: "/shop?category=Polos" },
+  { label: "Outerwear", href: "/shop?category=Outerwear" },
   { label: "Accessories", href: "/shop?category=Accessories" },
 ];
 
