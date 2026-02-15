@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FadeIn from "@/components/FadeIn";
+import TextReveal from "@/components/TextReveal";
 import { Link } from "react-router-dom";
 import heroCrowd from "@/assets/hero-crowd2.png";
 import logo from "@/assets/logo.png";
@@ -52,7 +53,7 @@ const OurStory = () => {
           <section className="px-4 md:px-14 max-w-3xl mx-auto text-center mb-20 md:mb-28">
             <img src={logo} alt="AI Nupes" className="h-12 mx-auto mb-6 opacity-30" />
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Alpha Iota isn't just a chapter — it's a movement. For 95 years, we've shaped leaders, 
+              Alpha Iota isn't just a chapter, it's a brotherhood. For 95 years, we've shaped leaders, 
               built community, and pushed the standard of what it means to achieve. This is our story: 
               the journey of brothers who refused to settle, from 1931 to today.
             </p>
@@ -61,11 +62,11 @@ const OurStory = () => {
 
         {/* Timeline */}
         <section className="px-4 md:px-14 max-w-4xl mx-auto mb-20 md:mb-28">
-          <FadeIn>
+          <TextReveal>
             <h2 className="font-display text-3xl md:text-5xl tracking-wide text-foreground text-center mb-12 md:mb-16">
               THE TIMELINE
             </h2>
-          </FadeIn>
+          </TextReveal>
 
           <div className="relative">
             {/* Vertical line */}
@@ -102,11 +103,11 @@ const OurStory = () => {
         {/* Values */}
         <section className="bg-foreground py-16 md:py-24 mb-20 md:mb-28">
           <div className="px-4 md:px-14 max-w-5xl mx-auto">
-            <FadeIn>
+            <TextReveal>
               <h2 className="font-display text-3xl md:text-5xl tracking-wide text-primary-foreground text-center mb-12 md:mb-16">
                 WHAT WE STAND FOR
               </h2>
-            </FadeIn>
+            </TextReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
               {values.map((value, i) => (

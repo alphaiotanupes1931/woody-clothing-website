@@ -78,11 +78,11 @@ const Index = () => {
 
         <FadeIn>
           <section className="relative w-full min-h-[50vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8">
+            <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8 parallax-container">
               <img
                 src={tee95thBackNoBg}
                 alt="95th Anniversary Tee"
-                className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-700"
+                className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-700 parallax-float"
               />
             </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-8 md:pr-20 md:pb-0">
