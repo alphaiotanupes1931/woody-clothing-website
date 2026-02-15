@@ -36,36 +36,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Category cards below */}
-      <div className="px-4 md:px-10 mt-3 grid grid-cols-2 gap-3 pb-4">
-        <Link to="/shop" className="relative aspect-[3/4] overflow-hidden bg-secondary group block">
-          <img
-            src={heroHat}
-            alt="Fitted Hats Collection"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent" />
-          <div className="absolute bottom-5 left-5">
-            <p className="font-display text-2xl md:text-4xl text-primary-foreground tracking-wide leading-none">
-              HEADWEAR
-            </p>
-          </div>
-        </Link>
-
-        <Link to="/shop" className="relative aspect-[3/4] overflow-hidden bg-secondary group block">
-          <img
-            src={heroMain}
-            alt="Apparel Collection"
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent" />
-          <div className="absolute bottom-5 left-5">
-            <p className="font-display text-2xl md:text-4xl text-primary-foreground tracking-wide leading-none">
-              APPAREL
-            </p>
-          </div>
-        </Link>
-      </div>
     </section>
   );
 };
