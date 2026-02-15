@@ -15,7 +15,7 @@ const faqs = [
   {
     question: "What is AI Nupes?",
     answer:
-      "AI Nupes is the official lifestyle and apparel brand of the Alpha Iota chapter of Kappa Alpha Psi Fraternity, Inc. Every piece honors 95 years of brotherhood, achievement, and legacy.",
+      "AI Nupes is the official lifestyle and apparel brand of the Alpha Iota chapter of Kappa Alpha Psi Fraternity, Inc., an undergraduate chapter from Morgan State University. Every piece honors all the years of brotherhood, achievement, and legacy.",
   },
   {
     question: "How do I find my size?",
@@ -28,14 +28,9 @@ const faqs = [
       "Standard shipping takes 5–7 business days within the US. Expedited options are available at checkout. You'll receive a tracking number once your order ships.",
   },
   {
-    question: "Can I return or exchange an item?",
+    question: "What is your refund policy?",
     answer:
-      "Yes — unworn items in original packaging can be returned within 30 days of delivery. Exchanges are subject to availability. See our Shipping & Returns page for full details.",
-  },
-  {
-    question: "Are these items officially licensed?",
-    answer:
-      "All AI Nupes products are designed by and for members of the Alpha Iota chapter. They are chapter merchandise, not nationally licensed goods.",
+      "All sales are final. We do not offer refunds. Please refer to our Size Guide before purchasing to ensure the best fit.",
   },
   {
     question: "Do you ship internationally?",
@@ -45,7 +40,7 @@ const faqs = [
   {
     question: "How can I contact support?",
     answer:
-      "Visit our Contact page or email us directly. We typically respond within 24–48 hours.",
+      "Visit our Contact page or email us at ainupes@gmail.com. We typically respond within 24–48 hours.",
   },
 ];
 
@@ -63,7 +58,10 @@ const FAQs = () => {
             </h1>
           </TextReveal>
           <p className="text-sm text-muted-foreground text-center mb-12">
-            Everything you need to know about AI Nupes.
+            Everything you need to know about AI Nupes. Have another question?{" "}
+            <a href="mailto:ainupes@gmail.com" className="underline hover:text-foreground transition-colors">
+              ainupes@gmail.com
+            </a>
           </p>
 
           <FadeIn>
