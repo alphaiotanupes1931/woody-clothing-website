@@ -7,7 +7,7 @@ const HeroSection = () => {
   return (
     <section className="relative w-full bg-background">
       {/* Split-screen editorial hero */}
-      <div className="h-screen flex flex-col md:flex-row">
+      <div className="min-h-screen md:h-[110vh] flex flex-col md:flex-row">
         {/* Left: Typography on solid bg */}
         <div className="w-full md:w-1/2 h-1/2 md:h-full bg-foreground flex flex-col justify-end p-8 md:p-14 lg:p-20">
           <h1 className="font-display text-[15vw] md:text-[8vw] lg:text-[7vw] leading-[0.85] tracking-wide text-primary-foreground">
