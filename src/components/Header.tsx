@@ -41,11 +41,7 @@ const Header = ({ solid = false }: HeaderProps) => {
   return (
     <>
       <header
-        className={`fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/90 backdrop-blur-md border-b border-border/30 text-foreground"
-            : "bg-transparent text-primary-foreground"
-        }`}
+        className="fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border/30 text-foreground"
       >
         <div className="flex items-center justify-between px-6 py-3">
           <a href="/" className="flex-shrink-0">
