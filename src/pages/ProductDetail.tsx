@@ -1,13 +1,16 @@
 import { useParams, Link } from "react-router-dom";
 import { getProductById } from "@/data/products";
+import { useCart } from "@/contexts/CartContext";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const product = id ? getProductById(id) : undefined;
+  const { addToCart } = useCart();
 
   if (!product) {
     return (
@@ -24,6 +27,16 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+    toast.success(`${product.name} added to cart`);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,7 +55,6 @@ const ProductDetail = () => {
         </div>
 
         <div className="px-6 md:px-14 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
-          {/* Product Image */}
           <div className="bg-secondary aspect-[3/4] overflow-hidden">
             <img
               src={product.image}
@@ -51,7 +63,6 @@ const ProductDetail = () => {
             />
           </div>
 
-          {/* Product Info */}
           <div className="flex flex-col justify-center">
             <p className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
               {product.category}
@@ -61,7 +72,10 @@ const ProductDetail = () => {
             </h1>
             <p className="text-lg text-foreground mb-8">{product.price}</p>
 
-            <button className="w-full md:w-auto bg-foreground text-background px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors">
+            <button
+              onClick={handleAddToCart}
+              className="w-full md:w-auto bg-foreground text-background px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors"
+            >
               Add to Cart
             </button>
 

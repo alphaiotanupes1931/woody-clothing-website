@@ -11,7 +11,7 @@ const HeroSection = () => {
       <div className="px-4 md:px-10">
         <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden bg-secondary">
           <img
-            src={heroMain}
+            src={heroLifestyle}
             alt="New Arrivals"
             className="w-full h-full object-cover object-center"
           />
@@ -50,7 +50,7 @@ const HeroSection = () => {
 
         <div className="relative aspect-[3/4] overflow-hidden bg-secondary group">
           <img
-            src={heroLifestyle}
+            src={heroMain}
             alt="Lifestyle Collection"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
