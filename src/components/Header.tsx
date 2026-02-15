@@ -1,6 +1,7 @@
-import { Menu, Search, User, ShoppingBag } from "lucide-react";
+import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -16,13 +17,26 @@ interface HeaderProps {
 
 const Header = ({ solid = false }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [scrolled, setScrolled] = useState(solid);
+  const navigate = useNavigate();
+  const { totalItems, setCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(solid || window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [solid]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
 
   return (
     <>
@@ -55,14 +69,23 @@ const Header = ({ solid = false }: HeaderProps) => {
           </nav>
 
           <div className="flex items-center gap-5">
-            <button aria-label="Search">
+            <button
+              aria-label="Search"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
               <Search size={20} strokeWidth={1.5} />
             </button>
-            <button aria-label="Account">
-              <User size={20} strokeWidth={1.5} />
-            </button>
-            <button aria-label="Cart" className="relative">
-              <ShoppingBag size={20} strokeWidth={1.5} />
+            <button
+              aria-label="Cart"
+              className="relative"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingCart size={20} strokeWidth={1.5} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-[hsl(var(--krimson))] text-[hsl(var(--krimson-foreground))] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </button>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -73,6 +96,29 @@ const Header = ({ solid = false }: HeaderProps) => {
             </button>
           </div>
         </div>
+
+        {/* Search bar */}
+        {searchOpen && (
+          <div className="px-6 pb-3">
+            <form onSubmit={handleSearch} className="flex border border-border bg-background">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..."
+                autoFocus
+                className="flex-1 px-4 py-2.5 text-sm text-foreground bg-transparent outline-none placeholder:text-muted-foreground"
+              />
+              <button
+                type="button"
+                onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                className="px-3 text-muted-foreground hover:text-foreground"
+              >
+                <X size={16} strokeWidth={1.5} />
+              </button>
+            </form>
+          </div>
+        )}
       </header>
 
       {menuOpen && (
