@@ -1,81 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
-
-// Tees
-import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
-import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
-import tee95thFront from "@/assets/products/tee-95th-front.jpg";
-import tee95thBack from "@/assets/products/tee-95th-back.jpg";
-import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
-import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
-
-// Polos
-import kreamWovenPolo from "@/assets/products/kream-woven-polo.jpg";
-import krimsonWovenPolo from "@/assets/products/krimson-woven-polo.jpg";
-import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
-import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
-
-// Headwear
-import krimsonBucketFront from "@/assets/products/krimson-bucket-front.jpg";
-import krimsonFittedBack from "@/assets/products/krimson-fitted-back.jpg";
-import krimsonFittedFront1 from "@/assets/products/krimson-fitted-front-1.jpg";
-import krimsonFittedSide2 from "@/assets/products/krimson-fitted-side-2.jpg";
-import krimsonSkully from "@/assets/products/krimson-skully.jpg";
-import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
-import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
-
-// Outerwear
-import ktrZip from "@/assets/products/ktr-zip.jpg";
-
-// Accessories
-import kreamSocks from "@/assets/products/kream-socks.jpg";
-
-interface Product {
-  image: string;
-  name: string;
-  price: string;
-  category: string;
-}
-
-const allProducts: Product[] = [
-  // Tees
-  { image: kreamTeeAchievers, name: '"Achievers" KREAM Tee', price: "$55.00", category: "Tees" },
-  { image: kreamTeeCorner, name: "K-Diamond KREAM Tee", price: "$55.00", category: "Tees" },
-  { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00", category: "Tees" },
-  { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back Print', price: "$65.00", category: "Tees" },
-  { image: kreamTee1, name: "K-Diamond Outline Tee — Cream", price: "$55.00", category: "Tees" },
-  { image: kreamTee2, name: "K-Diamond Filled Tee — Cream", price: "$55.00", category: "Tees" },
-  // Polos
-  { image: kreamWovenPolo, name: "KREAM Woven Polo", price: "$75.00", category: "Polos" },
-  { image: krimsonWovenPolo, name: "KRIMSON Woven Polo", price: "$75.00", category: "Polos" },
-  { image: kreamPerformancePolo, name: "KREAM Performance Polo", price: "$75.00", category: "Polos" },
-  { image: dryFitPolo, name: "KRIMSON Dry-Fit Polo", price: "$75.00", category: "Polos" },
-  // Headwear
-  { image: krimsonFittedFront1, name: "KRIMSON K-Diamond Fitted Hat", price: "$55.00", category: "Headwear" },
-  { image: krimsonFittedSide2, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00", category: "Headwear" },
-  { image: krimsonFittedBack, name: "KRIMSON Fitted Hat — Back", price: "$55.00", category: "Headwear" },
-  { image: krimsonBucketFront, name: "KRIMSON K-Diamond Bucket Hat", price: "$45.00", category: "Headwear" },
-  { image: krimsonSkully, name: "KRIMSON K-Diamond Skully", price: "$35.00", category: "Headwear" },
-  { image: flexKreamKap, name: "KREAM FlexFit K-Diamond Kap", price: "$45.00", category: "Headwear" },
-  { image: flexKrimsonKap, name: "KRIMSON FlexFit K-Diamond Kap", price: "$45.00", category: "Headwear" },
-  // Outerwear
-  { image: ktrZip, name: "KRIMSON Quarter-Zip Sweater", price: "$95.00", category: "Outerwear" },
-  // Accessories
-  { image: kreamSocks, name: "KREAM K-Diamond Socks", price: "$18.00", category: "Accessories" },
-];
+import { allProducts } from "@/data/products";
 
 const categories = ["All", "Headwear", "Tees", "Polos", "Outerwear", "Accessories"];
 
 const Shop = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const queryParam = searchParams.get("q");
 
-  const filtered =
-    activeFilter === "All"
-      ? allProducts
-      : allProducts.filter((p) => p.category === activeFilter);
+  const [activeFilter, setActiveFilter] = useState(categoryParam || "All");
+
+  useEffect(() => {
+    if (categoryParam && categories.includes(categoryParam)) {
+      setActiveFilter(categoryParam);
+    }
+  }, [categoryParam]);
+
+  let filtered = activeFilter === "All"
+    ? allProducts
+    : allProducts.filter((p) => p.category === activeFilter);
+
+  // Search query filtering
+  if (queryParam) {
+    const q = queryParam.toLowerCase();
+    // Check if query matches a category name
+    const matchedCategory = categories.find(
+      (cat) => cat.toLowerCase() === q || cat.toLowerCase().includes(q)
+    );
+    if (matchedCategory && matchedCategory !== "All") {
+      filtered = allProducts.filter((p) => p.category === matchedCategory);
+    } else {
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q)
+      );
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background">

@@ -5,10 +5,9 @@ import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
-  { label: "New Arrivals", href: "/#new-arrivals" },
   { label: "Shop All", href: "/shop" },
-  { label: "Fitted Hats", href: "/#fitted-hats" },
-  { label: "Accessories", href: "/#accessories" },
+  { label: "Fitted Hats", href: "/shop?category=Headwear" },
+  { label: "Accessories", href: "/shop?category=Accessories" },
 ];
 
 interface HeaderProps {
