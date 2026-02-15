@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
+import FadeIn from "./FadeIn";
 
 interface Product {
   image: string;
@@ -24,37 +25,39 @@ const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
   };
 
   return (
-    <section className="py-8 md:py-14">
-      <div className="flex items-center justify-between px-4 md:px-14 mb-5 md:mb-6">
-        <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
-          {title}
-        </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => scroll("left")}
-            className="p-2 hover:bg-secondary transition-colors rounded-full"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={18} strokeWidth={1.5} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="p-2 hover:bg-secondary transition-colors rounded-full"
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={18} strokeWidth={1.5} />
-          </button>
+    <FadeIn>
+      <section className="py-8 md:py-14">
+        <div className="flex items-center justify-between px-4 md:px-14 mb-5 md:mb-6">
+          <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
+            {title}
+          </h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="p-2 hover:bg-secondary transition-colors rounded-full"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={18} strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="p-2 hover:bg-secondary transition-colors rounded-full"
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={18} strokeWidth={1.5} />
+            </button>
+          </div>
         </div>
-      </div>
-      <div
-        ref={scrollRef}
-        className="flex gap-3 md:gap-4 px-4 md:px-14 overflow-x-auto carousel-scroll"
-      >
-        {products.map((product, i) => (
-          <ProductCard key={i} {...product} />
-        ))}
-      </div>
-    </section>
+        <div
+          ref={scrollRef}
+          className="flex gap-3 md:gap-4 px-4 md:px-14 overflow-x-auto carousel-scroll"
+        >
+          {products.map((product, i) => (
+            <ProductCard key={i} {...product} />
+          ))}
+        </div>
+      </section>
+    </FadeIn>
   );
 };
 
