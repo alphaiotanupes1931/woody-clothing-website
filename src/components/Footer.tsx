@@ -72,7 +72,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-xs text-muted-foreground mt-6 leading-relaxed">
-              The perfect blend of comfort and style.
+              Built for Achievers.
             </p>
           </div>
         </div>
