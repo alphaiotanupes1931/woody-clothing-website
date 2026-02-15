@@ -6,41 +6,37 @@ import heroMain from "@/assets/hero-main.jpg";
 const HeroSection = () => {
   return (
     <section className="relative w-full bg-background">
-      {/* Full-bleed hero with marquee */}
-      <div className="relative w-full h-screen overflow-hidden">
-        <img
-          src={heroLifestyle}
-          alt="New Arrivals"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-foreground/30" />
-
-        {/* Scrolling marquee text — stacked */}
-        <div className="absolute inset-0 flex flex-col justify-center overflow-hidden pointer-events-none select-none">
-          <div className="animate-marquee-left whitespace-nowrap mb-2">
-            <span className="font-display text-[12vw] md:text-[10vw] tracking-[0.04em] text-primary-foreground/90 mx-4">
-              NEW ARRIVALS — NEW ARRIVALS — NEW ARRIVALS — NEW ARRIVALS — NEW ARRIVALS —
-            </span>
-          </div>
-          <div className="animate-marquee-right whitespace-nowrap">
-            <span className="font-display text-[12vw] md:text-[10vw] tracking-[0.04em] text-primary-foreground/20 mx-4">
-              AI NUPES — AI NUPES — AI NUPES — AI NUPES — AI NUPES — AI NUPES —
-            </span>
-          </div>
-        </div>
-
-        {/* CTA at bottom */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+      {/* Split-screen editorial hero */}
+      <div className="h-screen flex flex-col md:flex-row">
+        {/* Left: Typography on solid bg */}
+        <div className="w-full md:w-1/2 h-1/2 md:h-full bg-foreground flex flex-col justify-end p-8 md:p-14 lg:p-20">
+          <h1 className="font-display text-[15vw] md:text-[8vw] lg:text-[7vw] leading-[0.85] tracking-wide text-primary-foreground">
+            NEW
+            <br />
+            ARRIVALS
+          </h1>
+          <p className="text-primary-foreground/50 text-xs tracking-[0.3em] uppercase mt-4 mb-6 font-light">
+            Spring 2026 Collection
+          </p>
           <Link
             to="/shop"
-            className="inline-block bg-background text-foreground px-10 py-3.5 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-background/90 transition-colors"
+            className="inline-block w-fit border border-primary-foreground/40 text-primary-foreground px-8 py-3 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-colors"
           >
             SHOP NOW
           </Link>
         </div>
+
+        {/* Right: Lifestyle image */}
+        <div className="w-full md:w-1/2 h-1/2 md:h-full overflow-hidden">
+          <img
+            src={heroLifestyle}
+            alt="New Arrivals"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
       </div>
 
-      {/* Two-column category cards */}
+      {/* Category cards below */}
       <div className="px-4 md:px-10 mt-3 grid grid-cols-2 gap-3 pb-4">
         <Link to="/shop" className="relative aspect-[3/4] overflow-hidden bg-secondary group block">
           <img
