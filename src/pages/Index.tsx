@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import FadeIn from "@/components/FadeIn";
 
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
@@ -75,29 +76,31 @@ const Index = () => {
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
-        <section className="relative w-full min-h-[50vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
-          <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8">
-            <img
-              src={tee95thBackNoBg}
-              alt="95th Anniversary Tee"
-              className="max-h-full max-w-full object-contain"
-            />
-          </div>
-          <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-8 md:pr-20 md:pb-0">
-            <h2 className="font-display text-3xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
-              95TH ANNIVERSARY
-            </h2>
-            <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
-              Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy, 1931 to 2026.
-            </p>
-            <a
-              href="/shop"
-              className="inline-block w-fit bg-background text-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-colors"
-            >
-              SHOP NOW
-            </a>
-          </div>
-        </section>
+        <FadeIn>
+          <section className="relative w-full min-h-[50vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8">
+              <img
+                src={tee95thBackNoBg}
+                alt="95th Anniversary Tee"
+                className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-8 md:pr-20 md:pb-0">
+              <h2 className="font-display text-3xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
+                95TH ANNIVERSARY
+              </h2>
+              <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
+                Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy, 1931 to 2026.
+              </p>
+              <a
+                href="/shop"
+                className="inline-block w-fit bg-background text-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all duration-300 hover:tracking-[0.3em]"
+              >
+                SHOP NOW
+              </a>
+            </div>
+          </section>
+        </FadeIn>
 
         <ProductCarousel
           title="Hats"

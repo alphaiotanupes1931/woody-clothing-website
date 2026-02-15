@@ -1,9 +1,10 @@
 import { useCart } from "@/contexts/CartContext";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
-  const { items, cartOpen, setCartOpen, removeFromCart, updateQuantity, totalItems, cartTotal } = useCart();
+  const { items, cartOpen, setCartOpen, removeFromCart, updateQuantity, clearCart, totalItems, cartTotal } = useCart();
+  const navigate = useNavigate();
 
   if (!cartOpen) return null;
 
@@ -105,7 +106,14 @@ const CartDrawer = () => {
               <span className="font-semibold tracking-wider uppercase text-xs">Subtotal</span>
               <span className="font-semibold">${cartTotal}</span>
             </div>
-            <button className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98]">
+            <button
+              onClick={() => {
+                clearCart();
+                setCartOpen(false);
+                navigate("/order-confirmation");
+              }}
+              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98]"
+            >
               Checkout
             </button>
           </div>

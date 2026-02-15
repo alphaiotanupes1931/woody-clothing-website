@@ -23,7 +23,7 @@ const NewsletterPopup = () => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
     setSubmitted(true);
-    setTimeout(handleClose, 2000);
+    setTimeout(handleClose, 2500);
   };
 
   if (!show) return null;
@@ -43,16 +43,16 @@ const NewsletterPopup = () => {
 
           {submitted ? (
             <div className="text-center py-4">
-              <p className="font-display text-2xl text-foreground mb-2">WELCOME IN</p>
-              <p className="text-sm text-muted-foreground">Check your inbox for your 10% off code.</p>
+              <p className="font-display text-2xl text-foreground mb-2">YOU'RE IN</p>
+              <p className="text-sm text-muted-foreground">Welcome to the community. Stay tuned for updates.</p>
             </div>
           ) : (
             <>
               <h3 className="font-display text-3xl md:text-4xl text-foreground mb-2 tracking-wide">
-                GET 10% OFF
+                STAY IN THE LOOP
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Join the AI Nupes community. Be the first to know about new drops, exclusives, and chapter events.
+                Subscribe to the AI Nupes newsletter for early access to new drops, exclusive deals, and chapter updates.
               </p>
               <form onSubmit={handleSubmit} className="space-y-3">
                 <input
@@ -72,7 +72,7 @@ const NewsletterPopup = () => {
                 </button>
               </form>
               <p className="text-[10px] text-muted-foreground mt-4 text-center">
-                No spam. Unsubscribe anytime.
+                No spam, ever. Unsubscribe anytime.
               </p>
             </>
           )}
