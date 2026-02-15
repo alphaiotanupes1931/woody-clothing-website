@@ -30,7 +30,7 @@ const HeroSection = () => {
           <img
             src={heroLifestyle}
             alt="New Arrivals"
-            className="w-full h-full object-cover object-bottom"
+            className="w-full h-full object-cover object-top"
           />
         </div>
       </div>
