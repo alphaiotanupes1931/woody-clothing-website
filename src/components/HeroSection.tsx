@@ -1,25 +1,24 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
+
+const MARQUEE_TEXT = "BUILT FOR ACHIEVERS \u00A0\u00B7\u00A0 AI NUPES \u00A0\u00B7\u00A0 EST. 1931 \u00A0\u00B7\u00A0 ";
 
 const HeroSection = () => {
   const [videoReady, setVideoReady] = useState(false);
-  const [curtainOpen, setCurtainOpen] = useState(false);
-  const [contentVisible, setContentVisible] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
     if (!videoReady) return;
-    const t1 = setTimeout(() => setCurtainOpen(true), 800);
-    const t2 = setTimeout(() => setContentVisible(true), 2200);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
+    const t = setTimeout(() => setRevealed(true), 400);
+    return () => clearTimeout(t);
   }, [videoReady]);
+
+  const marqueeContent = MARQUEE_TEXT.repeat(8);
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-foreground">
-      {/* Video background (behind curtains) */}
+      {/* Video background */}
       <video
         src={heroVideo}
         autoPlay
@@ -27,77 +26,66 @@ const HeroSection = () => {
         muted
         playsInline
         onCanPlayThrough={() => setVideoReady(true)}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ filter: "brightness(0.6)" }}
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+        style={{
+          filter: "brightness(0.5)",
+          opacity: revealed ? 1 : 0,
+        }}
       />
 
-      {/* Left curtain */}
+      {/* Scrolling marquee band */}
       <div
-        className="absolute inset-y-0 left-0 w-1/2 bg-foreground z-20 transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] flex items-center justify-end pr-1"
+        className="absolute z-20 left-0 right-0 top-1/2 -translate-y-1/2 overflow-hidden transition-all duration-1000 delay-300"
         style={{
-          transform: curtainOpen ? "translateX(-100%)" : "translateX(0)",
+          opacity: revealed ? 1 : 0,
         }}
       >
-        <span className="font-display text-[18vw] md:text-[10vw] leading-none tracking-[0.05em] text-primary-foreground select-none">
-          AI
-        </span>
+        {/* Dark band behind marquee */}
+        <div className="bg-foreground/70 backdrop-blur-sm py-5 md:py-7">
+          <div className="animate-marquee-left whitespace-nowrap">
+            <span className="font-display text-[10vw] md:text-[5vw] tracking-[0.12em] text-primary-foreground leading-none">
+              {marqueeContent}
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* Right curtain */}
-      <div
-        className="absolute inset-y-0 right-0 w-1/2 bg-foreground z-20 transition-transform duration-[1400ms] ease-[cubic-bezier(0.76,0,0.24,1)] flex items-center justify-start pl-1"
-        style={{
-          transform: curtainOpen ? "translateX(100%)" : "translateX(0)",
-        }}
-      >
-        <span className="font-display text-[18vw] md:text-[10vw] leading-none tracking-[0.05em] text-primary-foreground select-none">
-          NUPES
-        </span>
-      </div>
-
-      {/* Center seam line (visible before curtain opens) */}
-      <div
-        className="absolute inset-y-0 left-1/2 w-[1px] bg-primary-foreground/20 z-30 transition-opacity duration-500"
-        style={{ opacity: curtainOpen ? 0 : 1 }}
-      />
-
-      {/* Content overlay (appears after curtains open) */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        <p
-          className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/60 mb-4 transition-all duration-700"
-          style={{
-            opacity: contentVisible ? 1 : 0,
-            transform: contentVisible ? "translateY(0)" : "translateY(16px)",
-          }}
-        >
-          Alpha Iota Chapter
-        </p>
-
-        <h1
-          className="font-display text-[16vw] md:text-[8vw] lg:text-[6vw] leading-[0.85] tracking-[0.08em] text-primary-foreground transition-all duration-700 delay-200"
-          style={{
-            opacity: contentVisible ? 1 : 0,
-            transform: contentVisible ? "translateY(0)" : "translateY(20px)",
-          }}
-        >
-          BUILT FOR
-          <br />
-          ACHIEVERS
-        </h1>
-
+      {/* Bottom content overlay */}
+      <div className="absolute z-10 bottom-0 left-0 right-0 p-8 md:p-14 lg:p-20">
+        {/* Krimson accent line */}
         <div
-          className="h-[2px] bg-krimson my-6 transition-all duration-700 delay-500 ease-out"
+          className="h-[2px] bg-krimson mb-6 transition-all duration-700 delay-700 ease-out"
           style={{
-            width: contentVisible ? "100px" : "0px",
-            opacity: contentVisible ? 1 : 0,
+            width: revealed ? "60px" : "0px",
+            opacity: revealed ? 1 : 0,
           }}
         />
 
-        <div
-          className="transition-all duration-700 delay-700"
+        <p
+          className="text-[10px] md:text-xs tracking-[0.35em] uppercase text-primary-foreground/60 mb-3 transition-all duration-700 delay-[900ms]"
           style={{
-            opacity: contentVisible ? 1 : 0,
-            transform: contentVisible ? "translateY(0)" : "translateY(12px)",
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "translateY(0)" : "translateY(12px)",
+          }}
+        >
+          Alpha Iota Chapter &middot; Morgan State University
+        </p>
+
+        <h2
+          className="font-display text-[8vw] md:text-[3.5vw] leading-[0.9] tracking-wide text-primary-foreground mb-6 transition-all duration-700 delay-[1100ms]"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "translateY(0)" : "translateY(16px)",
+          }}
+        >
+          WEAR THE LEGACY
+        </h2>
+
+        <div
+          className="transition-all duration-700 delay-[1300ms]"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "translateY(0)" : "translateY(12px)",
           }}
         >
           <Link
