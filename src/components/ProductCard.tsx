@@ -1,14 +1,23 @@
+import { Link } from "react-router-dom";
+
 interface ProductCardProps {
+  id?: string;
   image: string;
   name: string;
   price: string;
   soldOut?: boolean;
 }
 
-const ProductCard = ({ image, name, price, soldOut = false }: ProductCardProps) => {
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardProps) => {
+  const productId = id || slugify(name);
+
   return (
-    <a
-      href="#"
+    <Link
+      to={`/product/${productId}`}
       className="group flex-shrink-0 w-[200px] md:w-[260px] cursor-pointer [.grid_&]:w-full"
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
@@ -27,7 +36,7 @@ const ProductCard = ({ image, name, price, soldOut = false }: ProductCardProps) 
         {name}
       </h3>
       <p className="text-[13px] text-muted-foreground mt-0.5">{price}</p>
-    </a>
+    </Link>
   );
 };
 
