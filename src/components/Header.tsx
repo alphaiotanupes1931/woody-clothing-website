@@ -1,4 +1,4 @@
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.png";
@@ -27,18 +27,27 @@ const Header = ({ solid = false }: HeaderProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [solid]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   return (
     <>
       <header
         className="fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border/30 text-foreground"
       >
-        <div className="flex items-center justify-between px-6 py-3">
+        <div className="flex items-center justify-between px-4 md:px-6 py-3">
           <a href="/" className="flex-shrink-0">
             <img
               src={logo}
               alt="AI Nupes"
-              className="h-10 transition-all duration-300"
+              className="h-8 md:h-10 transition-all duration-300"
             />
           </a>
 
@@ -54,7 +63,7 @@ const Header = ({ solid = false }: HeaderProps) => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 md:gap-5">
             <button
               aria-label="Cart"
               className="relative"
@@ -72,32 +81,31 @@ const Header = ({ solid = false }: HeaderProps) => {
               className="md:hidden p-1"
               aria-label="Menu"
             >
-              <Menu size={22} strokeWidth={1.5} />
+              {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
             </button>
           </div>
         </div>
-
       </header>
 
-      {menuOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-background pt-20"
-          onClick={() => setMenuOpen(false)}
-        >
-          <nav className="flex flex-col items-start px-8 py-6 gap-5 text-sm font-medium tracking-wider uppercase">
-            {navLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-foreground hover:text-muted-foreground transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
+      {/* Mobile menu overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-background transition-transform duration-300 ease-out ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <nav className="flex flex-col items-start px-6 pt-24 gap-6">
+          {navLinks.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className="text-lg font-display tracking-wider uppercase text-foreground hover:text-muted-foreground transition-colors"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
     </>
   );
 };

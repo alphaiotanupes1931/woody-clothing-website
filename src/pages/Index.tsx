@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 import bannerFitted from "@/assets/banner-fitted.jpg";
 import bannerStacked from "@/assets/banner-stacked.jpg";
@@ -74,16 +75,16 @@ const Index = () => {
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
-        <section className="relative w-full h-[70vh] min-h-[400px] overflow-hidden bg-foreground flex items-center">
-          <div className="w-1/2 h-full flex items-center justify-center p-8">
+        <section className="relative w-full min-h-[50vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
+          <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8">
             <img
               src={tee95thBackNoBg}
               alt="95th Anniversary Tee"
               className="max-h-full max-w-full object-contain"
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-center pr-10 md:pr-20">
-            <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
+          <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-8 md:pr-20 md:pb-0">
+            <h2 className="font-display text-3xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
               95TH ANNIVERSARY
             </h2>
             <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
@@ -137,6 +138,7 @@ const Index = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };
