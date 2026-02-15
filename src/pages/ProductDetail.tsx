@@ -81,7 +81,7 @@ const ProductDetail = () => {
 
             <div className="mt-10 border-t border-border pt-6">
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Premium quality. Designed for those who move with purpose.
+                {product.description || "Premium quality. Designed for those who move with purpose."}
               </p>
             </div>
           </div>
