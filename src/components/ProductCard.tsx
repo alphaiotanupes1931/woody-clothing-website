@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface ProductCardProps {
@@ -14,17 +15,23 @@ function slugify(name: string): string {
 
 const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardProps) => {
   const productId = id || slugify(name);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <Link
       to={`/product/${productId}`}
-      className="group flex-shrink-0 w-[200px] md:w-[260px] cursor-pointer [.grid_&]:w-full"
+      className="group flex-shrink-0 w-[160px] md:w-[260px] cursor-pointer [.grid_&]:w-full"
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
+        {!loaded && (
+          <div className="absolute inset-0 bg-secondary animate-pulse" />
+        )}
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover product-image-hover"
+          loading="lazy"
+          className={`w-full h-full object-cover product-image-hover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+          onLoad={() => setLoaded(true)}
         />
         {soldOut && (
           <div className="absolute top-3 left-3 bg-foreground text-background text-[10px] font-bold tracking-wider uppercase px-3 py-1">
@@ -32,10 +39,10 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
           </div>
         )}
       </div>
-      <h3 className="text-[13px] font-medium text-foreground truncate">
+      <h3 className="text-[12px] md:text-[13px] font-medium text-foreground truncate">
         {name}
       </h3>
-      <p className="text-[13px] text-muted-foreground mt-0.5">{price}</p>
+      <p className="text-[12px] md:text-[13px] text-muted-foreground mt-0.5">{price}</p>
     </Link>
   );
 };

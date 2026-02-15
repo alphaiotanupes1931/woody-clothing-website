@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import ProductCard from "@/components/ProductCard";
 import { allProducts } from "@/data/products";
 
@@ -82,6 +83,7 @@ const Shop = () => {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 };
