@@ -17,6 +17,7 @@ const navLinks = [
     href: `/shop?category=${cat}`,
     count: getCategoryCount(cat),
   })),
+  { label: "Our Story", href: "/our-story", count: undefined },
 ];
 
 interface HeaderProps {
@@ -65,7 +66,7 @@ const Header = ({ solid = false }: HeaderProps) => {
                 className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
               >
                 {item.label}
-                <span className="text-[10px] text-muted-foreground ml-1">({item.count})</span>
+                {item.count !== undefined && <span className="text-[10px] text-muted-foreground ml-1">({item.count})</span>}
               </a>
             ))}
           </nav>
@@ -109,7 +110,7 @@ const Header = ({ solid = false }: HeaderProps) => {
               className="text-lg font-display tracking-wider uppercase text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
             >
               {item.label}
-              <span className="text-xs text-muted-foreground font-sans">({item.count})</span>
+              {item.count !== undefined && <span className="text-xs text-muted-foreground font-sans">({item.count})</span>}
             </a>
           ))}
         </nav>

@@ -78,11 +78,25 @@
 
 /* Smooth image hover zoom */
 .product-image-hover {
-  @apply transition-transform duration-500 ease-out;
+  @apply transition-transform duration-700 ease-out;
 }
-.product-image-hover:hover {
+.group:hover .product-image-hover {
   @apply scale-105;
 }
+
+/* Stagger children animation */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeSlideUp 0.5s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
 
 /* Display font for hero headings */
 .font-display {
