@@ -16,7 +16,7 @@ const HeroSection = () => {
         className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700"
         style={{
           opacity: imageLoaded ? 1 : 0,
-          filter: "brightness(0.55)",
+          filter: "brightness(0.7)",
         }}
         onLoad={() => setImageLoaded(true)}
       />
