@@ -8,20 +8,11 @@ import { Link } from "react-router-dom";
 import heroCrowd from "@/assets/hero-crowd2.png";
 import logo from "@/assets/logo.png";
 
-const milestones = [
-  { year: "1931", title: "Founded", description: "Alpha Iota chapter established, marking the beginning of a legacy of excellence and brotherhood." },
-  { year: "1950s", title: "Growth Era", description: "The chapter expanded its reach, building a foundation of service, scholarship, and community impact." },
-  { year: "1970s", title: "Cultural Impact", description: "Alpha Iota became a cornerstone of campus life, known for stepping, community outreach, and academic achievement." },
-  { year: "1990s", title: "New Generation", description: "A new wave of Achievers carried the torch, modernizing traditions while honoring the legacy of those who came before." },
-  { year: "2010s", title: "Digital Era", description: "The chapter embraced the digital age, connecting alumni and active members across the globe while maintaining in-person bonds." },
-  { year: "2026", title: "95th Anniversary", description: "Ninety-five years of Achievers. From 1931 to 2026, the legacy continues — stronger, sharper, and more unified than ever." },
-];
-
 const values = [
-  { title: "Achievement", description: "We pursue excellence in everything — academics, career, and character. Mediocrity is not in our vocabulary." },
-  { title: "Brotherhood", description: "Bonds that last a lifetime. We show up for each other, on campus and beyond." },
-  { title: "Service", description: "Giving back isn't optional. We lead through action and lift our communities as we rise." },
-  { title: "Legacy", description: "We build for the brothers who come after us. Every chapter we write is for the next generation." },
+  { title: "God", description: "The spiritual foundation of the organization." },
+  { title: "Family", description: "The importance of familial ties and support." },
+  { title: "School", description: "A focus on academic pursuits and intellectual growth." },
+  { title: "Kappa", description: "The commitment to the brotherhood and objectives of Kappa Alpha Psi." },
 ];
 
 const OurStory = () => {
@@ -60,46 +51,6 @@ const OurStory = () => {
           </section>
         </FadeIn>
 
-        {/* Timeline */}
-        <section className="px-4 md:px-14 max-w-4xl mx-auto mb-20 md:mb-28">
-          <TextReveal>
-            <h2 className="font-display text-3xl md:text-5xl tracking-wide text-foreground text-center mb-12 md:mb-16">
-              THE TIMELINE
-            </h2>
-          </TextReveal>
-
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-px" />
-
-            {milestones.map((milestone, i) => (
-              <FadeIn key={milestone.year} delay={i * 100}>
-                <div className={`relative flex items-start mb-12 md:mb-16 ${
-                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}>
-                  {/* Dot */}
-                  <div className="absolute left-4 md:left-1/2 w-3 h-3 bg-foreground rounded-full -translate-x-1.5 mt-1.5 z-10" />
-
-                  {/* Content */}
-                  <div className={`ml-12 md:ml-0 md:w-1/2 ${
-                    i % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"
-                  }`}>
-                    <span className="font-display text-2xl md:text-3xl text-[hsl(var(--krimson))]">
-                      {milestone.year}
-                    </span>
-                    <h3 className="font-display text-xl tracking-wide text-foreground mt-1 mb-2">
-                      {milestone.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {milestone.description}
-                    </p>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-
         {/* Values */}
         <section className="bg-foreground py-16 md:py-24 mb-20 md:mb-28">
           <div className="px-4 md:px-14 max-w-5xl mx-auto">
@@ -133,7 +84,7 @@ const OurStory = () => {
               BUILT FOR ACHIEVERS
             </h2>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
-              Every piece in the AI Nupes collection is designed to honor 95 years of legacy. 
+              Every piece in the AI Nupes collection is designed to honor the years of legacy. 
               Wear the tradition. Represent the standard.
             </p>
             <Link
