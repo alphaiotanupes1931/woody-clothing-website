@@ -9,10 +9,10 @@ const CartDrawer = () => {
   return (
     <>
       <div
-        className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm"
+        className="fixed inset-0 z-[100] bg-foreground/40 backdrop-blur-sm"
         onClick={() => setCartOpen(false)}
       />
-      <div className="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-background border-l border-border shadow-xl flex flex-col">
+      <div className="fixed top-0 right-0 z-[100] h-full w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col">
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
             Cart ({totalItems})
