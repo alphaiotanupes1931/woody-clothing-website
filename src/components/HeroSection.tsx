@@ -2,49 +2,38 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
 
-const TAGLINE = "BUILT FOR ACHIEVERS";
-
 const HeroSection = () => {
   const [videoReady, setVideoReady] = useState(false);
-  const [revealStage, setRevealStage] = useState(0); // 0=blur, 1=sharpening, 2=typing, 3=line, 4=cta
-  const [typedCount, setTypedCount] = useState(0);
+  const [revealed, setRevealed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
 
-  // Stage progression after video loads
   useEffect(() => {
     if (!videoReady) return;
-
-    // Stage 1: start sharpening
-    const t1 = setTimeout(() => setRevealStage(1), 300);
-    // Stage 2: start typing
-    const t2 = setTimeout(() => setRevealStage(2), 1200);
-
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
+    const t = setTimeout(() => setRevealed(true), 600);
+    return () => clearTimeout(t);
   }, [videoReady]);
 
-  // Typewriter effect
-  useEffect(() => {
-    if (revealStage < 2) return;
-    if (typedCount >= TAGLINE.length) {
-      // After typing finishes, show line then CTA
-      const t3 = setTimeout(() => setRevealStage(3), 300);
-      const t4 = setTimeout(() => setRevealStage(4), 900);
-      return () => {
-        clearTimeout(t3);
-        clearTimeout(t4);
-      };
-    }
+  // Subtle parallax on mouse move
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    setMousePos({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    });
+  };
 
-    const speed = TAGLINE[typedCount] === " " ? 40 : 70;
-    const timer = setTimeout(() => setTypedCount((c) => c + 1), speed);
-    return () => clearTimeout(timer);
-  }, [revealStage, typedCount]);
+  const panelX = (mousePos.x - 0.5) * 8;
+  const panelY = (mousePos.y - 0.5) * 6;
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-foreground">
+    <section
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      className="relative w-full h-screen overflow-hidden bg-foreground"
+    >
       {/* Video background */}
       <video
         ref={videoRef}
@@ -54,66 +43,83 @@ const HeroSection = () => {
         muted
         playsInline
         onCanPlayThrough={() => setVideoReady(true)}
-        className="absolute inset-0 w-full h-full object-cover transition-all duration-[2000ms] ease-out"
+        className="absolute inset-0 w-full h-full object-cover"
         style={{
-          filter: revealStage >= 1 ? "blur(0px) brightness(0.55)" : "blur(20px) brightness(0.3)",
-          transform: revealStage >= 1 ? "scale(1)" : "scale(1.1)",
+          filter: "brightness(0.65)",
         }}
       />
 
-      {/* Content overlay */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        {/* Typed tagline */}
-        <h1 className="font-display text-[12vw] md:text-[6vw] lg:text-[5vw] leading-none tracking-[0.15em] text-primary-foreground min-h-[1.2em]">
-          {revealStage >= 2 ? (
-            <>
-              {TAGLINE.slice(0, typedCount)}
-              <span
-                className="inline-block w-[3px] h-[0.85em] bg-primary-foreground ml-1 align-middle"
-                style={{
-                  animation: typedCount >= TAGLINE.length ? "blink 1s step-end infinite" : "none",
-                  opacity: typedCount >= TAGLINE.length ? undefined : 1,
-                }}
-              />
-            </>
-          ) : (
-            <span className="opacity-0">.</span>
-          )}
-        </h1>
-
-        {/* Krimson accent line */}
+      {/* Frosted glass panel */}
+      <div className="relative z-10 flex items-center justify-center h-full px-6">
         <div
-          className="h-[2px] bg-krimson mt-6 transition-all duration-700 ease-out"
+          className="relative backdrop-blur-xl bg-foreground/15 border border-primary-foreground/10 px-10 py-14 md:px-20 md:py-20 flex flex-col items-center text-center transition-all duration-1000 ease-out"
           style={{
-            width: revealStage >= 3 ? "120px" : "0px",
-            opacity: revealStage >= 3 ? 1 : 0,
-          }}
-        />
-
-        {/* CTA */}
-        <div
-          className="mt-8 transition-all duration-700 ease-out"
-          style={{
-            opacity: revealStage >= 4 ? 1 : 0,
-            transform: revealStage >= 4 ? "translateY(0)" : "translateY(16px)",
+            opacity: revealed ? 1 : 0,
+            transform: revealed
+              ? `translateX(${panelX}px) translateY(${panelY}px) scale(1)`
+              : "scale(0.92)",
+            boxShadow: "0 8px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
           }}
         >
-          <Link
-            to="/shop"
-            className="inline-block border border-primary-foreground/40 text-primary-foreground px-10 py-3 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-300 hover:tracking-[0.35em]"
+          {/* Logo / Chapter name */}
+          <p
+            className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/60 mb-6 transition-all duration-700 delay-300"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? "translateY(0)" : "translateY(12px)",
+            }}
           >
-            SHOP NOW
-          </Link>
+            Alpha Iota Chapter
+          </p>
+
+          {/* Main title */}
+          <h1
+            className="font-display text-[14vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.85] tracking-[0.06em] text-primary-foreground transition-all duration-700 delay-500"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? "translateY(0)" : "translateY(20px)",
+            }}
+          >
+            AI NUPES
+          </h1>
+
+          {/* Krimson accent line */}
+          <div
+            className="h-[2px] bg-krimson my-6 transition-all duration-700 delay-700 ease-out"
+            style={{
+              width: revealed ? "80px" : "0px",
+              opacity: revealed ? 1 : 0,
+            }}
+          />
+
+          {/* Tagline */}
+          <p
+            className="text-[10px] md:text-sm tracking-[0.3em] uppercase text-primary-foreground/80 font-light mb-8 transition-all duration-700 delay-[900ms]"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? "translateY(0)" : "translateY(12px)",
+            }}
+          >
+            Built for Achievers
+          </p>
+
+          {/* CTA */}
+          <div
+            className="transition-all duration-700 delay-[1100ms]"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transform: revealed ? "translateY(0)" : "translateY(12px)",
+            }}
+          >
+            <Link
+              to="/shop"
+              className="inline-block border border-primary-foreground/30 text-primary-foreground px-10 py-3 text-[10px] md:text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-300 hover:tracking-[0.35em]"
+            >
+              Shop Collection
+            </Link>
+          </div>
         </div>
       </div>
-
-      {/* Cursor blink keyframe */}
-      <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-      `}</style>
     </section>
   );
 };
