@@ -34,9 +34,9 @@ const Footer = () => {
               Support
             </h4>
             <ul className="space-y-2.5">
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">FAQs</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</a></li>
-              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Shipping & Returns</a></li>
+              <li><Link to="/faqs" className="text-xs text-muted-foreground hover:text-foreground transition-colors">FAQs</Link></li>
+              <li><Link to="/contact" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link></li>
+              <li><Link to="/shipping-returns" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Shipping & Returns</Link></li>
             </ul>
           </div>
           <div>
