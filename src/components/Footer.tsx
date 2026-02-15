@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -10,37 +11,22 @@ const Footer = () => {
               Shop
             </h4>
             <ul className="space-y-2.5">
-              {["New Arrivals", "Best Sellers", "Shop All", "Final Sale"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
+              <li><Link to="/shop" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Shop All</Link></li>
+              <li><Link to="/shop?category=Headwear" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Headwear</Link></li>
+              <li><Link to="/shop?category=Tees" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Tees</Link></li>
+              <li><Link to="/shop?category=Polos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Polos</Link></li>
+              <li><Link to="/shop?category=Outerwear" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Outerwear</Link></li>
+              <li><Link to="/shop?category=Accessories" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Accessories</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-foreground mb-4">
-              Fit
+              About
             </h4>
             <ul className="space-y-2.5">
-              {["Fitted", "Stacked", "Cargo", "Straight-Leg", "Baggy", "Shorts"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Our Story</a></li>
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Alpha Iota Chapter</a></li>
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">95th Anniversary</a></li>
             </ul>
           </div>
           <div>
@@ -48,18 +34,9 @@ const Footer = () => {
               Support
             </h4>
             <ul className="space-y-2.5">
-              {["FAQs", "Track Order", "Start A Return", "Contact Us"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">FAQs</a></li>
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact Us</a></li>
+              <li><a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Shipping & Returns</a></li>
             </ul>
           </div>
           <div>
@@ -79,7 +56,7 @@ const Footer = () => {
       </div>
       <div className="border-t border-border px-5 md:px-10 py-5 text-center">
         <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
-          © 2025 AI NUPES. All rights reserved.
+          © 2026 AI NUPES. All rights reserved.
         </p>
       </div>
     </footer>
