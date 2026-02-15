@@ -15,15 +15,14 @@ const HeroSection = () => {
             <br />
             ARRIVALS
           </h1>
-          <p className="text-primary-foreground/50 text-xs tracking-[0.3em] uppercase mt-4 mb-6 font-light">
-            Spring 2026 Collection
-          </p>
+          <div className="mt-6">
           <Link
             to="/shop"
             className="inline-block w-fit border border-primary-foreground/40 text-primary-foreground px-8 py-3 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-colors"
           >
             SHOP NOW
           </Link>
+          </div>
         </div>
 
         {/* Right: Lifestyle image */}
@@ -31,7 +30,7 @@ const HeroSection = () => {
           <img
             src={heroLifestyle}
             alt="New Arrivals"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-bottom"
           />
         </div>
       </div>
