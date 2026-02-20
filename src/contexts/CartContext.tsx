@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
 interface CartItem {
   id: string;
@@ -19,6 +19,7 @@ interface CartContextType {
   cartTotal: string;
   cartOpen: boolean;
   setCartOpen: (open: boolean) => void;
+  cartBounce: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,6 +31,12 @@ function parsePrice(price: string): number {
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartBounce, setCartBounce] = useState(false);
+
+  const triggerBounce = useCallback(() => {
+    setCartBounce(true);
+    setTimeout(() => setCartBounce(false), 600);
+  }, []);
 
   const addToCart = (item: Omit<CartItem, "quantity">) => {
     const cartId = item.size ? `${item.id}-${item.size}` : item.id;
@@ -42,6 +49,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, { ...item, id: cartId, quantity: 1 }];
     });
+    triggerBounce();
     setCartOpen(true);
   };
 
@@ -69,7 +77,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, cartTotal, cartOpen, setCartOpen }}
+      value={{ items, addToCart, removeFromCart, updateQuantity, clearCart, totalItems, cartTotal, cartOpen, setCartOpen, cartBounce }}
     >
       {children}
     </CartContext.Provider>

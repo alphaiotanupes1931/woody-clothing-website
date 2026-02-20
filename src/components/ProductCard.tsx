@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 
@@ -17,11 +17,33 @@ function slugify(name: string): string {
 const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardProps) => {
   const productId = id || slugify(name);
   const [loaded, setLoaded] = useState(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x: y * -8, y: x * 8 });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0 });
+  }, []);
 
   return (
     <Link
+      ref={cardRef}
       to={`/product/${productId}`}
       className="group flex-shrink-0 w-[44vw] max-w-[180px] md:w-[260px] md:max-w-none cursor-pointer [.grid_&]:w-full [.grid_&]:max-w-none"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+        transition: tilt.x === 0 && tilt.y === 0 ? "transform 0.5s cubic-bezier(0.16,1,0.3,1)" : "transform 0.1s ease-out",
+      }}
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
         {!loaded && (
@@ -39,7 +61,6 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
             Sold Out
           </div>
         )}
-        {/* Quick view indicator */}
         {!soldOut && (
           <div className="absolute bottom-0 left-0 right-0 bg-foreground/90 text-background py-2.5 text-center text-[10px] font-semibold tracking-[0.2em] uppercase translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-1.5">
             <Plus size={12} strokeWidth={2} />

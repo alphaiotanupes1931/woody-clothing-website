@@ -245,3 +245,25 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Cart bounce animation */
+@keyframes cartBounce {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.35); }
+  40% { transform: scale(0.9); }
+  60% { transform: scale(1.15); }
+  80% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+/* Particle burst */
+@keyframes particleBurst {
+  0% {
+    transform: translate(-50%, -50%) translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(var(--tx), var(--ty));
+    opacity: 0;
+  }
+}
