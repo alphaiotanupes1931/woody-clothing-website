@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { X, Ruler } from "lucide-react";
 
 interface SizeGuideModalProps {
@@ -25,18 +26,35 @@ const hatData = [
 ];
 
 const SizeGuideModal = ({ open, onClose, category }: SizeGuideModalProps) => {
-  if (!open) return null;
+  const [closing, setClosing] = useState(false);
+
+  if (!open && !closing) return null;
+
+  const handleClose = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      onClose();
+    }, 250);
+  };
 
   const isHat = category === "Headwear";
 
   return (
     <>
-      <div className="fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className={`fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm transition-opacity duration-250 ${closing ? "opacity-0" : "opacity-100 animate-fade-in"}`}
+        onClick={handleClose}
+      />
       <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 pointer-events-none">
-        <div className="bg-background border border-border p-6 md:p-8 max-w-lg w-full relative pointer-events-auto animate-scale-in max-h-[80vh] overflow-y-auto">
+        <div
+          className={`bg-background border border-border p-6 md:p-8 max-w-lg w-full relative pointer-events-auto max-h-[80vh] overflow-y-auto transition-all duration-250 ${
+            closing ? "opacity-0 scale-95" : "animate-[popIn_0.35s_cubic-bezier(0.16,1,0.3,1)]"
+          }`}
+        >
           <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors hover:rotate-90 duration-300"
             aria-label="Close"
           >
             <X size={18} strokeWidth={1.5} />

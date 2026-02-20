@@ -5,6 +5,7 @@ const NewsletterPopup = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [closing, setClosing] = useState(false);
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem("newsletter-dismissed");
@@ -15,8 +16,12 @@ const NewsletterPopup = () => {
   }, []);
 
   const handleClose = () => {
-    setShow(false);
-    sessionStorage.setItem("newsletter-dismissed", "true");
+    setClosing(true);
+    setTimeout(() => {
+      setShow(false);
+      setClosing(false);
+      sessionStorage.setItem("newsletter-dismissed", "true");
+    }, 300);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,19 +35,28 @@ const NewsletterPopup = () => {
 
   return (
     <>
-      <div className="fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm" onClick={handleClose} />
+      <div
+        className={`fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm transition-opacity duration-300 ${closing ? "opacity-0" : "opacity-100 animate-fade-in"}`}
+        onClick={handleClose}
+      />
       <div className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-0 md:p-4 pointer-events-none">
-        <div className="bg-background border border-border p-6 md:p-12 max-w-md w-full relative pointer-events-auto animate-scale-in rounded-t-xl md:rounded-none">
+        <div
+          className={`bg-background border border-border p-6 md:p-12 max-w-md w-full relative pointer-events-auto rounded-t-xl md:rounded-none transition-all duration-300 ${
+            closing
+              ? "opacity-0 translate-y-4 scale-95"
+              : "animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)] md:animate-[popIn_0.4s_cubic-bezier(0.16,1,0.3,1)]"
+          }`}
+        >
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors hover:rotate-90 duration-300"
             aria-label="Close"
           >
             <X size={18} strokeWidth={1.5} />
           </button>
 
           {submitted ? (
-            <div className="text-center py-4">
+            <div className="text-center py-4 animate-fade-in">
               <p className="font-display text-2xl text-foreground mb-2">YOU'RE IN</p>
               <p className="text-sm text-muted-foreground">Welcome to the community. Stay tuned for updates.</p>
             </div>
@@ -60,13 +74,13 @@ const NewsletterPopup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-foreground transition-colors"
+                  className="w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-foreground transition-all duration-300 focus:shadow-[0_0_0_1px_hsl(var(--foreground)/0.1)]"
                   maxLength={255}
                   required
                 />
                 <button
                   type="submit"
-                  className="w-full bg-foreground text-background py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors"
+                  className="w-full bg-foreground text-background py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-200 active:scale-[0.98]"
                 >
                   Subscribe
                 </button>

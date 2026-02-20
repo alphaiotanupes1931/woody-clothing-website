@@ -1,5 +1,6 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
+import { REGISTRATION_URL } from "@/data/products";
 
 const Footer = () => {
   return (
@@ -52,6 +53,20 @@ const Footer = () => {
               Built for Achievers.
             </p>
           </div>
+        </div>
+        {/* Registration link */}
+        <div className="mt-10 pt-8 border-t border-border text-center">
+          <p className="text-xs text-muted-foreground mb-3">
+            Attending the 95th Anniversary Celebration?
+          </p>
+          <a
+            href={REGISTRATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold tracking-[0.15em] uppercase text-foreground hover:text-muted-foreground transition-colors underline underline-offset-4"
+          >
+            Register Here →
+          </a>
         </div>
       </div>
       <div className="border-t border-border px-5 md:px-10 py-5 text-center">

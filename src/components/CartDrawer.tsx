@@ -71,7 +71,7 @@ const CartDrawer = () => {
         ) : (
           <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
             {items.map((item) => (
-              <div key={item.id} className="flex gap-4">
+              <div key={item.id} className="flex gap-4 cart-item-enter">
                 <div className="w-20 h-24 bg-secondary flex-shrink-0 overflow-hidden">
                   <img
                     src={item.image}
