@@ -5,65 +5,14 @@ import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FadeIn from "@/components/FadeIn";
+import { allProducts, REGISTRATION_URL } from "@/data/products";
 
-import bannerFitted from "@/assets/banner-fitted.jpg";
-import bannerStacked from "@/assets/banner-stacked.jpg";
-import bannerCargo from "@/assets/banner-cargo.jpg";
-
-// Tees
-import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
-import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
-import tee95thFront from "@/assets/products/tee-95th-front.jpg";
-import tee95thBack from "@/assets/products/tee-95th-back.jpg";
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
-import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
-import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
 
-// Polos
-import kreamWovenPolo from "@/assets/products/kream-woven-polo.jpg";
-import krimsonWovenPolo from "@/assets/products/krimson-woven-polo.jpg";
-import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
-import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
-
-// Headwear
-import krimsonBucketFront from "@/assets/products/krimson-bucket-front.jpg";
-import krimsonFittedBack from "@/assets/products/krimson-fitted-back.jpg";
-import krimsonFittedFront1 from "@/assets/products/krimson-fitted-front-1.jpg";
-import krimsonFittedSide2 from "@/assets/products/krimson-fitted-side-2.jpg";
-import krimsonSkully from "@/assets/products/krimson-skully.jpg";
-import krimsonFittedFront from "@/assets/products/krimson-fitted-front.jpg";
-import krimsonFittedSide from "@/assets/products/krimson-fitted-side.jpg";
-import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
-import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
-
-// Outerwear
-import ktrZip from "@/assets/products/ktr-zip.jpg";
-import hoodieMerlot from "@/assets/products/hoodie-merlot.jpg";
-
-// Accessories
-import kreamSocks from "@/assets/products/kream-socks.jpg";
-
-// Jeans
-import jeansCaviar from "@/assets/products/jeans-caviar.jpg";
-import jeansFume from "@/assets/products/jeans-fume.jpg";
-import jeansOud from "@/assets/products/jeans-oud.jpg";
-import jeansPotala from "@/assets/products/jeans-potala.jpg";
-import jeansCosmos from "@/assets/products/jeans-cosmos.jpg";
-import jeansTitan from "@/assets/products/jeans-titan.jpg";
-
-const newArrivals = [
-  { image: kreamTeeAchievers, name: '"Achievers" KREAM Tee', price: "$55.00" },
-  { image: kreamTeeCorner, name: 'K-Diamond KREAM Tee', price: "$55.00" },
-  { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00" },
-  { image: krimsonFittedFront1, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00" },
-  { image: krimsonBucketFront, name: 'KRIMSON K-Diamond Bucket Hat', price: "$45.00" },
-  { image: krimsonSkully, name: 'KRIMSON K-Diamond Skully', price: "$35.00" },
-  { image: kreamWovenPolo, name: 'KREAM Woven Polo', price: "$75.00" },
-  { image: krimsonWovenPolo, name: 'KRIMSON Woven Polo', price: "$75.00" },
-  { image: kreamPerformancePolo, name: 'KREAM Performance Polo', price: "$75.00" },
-  { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00" },
-  { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
-];
+const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
+const hats = allProducts.filter((p) => p.category === "Headwear" && !p.registrationOnly);
+const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
+const accessories = allProducts.filter((p) => p.category === "Accessories");
 
 const Index = () => {
   return (
@@ -102,42 +51,29 @@ const Index = () => {
           </section>
         </FadeIn>
 
-        <ProductCarousel
-          title="Hats"
-          products={[
-            { image: krimsonFittedFront1, name: 'KRIMSON K-Diamond Fitted Hat', price: "$55.00" },
-            { image: krimsonFittedSide2, name: 'KRIMSON "Achievers" Fitted Hat — Side', price: "$55.00" },
-            { image: krimsonFittedBack, name: 'KRIMSON Fitted Hat — Back', price: "$55.00" },
-            { image: krimsonBucketFront, name: 'KRIMSON K-Diamond Bucket Hat', price: "$45.00" },
-            { image: krimsonSkully, name: 'KRIMSON K-Diamond Skully', price: "$35.00" },
-            { image: flexKreamKap, name: 'KREAM FlexFit K-Diamond Kap', price: "$45.00" },
-            { image: flexKrimsonKap, name: 'KRIMSON FlexFit K-Diamond Kap', price: "$45.00" },
-          ]}
-        />
+        <ProductCarousel title="Hats" products={hats} />
+        <ProductCarousel title="Tops" products={tops} />
+        <ProductCarousel title="Accessories" products={accessories} />
 
-        <ProductCarousel
-          title="Tops"
-          products={[
-            { image: kreamTeeAchievers, name: '"Achievers" KREAM Tee', price: "$55.00" },
-            { image: kreamTeeCorner, name: 'K-Diamond KREAM Tee', price: "$55.00" },
-            { image: tee95thFront, name: '95th ANNIVERSARY "KREAM" Tee — Cream', price: "$65.00" },
-            { image: tee95thBack, name: '95th ANNIVERSARY "KREAM" Tee — Back', price: "$65.00" },
-            { image: kreamTee1, name: 'K-Diamond Outline Tee — Cream', price: "$55.00" },
-            { image: kreamTee2, name: 'K-Diamond Filled Tee — Cream', price: "$55.00" },
-            { image: kreamWovenPolo, name: 'KREAM Woven Polo', price: "$75.00" },
-            { image: krimsonWovenPolo, name: 'KRIMSON Woven Polo', price: "$75.00" },
-            { image: kreamPerformancePolo, name: 'KREAM Performance Polo', price: "$75.00" },
-            { image: dryFitPolo, name: 'KRIMSON Dry-Fit Polo', price: "$75.00" },
-            { image: ktrZip, name: 'KRIMSON Quarter-Zip Sweater', price: "$95.00" },
-          ]}
-        />
-
-        <ProductCarousel
-          title="Bottoms"
-          products={[
-            { image: kreamSocks, name: 'KREAM K-Diamond Socks', price: "$18.00" },
-          ]}
-        />
+        {/* Registration CTA */}
+        <FadeIn>
+          <section className="bg-foreground text-primary-foreground py-14 md:py-20 text-center px-6">
+            <h2 className="font-display text-3xl md:text-5xl tracking-wide mb-4">
+              95TH ANNIVERSARY CELEBRATION
+            </h2>
+            <p className="text-sm text-primary-foreground/70 max-w-md mx-auto mb-6 leading-relaxed">
+              Register for the Alpha Iota 95th Anniversary Celebration to receive exclusive merch and event access.
+            </p>
+            <a
+              href={REGISTRATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-background text-foreground px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all duration-300 hover:tracking-[0.3em]"
+            >
+              Register Now
+            </a>
+          </section>
+        </FadeIn>
       </main>
 
       <Footer />
