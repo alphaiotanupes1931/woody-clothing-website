@@ -30,7 +30,10 @@ const Contact = () => {
             </h1>
           </TextReveal>
           <p className="text-sm text-muted-foreground text-center mb-12">
-            Questions, feedback, or just want to connect? Drop us a line.
+            Questions, feedback, or just want to connect? Drop us a line or email us at{" "}
+            <a href="mailto:ainupes1931@gmail.com" className="underline hover:text-foreground transition-colors">
+              ainupes1931@gmail.com
+            </a>
           </p>
 
           <FadeIn>

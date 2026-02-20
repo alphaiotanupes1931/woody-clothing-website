@@ -40,7 +40,7 @@ const faqs = [
   {
     question: "How can I contact support?",
     answer:
-      "Visit our Contact page or email us at ainupes@gmail.com. We typically respond within 24–48 hours.",
+      "Visit our Contact page or email us at ainupes1931@gmail.com. We typically respond within 24–48 hours.",
   },
 ];
 
@@ -59,8 +59,8 @@ const FAQs = () => {
           </TextReveal>
           <p className="text-sm text-muted-foreground text-center mb-12">
             Everything you need to know about AI Nupes. Have another question?{" "}
-            <a href="mailto:ainupes@gmail.com" className="underline hover:text-foreground transition-colors">
-              ainupes@gmail.com
+            <a href="mailto:ainupes1931@gmail.com" className="underline hover:text-foreground transition-colors">
+              ainupes1931@gmail.com
             </a>
           </p>
 
