@@ -1,5 +1,5 @@
 import { Menu, ShoppingCart, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logo.png";
 
@@ -18,10 +18,37 @@ interface HeaderProps {
   solid?: boolean;
 }
 
+/* Particle burst component */
+const ParticleBurst = ({ active }: { active: boolean }) => {
+  if (!active) return null;
+  return (
+    <div className="absolute inset-0 pointer-events-none z-10">
+      {Array.from({ length: 8 }).map((_, i) => {
+        const angle = (i / 8) * 360;
+        const rad = (angle * Math.PI) / 180;
+        const tx = Math.cos(rad) * 24;
+        const ty = Math.sin(rad) * 24;
+        return (
+          <span
+            key={i}
+            className="absolute left-1/2 top-1/2 w-1 h-1 rounded-full bg-[hsl(var(--krimson))]"
+            style={{
+              animation: "particleBurst 0.5s ease-out forwards",
+              animationDelay: `${i * 20}ms`,
+              ["--tx" as string]: `${tx}px`,
+              ["--ty" as string]: `${ty}px`,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const Header = ({ solid = false }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(solid);
-  const { totalItems, setCartOpen } = useCart();
+  const { totalItems, setCartOpen, cartBounce } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(solid || window.scrollY > 50);
@@ -67,7 +94,7 @@ const Header = ({ solid = false }: HeaderProps) => {
           <div className="flex items-center gap-3 md:gap-5">
             <button
               aria-label="Cart"
-              className="relative p-2 -m-2 active:opacity-70 transition-opacity"
+              className={`relative p-2 -m-2 active:opacity-70 transition-all ${cartBounce ? "animate-[cartBounce_0.5s_cubic-bezier(0.36,0.07,0.19,0.97)]" : ""}`}
               onClick={() => setCartOpen(true)}
             >
               <ShoppingCart size={20} strokeWidth={1.5} />
@@ -76,6 +103,7 @@ const Header = ({ solid = false }: HeaderProps) => {
                   {totalItems}
                 </span>
               )}
+              <ParticleBurst active={cartBounce} />
             </button>
             <button
               onClick={() => setMenuOpen(!menuOpen)}

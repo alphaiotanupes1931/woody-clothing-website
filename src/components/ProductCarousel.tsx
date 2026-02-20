@@ -27,10 +27,8 @@ const ProductCarousel = ({ title, products }: ProductCarouselProps) => {
   return (
     <section className="py-6 md:py-14">
       <div className="flex items-center justify-between px-4 md:px-14 mb-4 md:mb-6">
-        <TextReveal>
-          <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
-            {title}
-          </h2>
+        <TextReveal splitWords className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
+          {title}
         </TextReveal>
         <div className="flex gap-2">
           <button
