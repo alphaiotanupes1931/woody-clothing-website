@@ -8,6 +8,7 @@ import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hats = allProducts.filter((p) => p.category === "Headwear" && !p.registrationOnly);
@@ -55,6 +56,26 @@ const Index = () => {
         <ProductCarousel title="Tops" products={tops} />
         <ProductCarousel title="Accessories" products={accessories} />
 
+        {/* Stats counter bar */}
+        <FadeIn>
+          <section className="bg-secondary py-10 md:py-14">
+            <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto text-center px-6">
+              <div>
+                <AnimatedCounter end={95} suffix="+" className="font-display text-3xl md:text-5xl text-foreground" />
+                <p className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-1">Years of Legacy</p>
+              </div>
+              <div>
+                <AnimatedCounter end={1931} className="font-display text-3xl md:text-5xl text-foreground" />
+                <p className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-1">Founded</p>
+              </div>
+              <div>
+                <AnimatedCounter end={500} suffix="+" className="font-display text-3xl md:text-5xl text-foreground" />
+                <p className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground mt-1">Members Strong</p>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+
         {/* Registration CTA */}
         <FadeIn>
           <section className="bg-foreground text-primary-foreground py-14 md:py-20 text-center px-6">
@@ -68,7 +89,7 @@ const Index = () => {
               href={REGISTRATION_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-background text-foreground px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all duration-300 hover:tracking-[0.3em]"
+              className="btn-fill-sweep inline-block bg-background text-foreground px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase transition-transform duration-300 hover:tracking-[0.3em]"
             >
               Register Now
             </a>

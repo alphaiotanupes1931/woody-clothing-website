@@ -121,7 +121,7 @@ const ProductDetail = () => {
             <div>
               <div className="relative bg-secondary aspect-[3/4] overflow-hidden">
                 {!imageLoaded && (
-                  <div className="absolute inset-0 bg-secondary animate-pulse" />
+                  <div className="absolute inset-0 skeleton-shimmer" />
                 )}
                 <img
                   src={images[activeImageIndex]}
@@ -203,10 +203,10 @@ const ProductDetail = () => {
                           <button
                             key={size}
                             onClick={() => setSelectedSize(size)}
-                            className={`min-w-[48px] px-3 py-2.5 text-xs font-medium tracking-wider border transition-all duration-200 ${
+                            className={`min-w-[48px] px-3 py-2.5 text-xs font-medium tracking-wider border transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                               selectedSize === size
-                                ? "bg-foreground text-background border-foreground scale-[1.02]"
-                                : "bg-background text-foreground border-border hover:border-foreground"
+                                ? "bg-foreground text-background border-foreground scale-110 shadow-md"
+                                : "bg-background text-foreground border-border hover:border-foreground hover:scale-105"
                             }`}
                           >
                             {size}
@@ -248,7 +248,7 @@ const ProductDetail = () => {
 
                   <button
                     onClick={handleAddToCart}
-                    className="w-full bg-foreground text-background px-10 py-4 text-sm md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-200 active:scale-[0.98]"
+                    className="btn-fill-sweep w-full bg-foreground text-background px-10 py-4 text-sm md:text-xs font-semibold tracking-[0.2em] uppercase active:scale-[0.98] transition-transform duration-200"
                   >
                     Add to Cart
                   </button>
