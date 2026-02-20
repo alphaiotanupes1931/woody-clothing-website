@@ -14,11 +14,18 @@ const CartDrawer = () => {
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      const checkoutItems = items.map((item) => ({
-        name: item.name,
-        price: parseFloat(item.price.replace(/[^0-9.]/g, "")),
-        quantity: item.quantity,
-      }));
+      const checkoutItems = items.map((item) => {
+        // Build a full public URL for the image so Stripe can display it
+        const imageUrl = item.image.startsWith("http")
+          ? item.image
+          : `${window.location.origin}${item.image}`;
+        return {
+          name: item.name,
+          price: parseFloat(item.price.replace(/[^0-9.]/g, "")),
+          quantity: item.quantity,
+          image: imageUrl,
+        };
+      });
 
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: { items: checkoutItems },
