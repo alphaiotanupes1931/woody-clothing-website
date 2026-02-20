@@ -50,8 +50,8 @@ const Shop = () => {
       <Header solid />
 
       <main className="pt-28 md:pt-32 pb-20">
-        <div className="px-6 md:px-14 mb-8">
-          <h1 className="font-display text-4xl md:text-6xl tracking-tight text-foreground">
+        <div className="px-4 md:px-14 mb-6 md:mb-8">
+          <h1 className="font-display text-3xl md:text-6xl tracking-tight text-foreground">
             SHOP ALL
           </h1>
           <p className="text-muted-foreground text-sm mt-2">
@@ -59,7 +59,7 @@ const Shop = () => {
           </p>
         </div>
 
-        <div className="px-6 md:px-14 mb-10 flex gap-2 flex-wrap">
+        <div className="px-4 md:px-14 mb-8 md:mb-10 flex gap-2 flex-wrap overflow-x-auto carousel-scroll pb-1">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -75,7 +75,7 @@ const Shop = () => {
           ))}
         </div>
 
-        <div className="px-6 md:px-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 stagger-children" key={activeFilter + (queryParam || "")}>
+        <div className="px-4 md:px-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-8 stagger-children" key={activeFilter + (queryParam || "")}>
           {filtered.map((product, i) => (
             <ProductCard key={product.id || i} image={product.image} name={product.name} price={product.price} />
           ))}

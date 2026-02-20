@@ -43,12 +43,12 @@ const Header = ({ solid = false }: HeaderProps) => {
       <header
         className="fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border/30 text-foreground"
       >
-        <div className="flex items-center justify-between px-4 md:px-6 py-3">
-          <a href="/" className="flex-shrink-0">
+        <div className="flex items-center justify-between px-4 md:px-6 py-2.5 md:py-3">
+          <a href="/" className="flex-shrink-0 active:opacity-70 transition-opacity">
             <img
               src={logo}
               alt="AI Nupes"
-              className="h-8 md:h-10 transition-all duration-300"
+              className="h-7 md:h-10 transition-all duration-300"
             />
           </a>
 
@@ -64,22 +64,22 @@ const Header = ({ solid = false }: HeaderProps) => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4 md:gap-5">
+          <div className="flex items-center gap-3 md:gap-5">
             <button
               aria-label="Cart"
-              className="relative"
+              className="relative p-2 -m-2 active:opacity-70 transition-opacity"
               onClick={() => setCartOpen(true)}
             >
               <ShoppingCart size={20} strokeWidth={1.5} />
               {totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[hsl(var(--krimson))] text-[hsl(var(--krimson-foreground))] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute top-0.5 right-0.5 bg-[hsl(var(--krimson))] text-[hsl(var(--krimson-foreground))] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-1"
+              className="md:hidden p-2 -m-2 active:opacity-70 transition-opacity"
               aria-label="Menu"
             >
               {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
@@ -94,13 +94,13 @@ const Header = ({ solid = false }: HeaderProps) => {
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <nav className="flex flex-col items-start px-6 pt-24 gap-6">
+        <nav className="flex flex-col items-start px-6 pt-24 gap-1">
           {navLinks.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="text-lg font-display tracking-wider uppercase text-foreground hover:text-muted-foreground transition-colors flex items-center gap-2"
+              className="text-2xl font-display tracking-wider uppercase text-foreground hover:text-muted-foreground active:text-muted-foreground transition-colors flex items-center gap-2 py-2 w-full"
             >
               {item.label}
             </a>

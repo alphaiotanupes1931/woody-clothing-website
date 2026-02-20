@@ -46,7 +46,7 @@ const CartDrawer = () => {
         className="fixed inset-0 z-[100] bg-foreground/40 backdrop-blur-sm"
         onClick={() => setCartOpen(false)}
       />
-      <div className="fixed top-0 right-0 z-[100] h-full w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right">
+      <div className="fixed top-0 right-0 z-[100] h-[100dvh] w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right">
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
             Cart ({totalItems})
@@ -141,7 +141,7 @@ const CartDrawer = () => {
             <button
               onClick={handleCheckout}
               disabled={loading}
-              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-foreground text-background py-4 md:py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] active:bg-foreground/80 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-safe"
             >
               {loading ? (
                 <>

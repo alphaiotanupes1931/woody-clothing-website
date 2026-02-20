@@ -103,7 +103,7 @@ const ProductDetail = () => {
           </div>
 
           {/* Product Info */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center px-2 md:px-0">
             <p className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
               {product.category}
             </p>
@@ -172,7 +172,7 @@ const ProductDetail = () => {
 
             <button
               onClick={handleAddToCart}
-              className="w-full bg-foreground text-background px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98]"
+              className="w-full bg-foreground text-background px-10 py-4 text-sm md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-colors active:scale-[0.98]"
             >
               Add to Cart
             </button>

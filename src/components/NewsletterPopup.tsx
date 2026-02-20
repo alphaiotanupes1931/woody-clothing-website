@@ -31,8 +31,8 @@ const NewsletterPopup = () => {
   return (
     <>
       <div className="fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm" onClick={handleClose} />
-      <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 pointer-events-none">
-        <div className="bg-background border border-border p-8 md:p-12 max-w-md w-full relative pointer-events-auto animate-scale-in">
+      <div className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-0 md:p-4 pointer-events-none">
+        <div className="bg-background border border-border p-6 md:p-12 max-w-md w-full relative pointer-events-auto animate-scale-in rounded-t-xl md:rounded-none">
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
