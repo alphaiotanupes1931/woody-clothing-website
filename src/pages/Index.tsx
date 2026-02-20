@@ -77,16 +77,16 @@ const Index = () => {
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
         <FadeIn>
-          <section className="relative w-full min-h-[50vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-1/2 h-[250px] md:h-full flex items-center justify-center p-6 md:p-8 parallax-container">
+          <section className="relative w-full min-h-[60vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 h-[220px] md:h-full flex items-center justify-center p-4 md:p-8 parallax-container">
               <img
                 src={tee95thBackNoBg}
                 alt="95th Anniversary Tee"
                 className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-700 parallax-float"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-8 md:pr-20 md:pb-0">
-              <h2 className="font-display text-3xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-10 md:pr-20 md:pb-0">
+              <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
                 95TH ANNIVERSARY
               </h2>
               <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
@@ -94,7 +94,7 @@ const Index = () => {
               </p>
               <a
                 href="/shop"
-                className="inline-block w-fit bg-background text-foreground px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all duration-300 hover:tracking-[0.3em]"
+                className="inline-block w-fit bg-background text-foreground px-10 py-4 md:px-8 md:py-3 text-[12px] md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 active:bg-background/80 transition-all duration-300 hover:tracking-[0.3em]"
               >
                 SHOP NOW
               </a>

@@ -21,7 +21,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
   return (
     <Link
       to={`/product/${productId}`}
-      className="group flex-shrink-0 w-[160px] md:w-[260px] cursor-pointer [.grid_&]:w-full"
+      className="group flex-shrink-0 w-[44vw] max-w-[180px] md:w-[260px] md:max-w-none cursor-pointer [.grid_&]:w-full [.grid_&]:max-w-none"
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
         {!loaded && (
@@ -47,10 +47,10 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
           </div>
         )}
       </div>
-      <h3 className="text-[12px] md:text-[13px] font-medium text-foreground truncate group-hover:text-muted-foreground transition-colors duration-300">
+      <h3 className="text-[11px] md:text-[13px] font-medium text-foreground line-clamp-2 leading-snug group-hover:text-muted-foreground transition-colors duration-300 mt-2">
         {name}
       </h3>
-      <p className="text-[12px] md:text-[13px] text-muted-foreground mt-0.5">{price}</p>
+      <p className="text-[11px] md:text-[13px] text-muted-foreground mt-0.5">{price}</p>
     </Link>
   );
 };

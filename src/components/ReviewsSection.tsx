@@ -73,7 +73,7 @@ const ReviewsSection = () => {
         {reviews.map((review, i) => (
           <div
             key={i}
-            className="flex-shrink-0 w-[300px] md:w-[360px] border border-border p-6"
+            className="flex-shrink-0 w-[80vw] max-w-[300px] md:w-[360px] md:max-w-none border border-border p-5 md:p-6 snap-start"
           >
             <div className="flex gap-0.5 mb-3">
               {Array(5)
