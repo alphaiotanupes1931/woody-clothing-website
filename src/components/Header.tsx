@@ -1,6 +1,8 @@
-import { Menu, ShoppingCart, X } from "lucide-react";
+import { Menu, ShoppingCart, X, Heart } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import logo from "@/assets/logo.png";
 
 const categories = ["Headwear", "Tees", "Polos", "Outerwear", "Accessories"];
@@ -49,6 +51,7 @@ const Header = ({ solid = false }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(solid);
   const { totalItems, setCartOpen, cartBounce } = useCart();
+  const { wishlist } = useWishlist();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(solid || window.scrollY > 50);
@@ -91,7 +94,19 @@ const Header = ({ solid = false }: HeaderProps) => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 md:gap-5">
+          <div className="flex items-center gap-2 md:gap-4">
+            <Link
+              to="/wishlist"
+              aria-label="Wishlist"
+              className="relative p-2 -m-2 active:opacity-70 transition-all"
+            >
+              <Heart size={20} strokeWidth={1.5} />
+              {wishlist.length > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-[hsl(var(--krimson))] text-[hsl(var(--krimson-foreground))] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
             <button
               aria-label="Cart"
               className={`relative p-2 -m-2 active:opacity-70 transition-all ${cartBounce ? "animate-[cartBounce_0.5s_cubic-bezier(0.36,0.07,0.19,0.97)]" : ""}`}
