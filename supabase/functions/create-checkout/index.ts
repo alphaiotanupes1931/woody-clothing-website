@@ -39,6 +39,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://lovable.dev";
 
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
       line_items,
       mode: "payment",
       success_url: `${origin}/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
