@@ -9,8 +9,29 @@ import BackToTop from "@/components/BackToTop";
 import SizeGuideModal from "@/components/SizeGuideModal";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
-import { ChevronLeft, Minus, Plus, ExternalLink } from "lucide-react";
+import { ChevronLeft, Minus, Plus, ExternalLink, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
+
+const AccordionItem = ({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) => {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="border-b border-border">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-4 text-sm font-semibold tracking-[0.1em] uppercase text-foreground hover:text-muted-foreground transition-colors"
+      >
+        {title}
+        <ChevronDown size={16} strokeWidth={1.5} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-out ${open ? "max-h-[500px] opacity-100 pb-5" : "max-h-0 opacity-0"}`}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
 
 const apparelSizes = ["S", "M", "L", "XL", "2XL"];
 const hatSizes = ["6 7/8", "7", "7 1/8", "7 1/4", "7 3/8", "7 1/2", "7 5/8"];
@@ -238,10 +259,22 @@ const ProductDetail = () => {
                 </>
               )}
 
-              <div className="mt-8 md:mt-10 border-t border-border pt-6">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {product.description || "Premium quality. Designed for those who move with purpose."}
-                </p>
+              {/* Accordion Dropdowns */}
+              <div className="mt-8 md:mt-10 border-t border-border">
+                <AccordionItem title="Details" defaultOpen>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {product.description || "Premium quality. Designed for those who move with purpose."}
+                  </p>
+                </AccordionItem>
+                <AccordionItem title="Shipping & Returns">
+                  <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <p className="font-semibold text-foreground">Pre-Order Policy</p>
+                    <p>This collection is pre-order only. Orders placed on or before March 14 are expected to arrive no later than April 10.</p>
+                    <p>Orders will ship within 5–7 business days once production is complete. All customers will receive a tracking number via email.</p>
+                    <p className="font-semibold text-foreground mt-4">Returns & Refunds</p>
+                    <p>All sales are final. No returns, no exchanges, no refunds. Please review sizing and order details carefully before purchasing.</p>
+                  </div>
+                </AccordionItem>
               </div>
             </div>
           </FadeIn>
