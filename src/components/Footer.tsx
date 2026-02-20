@@ -45,7 +45,7 @@ const Footer = () => {
               Follow Us
             </h4>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="https://www.instagram.com/ainupes1931" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Instagram size={18} />
               </a>
             </div>
