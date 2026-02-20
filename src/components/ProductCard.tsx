@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { Plus, Heart } from "lucide-react";
 
 interface ProductCardProps {
   id?: string;
@@ -19,6 +19,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
   const [loaded, setLoaded] = useState(false);
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [hearted, setHearted] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     const el = cardRef.current;
@@ -47,7 +48,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
     >
       <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
         {!loaded && (
-          <div className="absolute inset-0 bg-secondary animate-pulse" />
+          <div className="absolute inset-0 skeleton-shimmer" />
         )}
         <img
           src={image}
@@ -61,6 +62,20 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
             Sold Out
           </div>
         )}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setHearted(!hearted);
+          }}
+          className={`absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-sm transition-all duration-300 z-10 ${
+            hearted ? "text-red-500 scale-110" : "text-foreground/60 hover:text-foreground opacity-0 group-hover:opacity-100"
+          }`}
+          style={hearted ? { animation: "heartPulse 0.4s ease-out" } : undefined}
+          aria-label="Wishlist"
+        >
+          <Heart size={16} fill={hearted ? "currentColor" : "none"} strokeWidth={1.5} />
+        </button>
         {!soldOut && (
           <div className="absolute bottom-0 left-0 right-0 bg-foreground/90 text-background py-2.5 text-center text-[10px] font-semibold tracking-[0.2em] uppercase translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-1.5">
             <Plus size={12} strokeWidth={2} />
