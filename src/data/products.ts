@@ -58,7 +58,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTeeCorner,
-    images: [kreamTeeCorner, tee95thFront, tee95thBack],
+    images: [kreamTeeCorner, tee95thBack],
     name: '95th ANNIVERSARY "KREAM" Tee',
     price: "$31.00",
     category: "Tees",
