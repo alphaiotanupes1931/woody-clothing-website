@@ -133,7 +133,7 @@ const Header = ({ solid = false }: HeaderProps) => {
 
       {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-background transition-transform duration-300 ease-out ${
+        className={`fixed inset-0 z-40 bg-background transition-transform duration-300 ease-out md:hidden ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
