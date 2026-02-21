@@ -14,11 +14,12 @@ import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
 import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
 import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
+import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
+import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
 const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
-const hats = allProducts.filter((p) => p.category === "Headwear" && !p.registrationOnly);
+const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" || p.category === "Accessories") && !p.registrationOnly);
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
-const accessories = allProducts.filter((p) => p.category === "Accessories");
 
 const TiltImage = ({ src, alt }: { src: string; alt: string }) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -101,7 +102,7 @@ const Index = () => {
           </section>
         </FadeIn>
 
-        <ProductCarousel title="Hats" products={hats} />
+        <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
         {/* Lifestyle Lookbook */}
         <FadeIn>
@@ -139,7 +140,55 @@ const Index = () => {
         </FadeIn>
 
         <ProductCarousel title="Tops" products={tops} />
-        <ProductCarousel title="Accessories" products={accessories} />
+
+        {/* Fitted Hat Feature */}
+        <FadeIn>
+          <section className="px-4 md:px-14 py-12 md:py-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
+              <div className="grid grid-cols-2 gap-2 md:gap-3">
+                <FadeIn delay={0}>
+                  <div className="aspect-square overflow-hidden bg-secondary">
+                    <img
+                      src={krimsonFittedFront}
+                      alt="KRIMSON Fitted Hat front"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                </FadeIn>
+                <FadeIn delay={120}>
+                  <div className="aspect-square overflow-hidden bg-secondary">
+                    <img
+                      src={krimsonFittedSide}
+                      alt="KRIMSON Fitted Hat side"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                </FadeIn>
+              </div>
+              <FadeIn delay={200}>
+                <div className="flex flex-col justify-center px-2 md:px-10">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
+                    Featured
+                  </p>
+                  <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground mb-3 leading-[0.9]">
+                    KRIMSON K-DIAMOND
+                    <br />
+                    FITTED HAT
+                  </h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-md">
+                    Structured six-panel fitted cap with the K-Diamond patch front and center. Premium wool blend, satin-lined interior, and a flat brim with green undervisor.
+                  </p>
+                  <Link
+                    to="/product/krimson-k-diamond-fitted-hat"
+                    className="inline-block w-fit bg-foreground text-background px-8 py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300"
+                  >
+                    Shop Now — $40
+                  </Link>
+                </div>
+              </FadeIn>
+            </div>
+          </section>
+        </FadeIn>
 
         {/* Registration CTA */}
         <FadeIn>
