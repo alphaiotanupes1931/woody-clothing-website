@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Ruler } from "lucide-react";
 
 interface SizeGuideModalProps {
@@ -24,6 +25,9 @@ const hatData = [
   { size: "7 3/8", circumference: '23 1/8"', cm: "58.7 cm" },
   { size: "7 1/2", circumference: '23 1/2"', cm: "59.7 cm" },
   { size: "7 5/8", circumference: '23 7/8"', cm: "60.6 cm" },
+  { size: "7 3/4", circumference: '24 1/4"', cm: "61.6 cm" },
+  { size: "7 7/8", circumference: '24 5/8"', cm: "62.5 cm" },
+  { size: "8", circumference: '25"', cm: "63.5 cm" },
 ];
 
 const SizeGuideModal = ({ open, onClose, category }: SizeGuideModalProps) => {
@@ -41,13 +45,13 @@ const SizeGuideModal = ({ open, onClose, category }: SizeGuideModalProps) => {
 
   const isHat = category === "Headwear";
 
-  return (
+  return createPortal(
     <>
       <div
         className={`fixed inset-0 z-[110] bg-foreground/50 backdrop-blur-sm transition-opacity duration-250 ${closing ? "opacity-0" : "opacity-100 animate-fade-in"}`}
         onClick={handleClose}
       />
-      <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 pointer-events-none">
+      <div className="fixed inset-0 z-[111] flex items-center justify-center p-4 pointer-events-none">
         <div
           className={`bg-background border border-border p-6 md:p-8 max-w-lg w-full relative pointer-events-auto max-h-[80vh] overflow-y-auto transition-all duration-250 ${
             closing ? "opacity-0 scale-95" : "animate-[popIn_0.35s_cubic-bezier(0.16,1,0.3,1)]"
@@ -117,7 +121,8 @@ const SizeGuideModal = ({ open, onClose, category }: SizeGuideModalProps) => {
           </p>
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 };
 
