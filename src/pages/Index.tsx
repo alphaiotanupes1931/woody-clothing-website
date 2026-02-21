@@ -107,6 +107,9 @@ const Index = () => {
         {/* Lifestyle Lookbook */}
         <FadeIn>
           <section className="px-4 md:px-14 py-10 md:py-16">
+            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-1">
+              The AI Collection
+            </p>
             <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
               THE LOOKBOOK
             </h2>
@@ -168,7 +171,7 @@ const Index = () => {
               <FadeIn delay={200}>
                 <div className="flex flex-col justify-center px-2 md:px-10">
                   <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
-                    Featured
+                    The AI Collection — Featured
                   </p>
                   <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground mb-3 leading-[0.9]">
                     KRIMSON K-DIAMOND
