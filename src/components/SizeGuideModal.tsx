@@ -13,6 +13,7 @@ const apparelData = [
   { size: "L", chest: '42-44"', waist: '36-38"', length: '29"' },
   { size: "XL", chest: '46-48"', waist: '40-42"', length: '30"' },
   { size: "2XL", chest: '50-52"', waist: '44-46"', length: '31"' },
+  { size: "3XL", chest: '54-56"', waist: '48-50"', length: '32"' },
 ];
 
 const hatData = [

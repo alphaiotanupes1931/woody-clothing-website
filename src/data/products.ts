@@ -76,14 +76,6 @@ const rawProducts: Omit<Product, "id">[] = [
       "Minimalist take on the K-Diamond logo with a clean outline print on the left chest. 100% ring-spun cotton in kream. Relaxed fit with a slightly longer body for easy layering under flannels or jackets.",
   },
   {
-    image: kreamTee2,
-    name: "K-Diamond Filled Tee — Kream",
-    price: "$31.00",
-    category: "Tees",
-    description:
-      "The filled version of our signature K-Diamond emblem — solid krimson print on kream cotton. Same premium construction as the outline version with reinforced shoulder seams and a tag-free neck label for comfort.",
-  },
-  {
     image: kreamTeeAi95,
     name: "AI 95th Large Logo Tee",
     price: "$31.00",
