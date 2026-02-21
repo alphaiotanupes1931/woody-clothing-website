@@ -1,39 +1,47 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-import heroQuarterzip from "@/assets/hero-quarterzip.jpg";
-import heroCrowd from "@/assets/hero-crowd3.png";
-import heroLifestyle from "@/assets/hero-lifestyle.png";
-import heroHat from "@/assets/hero-hat-nobg.png";
+import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
+import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
+import lifestyleKdiamondFront3 from "@/assets/lifestyle/lifestyle-kdiamond-front-3.jpg";
+import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
+import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
 
 const slides = [
   {
-    image: heroQuarterzip,
+    image: lifestyleKdiamondFront1,
     objectPosition: "center top",
     headline: "THE AI COLLECTION",
     subtitle: "Est. 1931 · Alpha Iota",
     cta: "Shop Now",
   },
   {
-    image: heroCrowd,
-    objectPosition: "center center",
-    headline: "NOT YOUR TYPICAL",
-    subtitle: "95 Years of Excellence",
-    cta: "Explore",
-  },
-  {
-    image: heroLifestyle,
+    image: lifestyleQuarterzip,
     objectPosition: "center top",
     headline: "BUILT FOR ACHIEVERS",
     subtitle: "Premium Quality · Limited Run",
     cta: "Shop the Drop",
   },
   {
-    image: heroHat,
-    objectPosition: "center center",
-    headline: "K-DIAMOND FITTED",
-    subtitle: "The Icon · Available Now",
-    cta: "Shop Headwear",
+    image: lifestyleKdiamondFront3,
+    objectPosition: "center top",
+    headline: "K-DIAMOND COLLECTION",
+    subtitle: "Designed with Purpose",
+    cta: "Explore",
+  },
+  {
+    image: lifestyleAchievers,
+    objectPosition: "center top",
+    headline: "NOT YOUR TYPICAL",
+    subtitle: "95 Years of Excellence",
+    cta: "Shop Tees",
+  },
+  {
+    image: lifestyle95thBack,
+    objectPosition: "center top",
+    headline: "95TH ANNIVERSARY",
+    subtitle: "Celebrate the Legacy",
+    cta: "Register Now",
   },
 ];
 
