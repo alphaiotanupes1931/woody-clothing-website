@@ -173,10 +173,9 @@ const ProductDetail = () => {
                       href={REGISTRATION_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-300 hover:tracking-[0.25em]"
+                      className="inline-block bg-foreground text-background px-8 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-300 hover:tracking-[0.25em]"
                     >
                       Click Here to Register
-                      <ExternalLink size={14} />
                     </a>
                   </div>
                 </div>
