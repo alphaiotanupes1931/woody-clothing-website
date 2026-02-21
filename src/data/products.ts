@@ -2,6 +2,7 @@
 import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
 import tee95thFront from "@/assets/products/tee-95th-front.jpg";
 import tee95thBack from "@/assets/products/tee-95th-back.jpg";
+import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
 import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
 import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
 
@@ -56,8 +57,8 @@ const rawProducts: Omit<Product, "id">[] = [
       "Heavyweight 6.5 oz cotton tee featuring the iconic \"Achievers of the Impossible\" graphic across the back. Relaxed boxy fit with ribbed crew neck. Pre-shrunk and garment-dyed in cream for a lived-in feel from day one.",
   },
   {
-    image: tee95thFront,
-    images: [tee95thFront, tee95thBack],
+    image: kreamTeeCorner,
+    images: [kreamTeeCorner, tee95thFront, tee95thBack],
     name: '95th ANNIVERSARY "KREAM" Tee',
     price: "$31.00",
     category: "Tees",
