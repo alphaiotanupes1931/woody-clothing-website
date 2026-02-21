@@ -113,7 +113,7 @@ const HeroSection = () => {
           style={{
             objectPosition: s.objectPosition,
             opacity: i === current && imagesLoaded[i] ? 1 : 0,
-            filter: "brightness(0.4)",
+            filter: "brightness(0.55)",
             transform: `translateY(${scrollY * 0.25}px) scale(${i === current ? 1.05 : 1})`,
             transition: `opacity 1.2s ease-in-out, transform 6s ease-out`,
           }}
@@ -121,8 +121,8 @@ const HeroSection = () => {
       ))}
 
       {/* Gradient overlays for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-foreground/40 to-transparent z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground/30 to-transparent z-[1]" />
 
       {/* Content */}
       <div
