@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import { allProducts } from "@/data/products";
 
-const categories = ["All", "Headwear", "Tees", "Polos", "Outerwear", "Accessories"];
+const categories = ["All", "Headwear & Accessories", "Tees", "Polos", "Outerwear"];
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
@@ -25,7 +25,9 @@ const Shop = () => {
 
   let filtered = activeFilter === "All"
     ? allProducts
-    : allProducts.filter((p) => p.category === activeFilter);
+    : activeFilter === "Headwear & Accessories"
+      ? allProducts.filter((p) => p.category === "Headwear" || p.category === "Accessories")
+      : allProducts.filter((p) => p.category === activeFilter);
 
   // Search query filtering
   if (queryParam) {
