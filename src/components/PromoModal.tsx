@@ -179,49 +179,49 @@ const PromoModal = () => {
         style={{ animation: closing ? undefined : "promoSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}
       >
         <div
-          className="pointer-events-auto w-full max-w-lg bg-background border border-border shadow-2xl max-h-[90vh] flex flex-col overflow-hidden"
+          className="pointer-events-auto w-full max-w-[calc(100vw-2rem)] sm:max-w-md bg-background border border-border shadow-2xl max-h-[80vh] sm:max-h-[85vh] flex flex-col overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="relative bg-foreground text-background px-6 py-5 text-center flex-shrink-0">
+          <div className="relative bg-foreground text-background px-4 py-3 sm:px-6 sm:py-5 text-center flex-shrink-0">
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 text-background/70 hover:text-background transition-colors"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-background/70 hover:text-background transition-colors"
               aria-label="Close promo"
             >
-              <X size={18} strokeWidth={1.5} />
+              <X size={16} strokeWidth={1.5} />
             </button>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-background/60 mb-1">
+            <p className="text-[9px] sm:text-[10px] tracking-[0.3em] uppercase text-background/60 mb-0.5">
               Limited Time Offer
             </p>
-            <h2 className="text-xl font-bold tracking-[0.15em] uppercase">
+            <h2 className="text-lg sm:text-xl font-bold tracking-[0.15em] uppercase">
               Get the Whole Pack
             </h2>
-            <div className="flex items-center justify-center gap-3 mt-2">
-              <span className="text-3xl font-bold">$199</span>
-              <span className="text-sm line-through text-background/40">$340</span>
+            <div className="flex items-center justify-center gap-2 mt-1">
+              <span className="text-2xl sm:text-3xl font-bold">$199</span>
+              <span className="text-xs sm:text-sm line-through text-background/40">$340</span>
             </div>
-            <p className="text-[10px] tracking-[0.2em] uppercase text-background/50 mt-2">
+            <p className="text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-background/50 mt-1">
               Offer Ends 3/14/26
             </p>
           </div>
 
           {/* Items list */}
-          <div className="flex-1 overflow-y-auto px-5 py-4 space-y-2.5">
+          <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-5 sm:py-4 space-y-1.5 sm:space-y-2.5">
             {bundleItems.map((item, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3"
+                className="flex items-center gap-2 sm:gap-3"
                 style={{ animation: `promoItemFade 0.3s ease-out ${0.05 * i}s both` }}
               >
-                <div className="w-10 h-10 flex-shrink-0 bg-secondary overflow-hidden">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 bg-secondary overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-xs text-foreground flex-1 leading-tight">
+                <span className="text-[10px] sm:text-xs text-foreground flex-1 leading-tight">
                   {item.name}
                 </span>
                 <span className="text-[10px] text-muted-foreground">✓</span>
@@ -230,11 +230,11 @@ const PromoModal = () => {
           </div>
 
           {/* Size selectors */}
-          <div className="px-5 py-4 border-t border-border space-y-2.5 flex-shrink-0">
-            <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
+          <div className="px-3 py-3 sm:px-5 sm:py-4 border-t border-border space-y-2 flex-shrink-0">
+            <p className="text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-1.5">
               Select Your Sizes
             </p>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-2">
               <SizeSelector label="Tee Size" value={teeSize} onChange={setTeeSize} />
               <SizeSelector label="Polo Size" value={poloSize} onChange={setPoloSize} />
               <SizeSelector label="Zip Size" value={zipSize} onChange={setZipSize} />
@@ -242,11 +242,11 @@ const PromoModal = () => {
           </div>
 
           {/* CTA */}
-          <div className="px-5 pb-5 pt-1 flex-shrink-0">
+          <div className="px-3 pb-3 pt-1 sm:px-5 sm:pb-5 flex-shrink-0">
             <button
               onClick={handleCheckout}
               disabled={loading || !allSizesSelected}
-              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-foreground text-background py-3 sm:py-4 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -260,7 +260,7 @@ const PromoModal = () => {
                 </>
               )}
             </button>
-            <p className="text-center text-[9px] text-muted-foreground mt-2 tracking-wider">
+            <p className="text-center text-[8px] sm:text-[9px] text-muted-foreground mt-1.5 tracking-wider">
               Excludes Fitted Hat • Free shipping included
             </p>
           </div>
