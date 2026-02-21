@@ -10,6 +10,7 @@ import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
 // Polos
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
+import krimsonWovenPolo from "@/assets/products/krimson-woven-polo.jpg";
 
 // Headwear
 import krimsonBucketFront from "@/assets/products/krimson-bucket-front.jpg";
@@ -99,6 +100,14 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Polos",
     description:
       "Built for movement. Moisture-wicking dry-fit fabric in kream with four-way stretch and UPF 30 sun protection. K-Diamond logo heat-pressed on the chest. Ideal for the golf course, cookouts, or anytime you need to look polished while staying cool.",
+  },
+  {
+    image: krimsonWovenPolo,
+    name: "KRIMSON Woven Polo",
+    price: "$45.00",
+    category: "Polos",
+    description:
+      "Classic woven polo in krimson with the K-Diamond crest embroidered on the left chest. Textured piqué cotton blend for breathability and structure. Three-button placket, ribbed collar, and side vents for a refined, comfortable fit.",
   },
   // Headwear
   {
