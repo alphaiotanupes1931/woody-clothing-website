@@ -11,7 +11,7 @@ const NewsletterPopup = () => {
     const dismissed = sessionStorage.getItem("newsletter-dismissed");
     if (dismissed) return;
 
-    const timer = setTimeout(() => setShow(true), 5000);
+    const timer = setTimeout(() => setShow(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
