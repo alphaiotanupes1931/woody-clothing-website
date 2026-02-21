@@ -13,6 +13,7 @@ import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
 
 // Headwear
 import krimsonBucketFront from "@/assets/products/krimson-bucket-front.jpg";
+import krimsonBucketBack from "@/assets/products/krimson-bucket-back.jpg";
 import krimsonFittedBack from "@/assets/products/krimson-fitted-back.jpg";
 import krimsonFittedFront1 from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide2 from "@/assets/products/krimson-fitted-side-2.jpg";
@@ -120,6 +121,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: krimsonBucketFront,
+    images: [krimsonBucketFront, krimsonBucketBack],
     name: "KRIMSON K-Diamond Bucket Hat",
     price: "$24.00",
     category: "Headwear",
