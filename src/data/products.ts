@@ -3,6 +3,7 @@ import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
 import tee95thFront from "@/assets/products/tee-95th-front.jpg";
 import tee95thBack from "@/assets/products/tee-95th-back.jpg";
 import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
+import kreamTee95thBack from "@/assets/products/kream-tee-95th-back.jpg";
 import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
 import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
 import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
@@ -73,7 +74,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTeeCorner,
-    images: [kreamTeeCorner, lifestyle95thFront, lifestyle95thBackDesign],
+    images: [kreamTeeCorner, lifestyle95thFront, lifestyle95thBackDesign, kreamTee95thBack],
     name: '95th ANNIVERSARY "KREAM" Tee',
     price: "$31.00",
     category: "Tees",
