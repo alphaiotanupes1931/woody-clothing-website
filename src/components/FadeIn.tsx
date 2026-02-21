@@ -18,7 +18,7 @@ const FadeIn = ({ children, className = "", delay = 0 }: FadeInProps) => {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -27,12 +27,16 @@ const FadeIn = ({ children, className = "", delay = 0 }: FadeInProps) => {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-6"
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all ease-out ${className}`}
+      style={{
+        transitionDelay: `${delay}ms`,
+        transitionDuration: "800ms",
+        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+        opacity: visible ? 1 : 0,
+        transform: visible
+          ? "translateY(0) scale(1)"
+          : "translateY(40px) scale(0.97)",
+      }}
     >
       {children}
     </div>
