@@ -9,6 +9,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import CartDrawer from "@/components/CartDrawer";
 import NewsletterPopup from "@/components/NewsletterPopup";
 import FilmGrain from "@/components/FilmGrain";
+import PromoModal from "@/components/PromoModal";
 import PageTransition from "@/components/PageTransition";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -43,6 +44,7 @@ const App = () => (
             <CartDrawer />
             <NewsletterPopup />
             <FilmGrain />
+            <PromoModal />
             <PageTransition>
               <Routes>
                 <Route path="/" element={<Index />} />
