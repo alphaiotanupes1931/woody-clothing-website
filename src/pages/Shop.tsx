@@ -79,7 +79,7 @@ const Shop = () => {
 
         <div className="px-4 md:px-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-8 stagger-children" key={activeFilter + (queryParam || "")}>
           {filtered.map((product, i) => (
-            <FadeIn key={product.id || i} delay={i * 50}>
+            <FadeIn key={product.id || i} delay={i * 80}>
               <ProductCard
                 id={product.id}
                 image={product.image}
