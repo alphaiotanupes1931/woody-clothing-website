@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Loader2, Package, ChevronDown } from "lucide-react";
+import { X, Loader2, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -184,8 +184,7 @@ const PromoModal = () => {
         >
           {/* Header — compact */}
           <div className="relative bg-foreground text-background px-4 py-2.5 sm:px-6 sm:py-3 flex items-center justify-between flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <Package size={16} strokeWidth={1.5} className="text-background/70" />
+            <div>
               <div>
                 <h2 className="text-sm sm:text-base font-bold tracking-[0.1em] uppercase leading-tight">
                   Get the Whole Pack
