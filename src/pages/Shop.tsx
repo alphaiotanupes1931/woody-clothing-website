@@ -15,11 +15,18 @@ const Shop = () => {
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
 
-  const [activeFilter, setActiveFilter] = useState(categoryParam || "All");
+  // Map individual category params to the combined filter
+  const categoryMap: Record<string, string> = {
+    "Headwear": "Headwear & Accessories",
+    "Accessories": "Headwear & Accessories",
+  };
+  const mappedCategory = categoryParam ? (categoryMap[categoryParam] || categoryParam) : "All";
+  const [activeFilter, setActiveFilter] = useState(mappedCategory);
 
   useEffect(() => {
-    if (categoryParam && categories.includes(categoryParam)) {
-      setActiveFilter(categoryParam);
+    const mapped = categoryParam ? (categoryMap[categoryParam] || categoryParam) : null;
+    if (mapped && categories.includes(mapped)) {
+      setActiveFilter(mapped);
     }
   }, [categoryParam]);
 
