@@ -13,6 +13,7 @@ import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front
 import lifestyleKdiamondFront2 from "@/assets/lifestyle/lifestyle-kdiamond-front-2.jpg";
 import lifestyleKdiamondChest from "@/assets/lifestyle/lifestyle-kdiamond-chest.jpg";
 import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
+import lifestyle95thFront from "@/assets/lifestyle/lifestyle-95th-front.jpg";
 import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
 import lifestyleAi95 from "@/assets/lifestyle/lifestyle-ai95.jpg";
 
@@ -71,7 +72,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTeeCorner,
-    images: [kreamTeeCorner],
+    images: [kreamTeeCorner, lifestyle95thFront],
     name: '95th ANNIVERSARY "KREAM" Tee',
     price: "$31.00",
     category: "Tees",
