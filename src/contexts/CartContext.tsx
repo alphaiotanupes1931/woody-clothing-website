@@ -72,7 +72,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   const cartTotal = items
-    .reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0)
+    .reduce((sum, i) => {
+      const unitPrice = parsePrice(i.price);
+      // Socks: 3 for $20 deal
+      if (i.id.startsWith("kream-k-diamond-socks")) {
+        const bundlesOf3 = Math.floor(i.quantity / 3);
+        const remainder = i.quantity % 3;
+        return sum + bundlesOf3 * 20 + remainder * unitPrice;
+      }
+      return sum + unitPrice * i.quantity;
+    }, 0)
     .toFixed(2);
 
   return (
