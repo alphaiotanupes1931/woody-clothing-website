@@ -6,9 +6,13 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
+import { Link } from "react-router-dom";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
-
+import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
+import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
+import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
+import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
 
 const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hats = allProducts.filter((p) => p.category === "Headwear" && !p.registrationOnly);
@@ -53,6 +57,34 @@ const Index = () => {
         </FadeIn>
 
         <ProductCarousel title="Hats" products={hats} />
+
+        {/* Lifestyle Lookbook */}
+        <FadeIn>
+          <section className="px-4 md:px-14 py-10 md:py-16">
+            <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
+              THE LOOKBOOK
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+              <Link to="/product/k-diamond-outline-tee-kream" className="group relative aspect-[3/4] overflow-hidden col-span-1 md:row-span-2 md:col-span-2">
+                <img src={lifestyleKdiamondFront1} alt="K-Diamond Tee lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+              <Link to="/product/krimson-quarter-zip-sweater" className="group relative aspect-[3/4] overflow-hidden">
+                <img src={lifestyleQuarterzip} alt="Quarter-Zip lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+              <Link to="/product/achievers-kream-tee" className="group relative aspect-[3/4] overflow-hidden">
+                <img src={lifestyleAchievers} alt="Achievers Tee lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+              <Link to="/product/95th-anniversary-kream-tee" className="group relative aspect-[3/4] overflow-hidden col-span-2">
+                <img src={lifestyle95thBack} alt="95th Anniversary back" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </Link>
+            </div>
+          </section>
+        </FadeIn>
+
         <ProductCarousel title="Tops" products={tops} />
         <ProductCarousel title="Accessories" products={accessories} />
 

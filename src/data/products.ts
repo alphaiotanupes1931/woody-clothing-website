@@ -7,6 +7,15 @@ import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
 import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
 import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
 
+// Lifestyle shots
+import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
+import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
+import lifestyleKdiamondFront2 from "@/assets/lifestyle/lifestyle-kdiamond-front-2.jpg";
+import lifestyleKdiamondChest from "@/assets/lifestyle/lifestyle-kdiamond-chest.jpg";
+import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
+import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
+import lifestyleAi95 from "@/assets/lifestyle/lifestyle-ai95.jpg";
+
 // Polos
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
@@ -53,6 +62,7 @@ const rawProducts: Omit<Product, "id">[] = [
   // Tees
   {
     image: kreamTeeAchievers,
+    images: [kreamTeeAchievers, lifestyleAchievers],
     name: '"Achievers" KREAM Tee',
     price: "$31.00",
     category: "Tees",
@@ -61,7 +71,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTeeCorner,
-    images: [kreamTeeCorner, tee95thBack],
+    images: [kreamTeeCorner, tee95thBack, lifestyle95thBack],
     name: '95th ANNIVERSARY "KREAM" Tee',
     price: "$31.00",
     category: "Tees",
@@ -70,6 +80,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTee1,
+    images: [kreamTee1, lifestyleKdiamondFront1, lifestyleKdiamondFront2, lifestyleKdiamondChest],
     name: "K-Diamond Outline Tee — Kream",
     price: "$31.00",
     category: "Tees",
@@ -78,6 +89,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTeeAi95,
+    images: [kreamTeeAi95, lifestyleAi95],
     name: "AI 95th Large Logo Tee",
     price: "$31.00",
     category: "Tees",
@@ -164,6 +176,7 @@ const rawProducts: Omit<Product, "id">[] = [
   // Outerwear
   {
     image: ktrZip,
+    images: [ktrZip, lifestyleQuarterzip],
     name: "KRIMSON Quarter-Zip Sweater",
     price: "$50.00",
     category: "Outerwear",
