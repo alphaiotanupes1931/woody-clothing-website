@@ -1,29 +1,51 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import heroImage from "@/assets/hero-quarterzip.jpg";
 
 const HeroSection = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.bottom > 0) {
+        setScrollY(window.scrollY);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <section className="relative w-full h-[100svh] md:h-[90vh] overflow-hidden bg-foreground">
+    <section ref={sectionRef} className="relative w-full h-[100svh] md:h-[90vh] overflow-hidden bg-foreground">
       {!imageLoaded && (
         <div className="absolute inset-0 bg-foreground animate-pulse" />
       )}
 
-      {/* Model image — centered with dark overlay */}
+      {/* Model image with parallax */}
       <img
         src={heroImage}
         alt="KRIMSON Quarter-Zip Sweater"
-        className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700"
+        className="absolute inset-0 w-full h-[120%] object-cover object-top transition-opacity duration-700 will-change-transform"
         style={{
           opacity: imageLoaded ? 1 : 0,
           filter: "brightness(0.55)",
+          transform: `translateY(${scrollY * 0.3}px)`,
         }}
         onLoad={() => setImageLoaded(true)}
       />
 
-      <div className="relative z-10 flex flex-col justify-end h-full p-6 pb-12 md:p-14 lg:p-20">
+      {/* Text fades out on scroll */}
+      <div
+        className="relative z-10 flex flex-col justify-end h-full p-6 pb-12 md:p-14 lg:p-20 will-change-transform"
+        style={{
+          opacity: Math.max(0, 1 - scrollY / 400),
+          transform: `translateY(${scrollY * 0.15}px)`,
+        }}
+      >
         <h1 className="font-display text-[14vw] md:text-[7vw] lg:text-[5.5vw] leading-none tracking-wide text-primary-foreground opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.2s_forwards]">
           NEW ARRIVALS
         </h1>
