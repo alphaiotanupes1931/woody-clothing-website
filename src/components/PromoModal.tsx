@@ -82,7 +82,7 @@ const PromoModal = () => {
     if (now < PROMO_START || now > PROMO_END) return;
     if (sessionStorage.getItem("promo-dismissed")) return;
 
-    const timer = setTimeout(() => setShow(true), 2000);
+    const timer = setTimeout(() => setShow(true), 8000);
     return () => clearTimeout(timer);
   }, []);
 
