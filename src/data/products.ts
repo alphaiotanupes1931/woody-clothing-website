@@ -81,7 +81,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: kreamTee1,
     images: [kreamTee1, lifestyleKdiamondFront1, lifestyleKdiamondFront2, lifestyleKdiamondChest],
-    name: "K-Diamond Outline Tee — Kream",
+    name: "K-Diamond Outline Tee, Kream",
     price: "$31.00",
     category: "Tees",
     description:
@@ -94,7 +94,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Kream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest — \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
+      "Kream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest. \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
   },
   // Polos (dry-fit only)
   {
@@ -149,7 +149,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "one-size",
     description:
-      "Ribbed-knit skully beanie in krimson with the K-Diamond logo embroidered at the cuff. Soft acrylic blend that stretches to fit. Fold the cuff up or pull it down for a slouch fit — works either way. Essential cold-weather gear.",
+      "Ribbed-knit skully beanie in krimson with the K-Diamond logo embroidered at the cuff. Soft acrylic blend that stretches to fit. Fold the cuff up or pull it down for a slouch fit. Essential cold-weather gear.",
   },
   {
     image: flexKrimsonKap,

@@ -47,7 +47,7 @@ const HeroSection = () => {
         }}
       >
         <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/40 mb-2 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.1s_forwards]">
-          Est. 1931 — Alpha Iota
+          Est. 1931 · Alpha Iota
         </p>
         <h1 className="font-display text-[14vw] md:text-[7vw] lg:text-[5.5vw] leading-none tracking-wide text-primary-foreground opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.2s_forwards]">
           THE AI COLLECTION

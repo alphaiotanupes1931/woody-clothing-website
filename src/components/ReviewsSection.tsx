@@ -93,7 +93,7 @@ const ReviewsSection = () => {
               {review.text}
             </p>
             <p className="text-xs font-semibold text-foreground">
-              — {review.name}
+              – {review.name}
             </p>
           </div>
         ))}

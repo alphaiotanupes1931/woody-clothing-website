@@ -51,7 +51,7 @@ const OrderConfirmation = () => {
 
             <div className="border-t border-border mt-5 pt-5">
               <p className="text-xs text-muted-foreground leading-relaxed">
-                A confirmation email will be sent with your tracking information once your order ships. Built for Achievers — thank you for your support.
+                A confirmation email will be sent with your tracking information once your order ships. Built for Achievers. Thank you for your support.
               </p>
             </div>
           </div>
