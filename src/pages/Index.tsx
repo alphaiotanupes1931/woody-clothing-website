@@ -77,10 +77,10 @@ const Index = () => {
                 <img src={lifestyleAchievers} alt="Achievers Tee lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
-              <Link to="/product/95th-anniversary-kream-tee" className="group relative aspect-[3/4] overflow-hidden col-span-2">
+              <a href={REGISTRATION_URL} target="_blank" rel="noopener noreferrer" className="group relative aspect-[3/4] overflow-hidden col-span-2">
                 <img src={lifestyle95thBack} alt="95th Anniversary back" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Link>
+              </a>
             </div>
           </section>
         </FadeIn>
