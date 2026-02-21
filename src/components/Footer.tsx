@@ -65,7 +65,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-xs font-semibold tracking-[0.15em] uppercase text-foreground hover:text-muted-foreground transition-colors underline underline-offset-4"
           >
-            Register Here →
+            Register Here
           </a>
         </div>
       </div>
