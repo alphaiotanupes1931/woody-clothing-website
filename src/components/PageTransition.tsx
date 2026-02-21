@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState, useRef, ReactNode } from "react";
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -8,28 +8,38 @@ interface PageTransitionProps {
 const PageTransition = ({ children }: PageTransitionProps) => {
   const location = useLocation();
   const [displayChildren, setDisplayChildren] = useState(children);
-  const [transitionStage, setTransitionStage] = useState<"enter" | "exit">("enter");
+  const [phase, setPhase] = useState<"visible" | "fading-out" | "fading-in">("visible");
+  const prevKey = useRef(location.key);
 
   useEffect(() => {
-    if (children !== displayChildren) {
-      setTransitionStage("exit");
+    if (location.key !== prevKey.current) {
+      prevKey.current = location.key;
+      setPhase("fading-out");
     }
-  }, [children, displayChildren]);
+  }, [location.key, children]);
+
+  const handleTransitionEnd = () => {
+    if (phase === "fading-out") {
+      setDisplayChildren(children);
+      setPhase("fading-in");
+      // Force reflow then transition in
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setPhase("visible");
+        });
+      });
+    }
+  };
+
+  const style: React.CSSProperties =
+    phase === "fading-out"
+      ? { opacity: 0, transform: "scale(0.98)", transition: "opacity 250ms ease-out, transform 250ms ease-out" }
+      : phase === "fading-in"
+      ? { opacity: 0, transform: "scale(1.01)", transition: "none" }
+      : { opacity: 1, transform: "scale(1)", transition: "opacity 350ms ease-out, transform 350ms ease-out" };
 
   return (
-    <div
-      className={`transition-all duration-300 ease-out ${
-        transitionStage === "enter"
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-2"
-      }`}
-      onTransitionEnd={() => {
-        if (transitionStage === "exit") {
-          setDisplayChildren(children);
-          setTransitionStage("enter");
-        }
-      }}
-    >
+    <div style={style} onTransitionEnd={handleTransitionEnd}>
       {displayChildren}
     </div>
   );
