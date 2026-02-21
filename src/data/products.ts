@@ -5,6 +5,7 @@ import tee95thBack from "@/assets/products/tee-95th-back.jpg";
 import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
 import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
 import kreamTee2 from "@/assets/products/kream-tee-2.jpg";
+import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
 
 // Polos
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
@@ -80,6 +81,14 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Tees",
     description:
       "The filled version of our signature K-Diamond emblem — solid krimson print on cream cotton. Same premium construction as the outline version with reinforced shoulder seams and a tag-free neck label for comfort.",
+  },
+  {
+    image: kreamTeeAi95,
+    name: "AI 95th Large Logo Tee",
+    price: "$31.00",
+    category: "Tees",
+    description:
+      "Cream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest — \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
   },
   // Polos (dry-fit only)
   {
