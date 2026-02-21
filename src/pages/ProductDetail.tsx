@@ -33,7 +33,7 @@ const AccordionItem = ({ title, children, defaultOpen = false }: { title: string
 };
 
 
-const apparelSizes = ["S", "M", "L", "XL", "2XL"];
+const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
 const hatSizes = ["6 7/8", "7", "7 1/8", "7 1/4", "7 3/8", "7 1/2", "7 5/8"];
 const oneSize = ["One Size"];
 
