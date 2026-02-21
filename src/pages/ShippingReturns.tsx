@@ -19,7 +19,7 @@ const ShippingReturns = () => {
             </h1>
           </TextReveal>
           <p className="text-sm text-muted-foreground text-center mb-12">
-            Alpha Iota 95th Anniversary Commemorative Collection — Please review all policies carefully before placing your order.
+            Alpha Iota 95th Anniversary Commemorative Collection. Please review all policies carefully before placing your order.
           </p>
 
           <div className="space-y-12">

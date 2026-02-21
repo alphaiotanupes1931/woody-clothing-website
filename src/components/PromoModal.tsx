@@ -33,7 +33,7 @@ const bundleItems: BundleItem[] = [
   { name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap },
   { name: '"Achievers" KREAM Tee', image: kreamTeeAchievers, needsSize: true, sizeKey: "tee" },
   { name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner, needsSize: true, sizeKey: "tee" },
-  { name: "K-Diamond Outline Tee — Kream", image: kreamTee1, needsSize: true, sizeKey: "tee" },
+  { name: "K-Diamond Outline Tee, Kream", image: kreamTee1, needsSize: true, sizeKey: "tee" },
   { name: "AI 95th Large Logo Tee", image: kreamTeeAi95, needsSize: true, sizeKey: "tee" },
   { name: "KRIMSON Quarter-Zip Sweater", image: ktrZip, needsSize: true, sizeKey: "zip" },
   { name: "KRIMSON Dry-Fit Polo", image: dryFitPolo, needsSize: true, sizeKey: "polo" },
@@ -124,7 +124,7 @@ const PromoModal = () => {
       // Set the first item's price to the bundle total so Stripe shows $199
       checkoutItems[0].price = BUNDLE_PRICE;
       // Rename first item to reflect the bundle
-      checkoutItems[0].name = `95th Anniversary Complete Pack — $${BUNDLE_PRICE}`;
+      checkoutItems[0].name = `95th Anniversary Complete Pack · $${BUNDLE_PRICE}`;
 
       // Send as a single bundle line item for cleaner checkout
       const { data, error } = await supabase.functions.invoke("create-checkout", {
@@ -256,7 +256,7 @@ const PromoModal = () => {
                     Processing...
                   </>
                 ) : (
-                  allSizesSelected ? "Checkout — $199" : "Select Sizes"
+                  allSizesSelected ? "Checkout · $199" : "Select Sizes"
                 )}
               </button>
             </div>

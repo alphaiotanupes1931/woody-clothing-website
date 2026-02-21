@@ -188,7 +188,7 @@ const ProductDetail = () => {
                     <div className="mb-6">
                       <div className="flex items-center justify-between mb-3">
                         <p className="text-xs font-semibold tracking-[0.15em] uppercase text-foreground">
-                          Size {selectedSize && `— ${selectedSize}`}
+                          Size {selectedSize && `: ${selectedSize}`}
                         </p>
                         <button
                           onClick={() => setSizeGuideOpen(true)}
@@ -253,7 +253,7 @@ const ProductDetail = () => {
                   </button>
 
                   <p className="text-[10px] tracking-wider uppercase text-muted-foreground text-center mt-3">
-                    Pre-order — Ships after March 14
+                    Pre-order · Ships after March 14
                   </p>
                 </>
               )}

@@ -171,7 +171,7 @@ const Index = () => {
               <FadeIn delay={200}>
                 <div className="flex flex-col justify-center px-2 md:px-10">
                   <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
-                    The AI Collection — Featured
+                    The AI Collection · Featured
                   </p>
                   <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground mb-3 leading-[0.9]">
                     KRIMSON K-DIAMOND
@@ -185,7 +185,7 @@ const Index = () => {
                     to="/product/krimson-k-diamond-fitted-hat"
                     className="inline-block w-fit bg-foreground text-background px-8 py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300"
                   >
-                    Shop Now — $40
+                    Shop Now · $40
                   </Link>
                 </div>
               </FadeIn>
