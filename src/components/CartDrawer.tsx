@@ -15,14 +15,26 @@ const CartDrawer = () => {
     setLoading(true);
     try {
       const checkoutItems = items.map((item) => {
-        // Build a full public URL for the image so Stripe can display it
         const imageUrl = item.image.startsWith("http")
           ? item.image
           : `${window.location.origin}${item.image}`;
+        const unitPrice = parseFloat(item.price.replace(/[^0-9.]/g, ""));
+        
+        // Socks: 3 for $20 deal
+        let finalPrice = unitPrice;
+        let finalQty = item.quantity;
+        if (item.id.startsWith("kream-k-diamond-socks") && item.quantity >= 3) {
+          const bundlesOf3 = Math.floor(item.quantity / 3);
+          const remainder = item.quantity % 3;
+          // Send as effective per-unit price
+          const totalSocksPrice = bundlesOf3 * 20 + remainder * unitPrice;
+          finalPrice = parseFloat((totalSocksPrice / item.quantity).toFixed(2));
+        }
+        
         return {
           name: item.name,
-          price: parseFloat(item.price.replace(/[^0-9.]/g, "")),
-          quantity: item.quantity,
+          price: finalPrice,
+          quantity: finalQty,
           image: imageUrl,
         };
       });
@@ -96,9 +108,15 @@ const CartDrawer = () => {
                         Size: {item.size}
                       </p>
                     )}
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {item.price}
-                    </p>
+                    {item.id.startsWith("kream-k-diamond-socks") && item.quantity >= 3 ? (
+                      <p className="text-xs text-foreground font-medium mt-1">
+                        3 for $20 <span className="text-muted-foreground line-through ml-1">${(parseFloat(item.price.replace(/[^0-9.]/g, "")) * item.quantity).toFixed(2)}</span>
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {item.price}
+                      </p>
+                    )}
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 border border-border">
