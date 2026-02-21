@@ -14,6 +14,7 @@ import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
 import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
 import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
+import lifestyleKdiamondFront3 from "@/assets/lifestyle/lifestyle-kdiamond-front-3.jpg";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
@@ -113,7 +114,7 @@ const Index = () => {
             <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
               THE LOOKBOOK
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
               <FadeIn delay={0} className="col-span-1 md:row-span-2 md:col-span-2">
                 <Link to="/product/k-diamond-outline-tee-kream" className="group relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyleKdiamondFront1} alt="K-Diamond Tee lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
@@ -127,12 +128,18 @@ const Index = () => {
                 </Link>
               </FadeIn>
               <FadeIn delay={200}>
+                <Link to="/product/k-diamond-outline-tee-kream" className="group relative block aspect-[3/4] overflow-hidden">
+                  <img src={lifestyleKdiamondFront3} alt="K-Diamond Tee lifestyle front" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </Link>
+              </FadeIn>
+              <FadeIn delay={280}>
                 <Link to="/product/achievers-kream-tee" className="group relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyleAchievers} alt="Achievers Tee lifestyle" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
               </FadeIn>
-              <FadeIn delay={300} className="col-span-2">
+              <FadeIn delay={360} className="col-span-2 md:col-span-1">
                 <a href={REGISTRATION_URL} target="_blank" rel="noopener noreferrer" className="group relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyle95thBack} alt="95th Anniversary back" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
