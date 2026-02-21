@@ -80,7 +80,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: kreamTee1,
-    images: [kreamTee1, lifestyleKdiamondFront1, lifestyleKdiamondFront2, lifestyleKdiamondChest],
+    images: [kreamTee1, lifestyleKdiamondFront2],
     name: "K-Diamond Outline Tee, Kream",
     price: "$31.00",
     category: "Tees",
