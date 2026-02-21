@@ -56,7 +56,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Heavyweight 6.5 oz cotton tee featuring the iconic \"Achievers of the Impossible\" graphic across the back. Relaxed boxy fit with ribbed crew neck. Pre-shrunk and garment-dyed in cream for a lived-in feel from day one.",
+      "Heavyweight 6.5 oz cotton tee featuring the iconic \"Achievers of the Impossible\" graphic across the back. Relaxed boxy fit with ribbed crew neck. Pre-shrunk and garment-dyed in kream for a lived-in feel from day one.",
   },
   {
     image: kreamTeeCorner,
@@ -65,23 +65,23 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Limited-edition tee celebrating 95 years of Alpha Iota, 1931–2026. Front features the commemorative crest in krimson on a cream base. Bold anniversary graphic spanning the full back panel. Heavyweight 7 oz cotton, boxy cut, screen-printed with water-based inks for a soft hand feel.",
+      "Limited-edition tee celebrating 95 years of Alpha Iota, 1931–2026. Front features the commemorative crest in krimson on a kream base. Bold anniversary graphic spanning the full back panel. Heavyweight 7 oz cotton, boxy cut, screen-printed with water-based inks for a soft hand feel.",
   },
   {
     image: kreamTee1,
-    name: "K-Diamond Outline Tee — Cream",
+    name: "K-Diamond Outline Tee — Kream",
     price: "$31.00",
     category: "Tees",
     description:
-      "Minimalist take on the K-Diamond logo with a clean outline print on the left chest. 100% ring-spun cotton in cream. Relaxed fit with a slightly longer body for easy layering under flannels or jackets.",
+      "Minimalist take on the K-Diamond logo with a clean outline print on the left chest. 100% ring-spun cotton in kream. Relaxed fit with a slightly longer body for easy layering under flannels or jackets.",
   },
   {
     image: kreamTee2,
-    name: "K-Diamond Filled Tee — Cream",
+    name: "K-Diamond Filled Tee — Kream",
     price: "$31.00",
     category: "Tees",
     description:
-      "The filled version of our signature K-Diamond emblem — solid krimson print on cream cotton. Same premium construction as the outline version with reinforced shoulder seams and a tag-free neck label for comfort.",
+      "The filled version of our signature K-Diamond emblem — solid krimson print on kream cotton. Same premium construction as the outline version with reinforced shoulder seams and a tag-free neck label for comfort.",
   },
   {
     image: kreamTeeAi95,
@@ -89,7 +89,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Cream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest — \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
+      "Kream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest — \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
   },
   // Polos (dry-fit only)
   {
@@ -106,7 +106,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$45.00",
     category: "Polos",
     description:
-      "Built for movement. Moisture-wicking dry-fit fabric in cream with four-way stretch and UPF 30 sun protection. K-Diamond logo heat-pressed on the chest. Ideal for the golf course, cookouts, or anytime you need to look polished while staying cool.",
+      "Built for movement. Moisture-wicking dry-fit fabric in kream with four-way stretch and UPF 30 sun protection. K-Diamond logo heat-pressed on the chest. Ideal for the golf course, cookouts, or anytime you need to look polished while staying cool.",
   },
   // Headwear
   {
@@ -145,9 +145,9 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "one-size",
     description:
-      "FlexFit stretch-fit cap in krimson with cream K-Diamond patch. Comfortable stretch-band construction. Mid-profile crown with a pre-curved brim. Easy to wear, hard to take off.",
+      "FlexFit stretch-fit cap in krimson with kream K-Diamond patch. Comfortable stretch-band construction. Mid-profile crown with a pre-curved brim. Easy to wear, hard to take off.",
   },
-  // Cream Hat — Registration Exclusive
+  // Kream Hat — Registration Exclusive
   {
     image: flexKreamKap,
     name: "KREAM 95th Anniversary Hat",
@@ -156,9 +156,9 @@ const rawProducts: Omit<Product, "id">[] = [
     sizeType: "one-size",
     registrationOnly: true,
     registrationNote:
-      "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe cream commemorative hat is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
+      "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe kream commemorative hat is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
     description:
-      "Registration-exclusive commemorative hat in cream with the K-Diamond patch. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
+      "Registration-exclusive commemorative hat in kream with the K-Diamond patch. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
   },
   // Outerwear
   {
@@ -177,7 +177,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Accessories",
     sizeType: "one-size",
     description:
-      "Crew-length socks in cream with the K-Diamond logo knitted at the calf. Cushioned sole, reinforced heel and toe, and a ribbed cuff that stays up all day. Fits sizes 8–13. The finishing touch to any fit. 3 for $20.",
+      "Crew-length socks in kream with the K-Diamond logo knitted at the calf. Cushioned sole, reinforced heel and toe, and a ribbed cuff that stays up all day. Fits sizes 8–13. The finishing touch to any fit. 3 for $20.",
   },
 ];
 
