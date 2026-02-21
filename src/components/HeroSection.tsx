@@ -46,6 +46,9 @@ const HeroSection = () => {
           transform: `translateY(${scrollY * 0.15}px)`,
         }}
       >
+        <p className="text-[10px] md:text-xs tracking-[0.35em] uppercase text-primary-foreground/50 mb-2 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.1s_forwards]">
+          The AI Collection
+        </p>
         <h1 className="font-display text-[14vw] md:text-[7vw] lg:text-[5.5vw] leading-none tracking-wide text-primary-foreground opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.2s_forwards]">
           NEW ARRIVALS
         </h1>

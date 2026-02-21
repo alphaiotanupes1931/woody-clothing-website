@@ -49,7 +49,10 @@ const Footer = () => {
                 <Instagram size={18} />
               </a>
             </div>
-            <p className="text-xs text-muted-foreground mt-6 leading-relaxed">
+            <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground mt-6 leading-relaxed">
+              The AI Collection
+            </p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Built for Achievers.
             </p>
           </div>
