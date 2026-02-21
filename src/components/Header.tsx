@@ -74,23 +74,23 @@ const Header = ({ solid = false }: HeaderProps) => {
         className="fixed top-[28px] left-0 right-0 z-50 transition-all duration-300 bg-background border-b border-border/30 text-foreground"
       >
         <div className="flex items-center justify-between px-4 md:px-6 py-2.5 md:py-3">
-          <a href="/" className="flex-shrink-0 active:opacity-70 transition-opacity">
+          <Link to="/" className="flex-shrink-0 active:opacity-70 transition-opacity">
             <img
               src={logo}
               alt="AI Nupes"
               className="h-7 md:h-10 transition-all duration-300"
             />
-          </a>
+          </Link>
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -139,14 +139,14 @@ const Header = ({ solid = false }: HeaderProps) => {
       >
         <nav className="flex flex-col items-start px-6 pt-24 gap-1">
           {navLinks.map((item) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               onClick={() => setMenuOpen(false)}
               className="text-2xl font-display tracking-wider uppercase text-foreground hover:text-muted-foreground active:text-muted-foreground transition-colors flex items-center gap-2 py-2 w-full"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
