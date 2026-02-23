@@ -152,7 +152,7 @@ const CartDrawer = () => {
         )}
 
         {items.length > 0 && (
-          <div className="px-6 py-5 border-t border-border space-y-3">
+          <div className="px-6 py-5 border-t border-border space-y-3 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))]">
             {/* Free shipping banner */}
             <div className="text-center text-[10px] tracking-wider uppercase text-muted-foreground bg-secondary py-2">
               {parseFloat(cartTotal) >= 100
@@ -166,7 +166,7 @@ const CartDrawer = () => {
             <button
               onClick={handleCheckout}
               disabled={loading}
-              className="w-full bg-foreground text-background py-4 md:py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] active:bg-foreground/80 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-safe"
+              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] active:bg-foreground/80 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
