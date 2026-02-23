@@ -94,7 +94,7 @@ const ProductDetail = () => {
         size: isSingleSize ? undefined : selectedSize,
       });
     }
-    toast.success(`${product.name} added to cart`);
+    // Cart drawer opens automatically, no toast needed
     setQuantity(1);
   };
 

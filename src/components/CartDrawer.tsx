@@ -65,7 +65,7 @@ const CartDrawer = () => {
         className="fixed inset-0 z-[100] bg-foreground/40 backdrop-blur-sm"
         onClick={() => setCartOpen(false)}
       />
-      <div className="fixed top-0 right-0 z-[100] h-[100dvh] w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right">
+      <div className="fixed top-0 right-0 z-[100] h-full w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right" style={{ height: '100dvh', maxHeight: '-webkit-fill-available' }}>
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
             Cart ({totalItems})
