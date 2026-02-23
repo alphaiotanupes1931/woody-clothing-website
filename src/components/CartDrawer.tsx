@@ -65,7 +65,7 @@ const CartDrawer = () => {
         className="fixed inset-0 z-[100] bg-foreground/40 backdrop-blur-sm"
         onClick={() => setCartOpen(false)}
       />
-      <div className="fixed top-0 right-0 z-[100] h-full w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right" style={{ height: '100dvh', maxHeight: '-webkit-fill-available' }}>
+      <div className="fixed top-0 right-0 z-[100] w-full max-w-md bg-background border-l border-border shadow-2xl flex flex-col animate-slide-in-right" style={{ height: '100dvh' }}>
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <h2 className="text-sm font-bold tracking-[0.2em] uppercase">
             Cart ({totalItems})
@@ -88,7 +88,7 @@ const CartDrawer = () => {
             </Link>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
+          <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4 space-y-5">
             {items.map((item) => (
               <div key={item.id} className="flex gap-4 cart-item-enter">
                 <div className="w-20 h-24 bg-secondary flex-shrink-0 overflow-hidden">
