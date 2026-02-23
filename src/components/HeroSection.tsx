@@ -101,7 +101,7 @@ const HeroSection = () => {
   const slide = slides[current];
 
   return (
-    <section ref={sectionRef} className="relative w-full h-[100svh] overflow-hidden bg-foreground">
+    <section ref={sectionRef} className="relative w-full h-[100svh] overflow-hidden bg-foreground max-w-[100vw]">
       {/* All images stacked — crossfade via opacity */}
       {slides.map((s, i) => (
         <img

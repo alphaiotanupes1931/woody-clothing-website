@@ -74,7 +74,7 @@ const TiltImage = ({ src, alt }: { src: string; alt: string }) => {
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <AnnouncementBar />
       <Header />
 

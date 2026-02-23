@@ -41,7 +41,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
     <Link
       ref={cardRef}
       to={`/product/${productId}`}
-      className="group flex-shrink-0 w-[44vw] max-w-[180px] md:w-[260px] md:max-w-none cursor-pointer [.grid_&]:w-full [.grid_&]:max-w-none"
+      className="group flex-shrink-0 w-[42vw] max-w-[170px] md:w-[260px] md:max-w-none cursor-pointer [.grid_&]:w-full [.grid_&]:max-w-none snap-start"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -75,8 +75,8 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
               setTimeout(() => setJustHearted(false), 500);
             }
           }}
-          className={`absolute top-3 right-3 p-1.5 rounded-full bg-background/80 backdrop-blur-sm transition-all duration-300 z-10 ${
-            hearted ? "text-red-500 scale-110" : "text-foreground/60 hover:text-foreground opacity-0 group-hover:opacity-100"
+          className={`absolute top-2 right-2 md:top-3 md:right-3 p-2 md:p-1.5 rounded-full bg-background/80 backdrop-blur-sm transition-all duration-300 z-10 ${
+            hearted ? "text-red-500 scale-110" : "text-foreground/60 hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
           }`}
           style={justHearted ? { animation: "heartPulse 0.4s ease-out" } : undefined}
           aria-label="Wishlist"
