@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import React from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -22,55 +22,7 @@ const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" || p.category === "Accessories") && !p.registrationOnly);
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
 
-const TiltImage = ({ src, alt }: { src: string; alt: string }) => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glare, setGlare] = useState({ x: 50, y: 50 });
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: y * -20, y: x * 20 });
-    setGlare({ x: (x + 0.5) * 100, y: (y + 0.5) * 100 });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 });
-    setGlare({ x: 50, y: 50 });
-  }, []);
-
-  return (
-    <div
-      className="w-full md:w-1/2 h-[260px] md:h-full flex items-center justify-center p-6 md:p-10 cursor-grab"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div
-        className="relative max-h-full max-w-full"
-        style={{
-          transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x !== 0 || tilt.y !== 0 ? 1.05 : 1})`,
-          transition: tilt.x === 0 && tilt.y === 0
-            ? "transform 0.6s cubic-bezier(0.16,1,0.3,1)"
-            : "transform 0.1s ease-out",
-        }}
-      >
-        <img
-          src={src}
-          alt={alt}
-          className="max-h-[200px] md:max-h-[420px] object-contain drop-shadow-2xl"
-        />
-        <div
-          className="absolute inset-0 pointer-events-none rounded-sm"
-          style={{
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.15) 0%, transparent 60%)`,
-            opacity: tilt.x !== 0 || tilt.y !== 0 ? 1 : 0,
-            transition: "opacity 0.3s",
-          }}
-        />
-      </div>
-    </div>
-  );
-};
 
 const Index = () => {
   return (
@@ -85,7 +37,13 @@ const Index = () => {
 
         <FadeIn>
           <section className="relative w-full min-h-[60vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
-            <TiltImage src={tee95thBackNoBg} alt="95th Anniversary Tee" />
+            <div className="w-full md:w-1/2 h-[260px] md:h-full flex items-center justify-center p-6 md:p-10">
+              <img
+                src={tee95thBackNoBg}
+                alt="95th Anniversary Tee"
+                className="max-h-[200px] md:max-h-[420px] object-contain drop-shadow-2xl"
+              />
+            </div>
             <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-10 md:pr-20 md:pb-0">
               <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
                 95TH ANNIVERSARY
@@ -120,22 +78,22 @@ const Index = () => {
                   <img src={lifestyleKdiamondFront1} alt="K-Diamond Tee lifestyle" className="w-full h-full object-cover object-top" />
                 </div>
               </FadeIn>
-              <FadeIn delay={120}>
+              <FadeIn delay={150}>
                 <div className="relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyleQuarterzip} alt="Quarter-Zip lifestyle" className="w-full h-full object-cover object-top" />
                 </div>
               </FadeIn>
-              <FadeIn delay={200}>
+              <FadeIn delay={300}>
                 <div className="relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyleKdiamondFront3} alt="K-Diamond Tee lifestyle front" className="w-full h-full object-cover object-top" />
                 </div>
               </FadeIn>
-              <FadeIn delay={280}>
+              <FadeIn delay={450}>
                 <div className="relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyleAchievers} alt="Achievers Tee lifestyle" className="w-full h-full object-cover object-top" />
                 </div>
               </FadeIn>
-              <FadeIn delay={360} className="col-span-2 md:col-span-1">
+              <FadeIn delay={600} className="col-span-2 md:col-span-1">
                 <div className="relative block aspect-[3/4] overflow-hidden">
                   <img src={lifestyle95thBack} alt="95th Anniversary back" className="w-full h-full object-cover object-top" />
                 </div>
