@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -22,6 +22,61 @@ const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" || p.category === "Accessories") && !p.registrationOnly);
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
 
+const lookbookImages = [
+  { src: lifestyleKdiamondFront1, alt: "K-Diamond Tee lifestyle" },
+  { src: lifestyleQuarterzip, alt: "Quarter-Zip lifestyle" },
+  { src: lifestyleKdiamondFront3, alt: "K-Diamond Tee lifestyle front" },
+  { src: lifestyleAchievers, alt: "Achievers Tee lifestyle" },
+  { src: lifestyle95thBack, alt: "95th Anniversary back" },
+];
+
+const LookbookSlideshow = () => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % lookbookImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <FadeIn>
+      <section className="px-4 md:px-14 py-10 md:py-16">
+        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-1">
+          The AI Collection
+        </p>
+        <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
+          THE LOOKBOOK
+        </h2>
+        <div className="relative aspect-[3/4] md:aspect-[16/9] overflow-hidden bg-secondary">
+          {lookbookImages.map((img, i) => (
+            <img
+              key={i}
+              src={img.src}
+              alt={img.alt}
+              className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
+              style={{ opacity: i === current ? 1 : 0 }}
+            />
+          ))}
+        </div>
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-4">
+          {lookbookImages.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                i === current ? "bg-foreground scale-125" : "bg-muted-foreground/30"
+              }`}
+              aria-label={`View image ${i + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+    </FadeIn>
+  );
+};
 
 
 const Index = () => {
@@ -63,44 +118,8 @@ const Index = () => {
 
         <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
-        {/* Lifestyle Lookbook */}
-        <FadeIn>
-          <section className="px-4 md:px-14 py-10 md:py-16">
-            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-1">
-              The AI Collection
-            </p>
-            <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
-              THE LOOKBOOK
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
-              <FadeIn delay={0} className="col-span-1 md:row-span-2 md:col-span-2">
-                <div className="relative block aspect-[3/4] overflow-hidden">
-                  <img src={lifestyleKdiamondFront1} alt="K-Diamond Tee lifestyle" className="w-full h-full object-cover object-top" />
-                </div>
-              </FadeIn>
-              <FadeIn delay={150}>
-                <div className="relative block aspect-[3/4] overflow-hidden">
-                  <img src={lifestyleQuarterzip} alt="Quarter-Zip lifestyle" className="w-full h-full object-cover object-top" />
-                </div>
-              </FadeIn>
-              <FadeIn delay={300}>
-                <div className="relative block aspect-[3/4] overflow-hidden">
-                  <img src={lifestyleKdiamondFront3} alt="K-Diamond Tee lifestyle front" className="w-full h-full object-cover object-top" />
-                </div>
-              </FadeIn>
-              <FadeIn delay={450}>
-                <div className="relative block aspect-[3/4] overflow-hidden">
-                  <img src={lifestyleAchievers} alt="Achievers Tee lifestyle" className="w-full h-full object-cover object-top" />
-                </div>
-              </FadeIn>
-              <FadeIn delay={600} className="col-span-2 md:col-span-1">
-                <div className="relative block aspect-[3/4] overflow-hidden">
-                  <img src={lifestyle95thBack} alt="95th Anniversary back" className="w-full h-full object-cover object-top" />
-                </div>
-              </FadeIn>
-            </div>
-          </section>
-        </FadeIn>
+        {/* Lifestyle Lookbook — Slideshow */}
+        <LookbookSlideshow />
 
         <ProductCarousel title="Tops" products={tops} />
 

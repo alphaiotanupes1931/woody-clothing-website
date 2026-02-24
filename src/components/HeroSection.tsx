@@ -114,8 +114,8 @@ const HeroSection = () => {
             objectPosition: s.objectPosition,
             opacity: i === current && imagesLoaded[i] ? 1 : 0,
             filter: "brightness(0.85)",
-            transform: `translateY(${scrollY * 0.25}px) scale(${i === current ? 1.05 : 1})`,
-            transition: `opacity 1.2s ease-in-out, transform 6s ease-out`,
+            transform: `translateY(${scrollY * 0.25}px)`,
+            transition: `opacity 1.2s ease-in-out`,
           }}
         />
       ))}
