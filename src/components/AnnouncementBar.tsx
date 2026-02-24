@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 const messages = [
-  "The AI Collection · New drops available. Shop now →",
-  "Free shipping on orders over $75 →",
-  "95th Anniversary Exclusives · Register to unlock →",
-  "Limited edition fitted hats now available →",
+  "The AI Collection · New drops available. Shop now",
+  "Free shipping on orders over $75",
+  "95th Anniversary Exclusives · Register to unlock",
+  "Limited edition fitted hats now available",
 ];
 
 const AnnouncementBar = () => {
