@@ -132,13 +132,6 @@ const HeroSection = () => {
           transform: `translateY(${scrollY * 0.12}px)`,
         }}
       >
-        {/* Animated subtitle */}
-        <p
-          key={`sub-${current}`}
-          className="text-[10px] md:text-xs tracking-[0.5em] uppercase text-primary-foreground/50 mb-3 opacity-0 animate-[fadeSlideUp_0.5s_ease-out_0.1s_forwards]"
-        >
-          {slide.subtitle}
-        </p>
 
         {/* Headline — large and dramatic */}
         <h1
