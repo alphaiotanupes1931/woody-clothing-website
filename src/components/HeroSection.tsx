@@ -136,7 +136,7 @@ const HeroSection = () => {
         {/* Headline — large and dramatic */}
         <h1
           key={`head-${current}`}
-          className="font-display text-[15vw] md:text-[8vw] lg:text-[6vw] leading-[0.85] tracking-wider text-foreground mb-4 opacity-0 animate-[fadeSlideUp_0.7s_ease-out_0.15s_forwards]"
+          className="font-display text-[15vw] md:text-[8vw] lg:text-[6vw] leading-[0.85] tracking-wider text-primary-foreground mb-4 opacity-0 animate-[fadeSlideUp_0.7s_ease-out_0.15s_forwards]"
         >
           {slide.headline}
         </h1>
@@ -148,7 +148,7 @@ const HeroSection = () => {
         >
           <Link
             to="/shop"
-            className="inline-block border border-foreground/60 text-foreground px-10 py-4 md:px-8 md:py-3.5 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-foreground hover:text-background transition-all duration-500"
+            className="inline-block border border-primary-foreground/60 text-primary-foreground px-10 py-4 md:px-8 md:py-3.5 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-500"
           >
             {slide.cta}
           </Link>
@@ -164,9 +164,9 @@ const HeroSection = () => {
               style={{ width: i === current ? 48 : 24 }}
               aria-label={`Go to slide ${i + 1}`}
             >
-              <div className="absolute inset-0 bg-foreground/25 rounded-full" />
+              <div className="absolute inset-0 bg-primary-foreground/25 rounded-full" />
               <div
-                className="absolute inset-y-0 left-0 bg-foreground rounded-full transition-all duration-100"
+                className="absolute inset-y-0 left-0 bg-primary-foreground rounded-full transition-all duration-100"
                 style={{
                   width: i === current ? `${progress * 100}%` : i < current ? "100%" : "0%",
                 }}
