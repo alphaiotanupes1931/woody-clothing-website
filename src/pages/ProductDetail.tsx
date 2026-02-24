@@ -161,19 +161,19 @@ const ProductDetail = () => {
 
               {product.registrationOnly ? (
                 /* Registration-only product */
-                <div className="space-y-6">
-                  <p className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                <div className="space-y-4 sm:space-y-6">
+                  <p className="text-xs sm:text-sm font-semibold text-foreground uppercase tracking-wider">
                     Registration Exclusive
                   </p>
-                  <div className="border border-border p-5 space-y-4">
+                  <div className="border border-border p-4 sm:p-5 space-y-3 sm:space-y-4">
                     {product.registrationNote?.split("\n\n").map((para, i) => (
-                      <p key={i} className="text-sm text-muted-foreground leading-relaxed">{para}</p>
+                      <p key={i} className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{para}</p>
                     ))}
                     <a
                       href={REGISTRATION_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block bg-foreground text-background px-8 py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-300 hover:tracking-[0.25em]"
+                      className="inline-block w-full sm:w-auto text-center bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-300"
                     >
                       Click Here to Register
                     </a>

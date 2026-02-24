@@ -65,29 +65,29 @@ const Shop = () => {
         {/* Registration Exclusives Section */}
         {registrationProducts.length > 0 && (
           <FadeIn>
-            <section className="px-4 md:px-14 mb-12 md:mb-16">
-              <div className="border border-border p-5 md:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <section className="px-4 md:px-14 mb-10 md:mb-16">
+              <div className="border border-border p-4 sm:p-5 md:p-8">
+                <div className="flex flex-col gap-3 mb-4 sm:mb-6">
                   <div>
-                    <p className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">95th Anniversary</p>
-                    <h2 className="font-display text-2xl md:text-3xl tracking-tight text-foreground">
+                    <p className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">95th Anniversary</p>
+                    <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground">
                       Registration Exclusives
                     </h2>
                   </div>
+                  <p className="text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
+                    These items are exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.
+                  </p>
                   <a
                     href={REGISTRATION_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors self-start"
+                    className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-colors self-start"
                   >
                     Register Now
                     <ExternalLink size={12} strokeWidth={1.5} />
                   </a>
                 </div>
-                <p className="text-sm text-muted-foreground mb-6 max-w-xl leading-relaxed">
-                  These items are exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.
-                </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
                   {registrationProducts.map((product, i) => (
                     <FadeIn key={product.id} delay={i * 80}>
                       <ProductCard
@@ -115,12 +115,12 @@ const Shop = () => {
           </div>
         </FadeIn>
 
-        <div className="px-4 md:px-14 mb-8 md:mb-10 flex gap-2 flex-wrap overflow-x-auto carousel-scroll pb-1">
+        <div className="px-4 md:px-14 mb-6 md:mb-10 flex gap-1.5 sm:gap-2 flex-nowrap overflow-x-auto carousel-scroll pb-1">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`text-[12px] tracking-[0.15em] uppercase font-medium px-4 py-2 border transition-all duration-200 ${
+              className={`whitespace-nowrap text-[11px] sm:text-[12px] tracking-[0.1em] sm:tracking-[0.15em] uppercase font-medium px-3 sm:px-4 py-2 border transition-all duration-200 ${
                 activeFilter === cat
                   ? "bg-foreground text-background border-foreground"
                   : "bg-background text-foreground border-border hover:border-foreground"
