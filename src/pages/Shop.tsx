@@ -6,8 +6,11 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
-import { allProducts } from "@/data/products";
+import { allProducts, REGISTRATION_URL } from "@/data/products";
+import { ExternalLink } from "lucide-react";
 
+const registrationProducts = allProducts.filter((p) => p.registrationOnly);
+const shopProducts = allProducts.filter((p) => !p.registrationOnly);
 const categories = ["All", "Headwear & Accessories", "Tees", "Polos", "Outerwear"];
 
 const Shop = () => {
@@ -31,10 +34,10 @@ const Shop = () => {
   }, [categoryParam]);
 
   let filtered = activeFilter === "All"
-    ? allProducts
+    ? shopProducts
     : activeFilter === "Headwear & Accessories"
-      ? allProducts.filter((p) => p.category === "Headwear" || p.category === "Accessories")
-      : allProducts.filter((p) => p.category === activeFilter);
+      ? shopProducts.filter((p) => p.category === "Headwear" || p.category === "Accessories")
+      : shopProducts.filter((p) => p.category === activeFilter);
 
   // Search query filtering
   if (queryParam) {
@@ -43,7 +46,7 @@ const Shop = () => {
       (cat) => cat.toLowerCase() === q || cat.toLowerCase().includes(q)
     );
     if (matchedCategory && matchedCategory !== "All") {
-      filtered = allProducts.filter((p) => p.category === matchedCategory);
+      filtered = shopProducts.filter((p) => p.category === matchedCategory);
     } else {
       filtered = filtered.filter(
         (p) =>
@@ -59,6 +62,48 @@ const Shop = () => {
       <Header solid />
 
       <main className="pt-28 md:pt-32 pb-20">
+        {/* Registration Exclusives Section */}
+        {registrationProducts.length > 0 && (
+          <FadeIn>
+            <section className="px-4 md:px-14 mb-12 md:mb-16">
+              <div className="border border-border p-5 md:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+                  <div>
+                    <p className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">95th Anniversary</p>
+                    <h2 className="font-display text-2xl md:text-3xl tracking-tight text-foreground">
+                      Registration Exclusives
+                    </h2>
+                  </div>
+                  <a
+                    href={REGISTRATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors self-start"
+                  >
+                    Register Now
+                    <ExternalLink size={12} strokeWidth={1.5} />
+                  </a>
+                </div>
+                <p className="text-sm text-muted-foreground mb-6 max-w-xl leading-relaxed">
+                  These items are exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                  {registrationProducts.map((product, i) => (
+                    <FadeIn key={product.id} delay={i * 80}>
+                      <ProductCard
+                        id={product.id}
+                        image={product.image}
+                        name={product.name}
+                        price="Registration Only"
+                      />
+                    </FadeIn>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </FadeIn>
+        )}
+
         <FadeIn>
           <div className="px-4 md:px-14 mb-6 md:mb-8">
             <h1 className="font-display text-3xl md:text-6xl tracking-tight text-foreground">
@@ -93,7 +138,7 @@ const Shop = () => {
                 id={product.id}
                 image={product.image}
                 name={product.name}
-                price={product.registrationOnly ? "Registration Only" : product.price}
+                price={product.price}
               />
             </FadeIn>
           ))}
