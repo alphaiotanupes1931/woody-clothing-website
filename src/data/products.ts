@@ -34,6 +34,10 @@ import krimsonSkully from "@/assets/products/krimson-skully.jpg";
 import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
 import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 
+// Registration-only tee
+import kreamTee95thAnniversary from "@/assets/products/kream-tee-95th-anniversary.jpg";
+import lifestyle95thAnniversary from "@/assets/lifestyle/lifestyle-95th-anniversary.jpg";
+
 // Outerwear
 import ktrZip from "@/assets/products/ktr-zip.jpg";
 
@@ -167,6 +171,19 @@ const rawProducts: Omit<Product, "id">[] = [
       "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe kream commemorative hat is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
     description:
       "Registration-exclusive commemorative hat in kream with the K-Diamond patch. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
+  },
+  // Registration-only Tee
+  {
+    image: kreamTee95thAnniversary,
+    images: [kreamTee95thAnniversary, lifestyle95thAnniversary],
+    name: "KREAM 95th Anniversary Tee",
+    price: "$0.00",
+    category: "Tees",
+    registrationOnly: true,
+    registrationNote:
+      "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe kream commemorative tee is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
+    description:
+      "Registration-exclusive commemorative tee in kream featuring the 95th Anniversary crest. Heavyweight cotton, boxy fit. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
   },
   // Outerwear
   {
