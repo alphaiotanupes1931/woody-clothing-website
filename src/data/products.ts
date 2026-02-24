@@ -32,6 +32,7 @@ import krimsonFittedFront1 from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide2 from "@/assets/products/krimson-fitted-side-2.jpg";
 import krimsonSkully from "@/assets/products/krimson-skully.jpg";
 import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
+import flexKreamKapBack from "@/assets/products/flex-kream-kap-back.jpg";
 import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 
 // Registration-only tees
@@ -173,6 +174,7 @@ const rawProducts: Omit<Product, "id">[] = [
   // Kream Hat — Registration Exclusive
   {
     image: flexKreamKap,
+    images: [flexKreamKap, flexKreamKapBack],
     name: "KREAM 95th Anniversary Hat",
     price: "$0.00",
     category: "Headwear",
