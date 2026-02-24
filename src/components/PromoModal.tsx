@@ -14,11 +14,11 @@ import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
 import kreamSocks from "@/assets/products/kream-socks.jpg";
 import krimsonSkully from "@/assets/products/krimson-skully.jpg";
-import krimsonBucketFront from "@/assets/products/krimson-bucket-front.jpg";
+
 
 const PROMO_START = new Date("2026-02-21T00:00:00");
 const PROMO_END = new Date("2026-03-14T23:59:59");
-const BUNDLE_PRICE = 199;
+const BUNDLE_PRICE = 249;
 
 const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
 
@@ -40,7 +40,7 @@ const bundleItems: BundleItem[] = [
   { name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo, needsSize: true, sizeKey: "polo" },
   { name: "KREAM K-Diamond Socks (1 Pair)", image: kreamSocks },
   { name: "KRIMSON K-Diamond Skully", image: krimsonSkully },
-  { name: "KRIMSON K-Diamond Bucket Hat", image: krimsonBucketFront },
+  
 ];
 
 const SizeSelector = ({
@@ -196,8 +196,8 @@ const PromoModal = () => {
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <span className="text-xl sm:text-2xl font-bold leading-none">$199</span>
-                <span className="text-xs line-through text-background/40 ml-1.5">$340</span>
+                <span className="text-xl sm:text-2xl font-bold leading-none">$249</span>
+                <span className="text-xs line-through text-background/40 ml-1.5">$331</span>
               </div>
               <button
                 onClick={handleClose}
@@ -212,7 +212,7 @@ const PromoModal = () => {
           {/* Items grid — compact thumbnails */}
           <div className="flex-1 overflow-y-auto px-3 py-2.5 sm:px-5 sm:py-3">
             <p className="text-[8px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
-              11 Items Included
+              10 Items Included
             </p>
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
               {bundleItems.map((item, i) => (
@@ -255,7 +255,7 @@ const PromoModal = () => {
                     Processing...
                   </>
                 ) : (
-                  allSizesSelected ? "Checkout · $199" : "Select Sizes"
+                  allSizesSelected ? "Checkout · $249" : "Select Sizes"
                 )}
               </button>
             </div>
