@@ -34,9 +34,11 @@ import krimsonSkully from "@/assets/products/krimson-skully.jpg";
 import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
 import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 
-// Registration-only tee
+// Registration-only tees
 import kreamTee95thAnniversary from "@/assets/products/kream-tee-95th-anniversary.jpg";
 import lifestyle95thAnniversary from "@/assets/lifestyle/lifestyle-95th-anniversary.jpg";
+import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
+import lifestyleKrimsonTee95th from "@/assets/lifestyle/lifestyle-krimson-tee-95th.jpg";
 
 // Outerwear
 import ktrZip from "@/assets/products/ktr-zip.jpg";
@@ -102,6 +104,15 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Tees",
     description:
       "Kream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest. \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
+  },
+  {
+    image: krimsonTee95th,
+    images: [krimsonTee95th, lifestyleKrimsonTee95th],
+    name: "KRIMSON 95th Anniversary Tee",
+    price: "$31.00",
+    category: "Tees",
+    description:
+      "Krimson heavyweight tee featuring the 95th Anniversary crest in gold across the chest. Laurel wreath detail with \"Alpha Iota Anniversary 1931–2026\" banner. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with metallic gold ink.",
   },
   // Polos (dry-fit only)
   {
