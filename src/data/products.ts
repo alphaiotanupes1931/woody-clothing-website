@@ -34,6 +34,7 @@ import krimsonSkully from "@/assets/products/krimson-skully.jpg";
 import flexKreamKap from "@/assets/products/flex-kream-kap.jpg";
 import flexKreamKapBack from "@/assets/products/flex-kream-kap-back.jpg";
 import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
+import flexKrimsonKapBack from "@/assets/products/flex-krimson-kap-back.jpg";
 
 // Registration-only tees
 import kreamTee95thAnniversary from "@/assets/products/kream-tee-95th-anniversary.jpg";
@@ -164,6 +165,7 @@ const rawProducts: Omit<Product, "id">[] = [
   },
   {
     image: flexKrimsonKap,
+    images: [flexKrimsonKap, flexKrimsonKapBack],
     name: "KRIMSON FlexFit K-Diamond Kap",
     price: "$25.00",
     category: "Headwear",
