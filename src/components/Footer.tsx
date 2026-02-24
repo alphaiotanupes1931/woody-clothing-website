@@ -1,4 +1,3 @@
-import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { REGISTRATION_URL } from "@/data/products";
 
@@ -45,8 +44,8 @@ const Footer = () => {
               Follow Us
             </h4>
             <div className="flex gap-4">
-              <a href="https://www.instagram.com/ainupes1931" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
-                <Instagram size={18} />
+              <a href="https://www.instagram.com/ainupes1931" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground transition-colors tracking-wide uppercase">
+                Instagram
               </a>
             </div>
             <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground mt-6 leading-relaxed">

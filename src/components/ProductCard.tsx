@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useWishlist } from "@/contexts/WishlistContext";
 
 interface ProductCardProps {
@@ -84,8 +84,7 @@ const ProductCard = ({ id, image, name, price, soldOut = false }: ProductCardPro
           <Heart size={16} fill={hearted ? "currentColor" : "none"} strokeWidth={1.5} />
         </button>
         {!soldOut && (
-          <div className="absolute bottom-0 left-0 right-0 bg-foreground/90 text-background py-2.5 text-center text-[10px] font-semibold tracking-[0.2em] uppercase translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-1.5">
-            <Plus size={12} strokeWidth={2} />
+          <div className="absolute bottom-0 left-0 right-0 bg-foreground/90 text-background py-2.5 text-center text-[10px] font-semibold tracking-[0.2em] uppercase translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             Quick View
           </div>
         )}

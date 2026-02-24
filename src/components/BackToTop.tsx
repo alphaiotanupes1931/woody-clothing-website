@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ChevronUp } from "lucide-react";
 
 const BackToTop = () => {
   const [visible, setVisible] = useState(false);
@@ -15,10 +14,10 @@ const BackToTop = () => {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-6 right-6 z-40 bg-foreground text-background p-3 shadow-lg hover:bg-foreground/90 transition-all animate-fade-in"
+      className="fixed bottom-6 right-6 z-40 bg-foreground text-background w-10 h-10 flex items-center justify-center shadow-lg hover:bg-foreground/90 transition-all animate-fade-in text-xs font-semibold tracking-wider"
       aria-label="Back to top"
     >
-      <ChevronUp size={18} strokeWidth={2} />
+      ↑
     </button>
   );
 };
