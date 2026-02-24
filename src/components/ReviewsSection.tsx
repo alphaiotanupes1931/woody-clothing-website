@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import FadeIn from "./FadeIn";
 
 const reviews = [
   {
@@ -37,65 +37,34 @@ const reviews = [
 const ReviewsSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = direction === "left" ? -350 : 350;
-    scrollRef.current.scrollBy({ left: amount, behavior: "smooth" });
-  };
-
   return (
     <section className="py-14 md:py-20">
-      <div className="flex items-center justify-between px-5 md:px-10 mb-8">
+      <div className="px-5 md:px-10 mb-8">
         <h2 className="text-sm md:text-base font-bold tracking-[0.2em] uppercase text-foreground">
           Customer Reviews
         </h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => scroll("left")}
-            className="p-2 border border-border hover:bg-secondary transition-colors"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="p-2 border border-border hover:bg-secondary transition-colors"
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
       </div>
       <div
         ref={scrollRef}
         className="flex gap-5 px-5 md:px-10 overflow-x-auto carousel-scroll"
       >
         {reviews.map((review, i) => (
-          <div
-            key={i}
-            className="flex-shrink-0 w-[80vw] max-w-[300px] md:w-[360px] md:max-w-none border border-border p-5 md:p-6 snap-start"
-          >
-            <div className="flex gap-0.5 mb-3">
-              {Array(5)
-                .fill(null)
-                .map((_, j) => (
-                  <Star
-                    key={j}
-                    size={14}
-                    className="fill-foreground text-foreground"
-                  />
-                ))}
+          <FadeIn key={i} delay={i * 100}>
+            <div className="flex-shrink-0 w-[80vw] max-w-[300px] md:w-[360px] md:max-w-none border border-border p-5 md:p-6 snap-start">
+              <div className="flex gap-1 mb-3 text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-semibold">
+                ★★★★★
+              </div>
+              <h3 className="text-sm font-bold text-foreground mb-2">
+                {review.title}
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                {review.text}
+              </p>
+              <p className="text-xs font-semibold text-foreground">
+                – {review.name}
+              </p>
             </div>
-            <h3 className="text-sm font-bold text-foreground mb-2">
-              {review.title}
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4">
-              {review.text}
-            </p>
-            <p className="text-xs font-semibold text-foreground">
-              – {review.name}
-            </p>
-          </div>
+          </FadeIn>
         ))}
       </div>
     </section>
