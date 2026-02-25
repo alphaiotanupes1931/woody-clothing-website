@@ -1,11 +1,29 @@
 import { Link } from "react-router-dom";
-import { CheckCircle, Package, ArrowRight } from "lucide-react";
+import { CheckCircle, Package, ArrowRight, Truck } from "lucide-react";
+import { useEffect, useState } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+interface ShippingInfo {
+  method: string;
+  estimate: string;
+  cost: number;
+}
+
 const OrderConfirmation = () => {
   const orderNumber = `AI-${Date.now().toString().slice(-6)}`;
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfo | null>(null);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("order-shipping");
+    if (stored) {
+      try {
+        setShippingInfo(JSON.parse(stored));
+      } catch {}
+      sessionStorage.removeItem("order-shipping");
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -43,11 +61,42 @@ const OrderConfirmation = () => {
                 <span className="text-muted-foreground">Status</span>
                 <span className="text-[hsl(var(--krimson))] font-medium">Confirmed</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Estimated Delivery</span>
-                <span className="font-medium">5–7 business days</span>
-              </div>
             </div>
+
+            {/* Shipping Info */}
+            {shippingInfo && (
+              <div className="border-t border-border mt-5 pt-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Truck size={16} strokeWidth={1.5} />
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase">Shipping</span>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Method</span>
+                    <span className="font-medium">{shippingInfo.method}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Estimated Delivery</span>
+                    <span className="font-medium">{shippingInfo.estimate}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Shipping Cost</span>
+                    <span className="font-medium">
+                      {shippingInfo.cost === 0 ? "FREE" : `$${shippingInfo.cost.toFixed(2)}`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {!shippingInfo && (
+              <div className="border-t border-border mt-5 pt-5">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Estimated Delivery</span>
+                  <span className="font-medium">5–7 business days</span>
+                </div>
+              </div>
+            )}
 
             <div className="border-t border-border mt-5 pt-5">
               <p className="text-xs text-muted-foreground leading-relaxed">
