@@ -94,7 +94,7 @@ const Footer = () => {
             © 2026 AI NUPES. All rights reserved.
           </p>
           <a
-            href="https://reeddgitalgroup.com"
+            href="https://reeddigitalgroup.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[11px] text-primary-foreground/50 hover:text-primary-foreground tracking-[0.15em] uppercase transition-colors"
