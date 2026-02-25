@@ -11,6 +11,8 @@ import NewsletterPopup from "@/components/NewsletterPopup";
 import FilmGrain from "@/components/FilmGrain";
 import PromoModal from "@/components/PromoModal";
 import PageTransition from "@/components/PageTransition";
+import ScrollProgress from "@/components/ScrollProgress";
+import CustomCursor from "@/components/CustomCursor";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import ProductDetail from "./pages/ProductDetail";
@@ -42,6 +44,8 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <ScrollProgress />
+            <CustomCursor />
             <CartDrawer />
             <NewsletterPopup />
             <FilmGrain />
