@@ -5,15 +5,11 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import logo from "@/assets/logo.png";
 
-const categories = ["Headwear", "Tees", "Polos", "Outerwear", "Accessories"];
-
 const navLinks = [
-  { label: "Shop All", href: "/shop" },
-  ...categories.map((cat) => ({
-    label: cat,
-    href: `/shop?category=${cat}`,
-  })),
+  { label: "Shop", href: "/shop" },
   { label: "Our Story", href: "/our-story" },
+  { label: "95th Registration", href: "#register" },
+  { label: "Contact", href: "/contact" },
 ];
 
 interface HeaderProps {
