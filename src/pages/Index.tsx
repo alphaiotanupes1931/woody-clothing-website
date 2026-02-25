@@ -49,7 +49,7 @@ const LookbookSlideshow = () => {
         <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
           THE LOOKBOOK
         </h2>
-        <div className="relative aspect-[3/4] md:aspect-[16/9] overflow-hidden bg-secondary">
+        <div className="relative aspect-[4/5] md:aspect-[2.5/1] max-h-[70vh] overflow-hidden bg-secondary mx-auto">
           {lookbookImages.map((img, i) => (
             <img
               key={i}
