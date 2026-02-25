@@ -66,38 +66,72 @@ const Shop = () => {
         {registrationProducts.length > 0 && (
           <FadeIn>
             <section className="px-4 md:px-14 mb-10 md:mb-16">
-              <div className="border border-border p-4 sm:p-5 md:p-8">
-                <div className="flex flex-col gap-3 mb-4 sm:mb-6">
-                  <div>
-                    <p className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">95th Anniversary</p>
-                    <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground">
-                      Registration Exclusives
-                    </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {/* Registration Exclusives */}
+                <div className="border border-border p-4 sm:p-5 md:p-8">
+                  <div className="flex flex-col gap-3 mb-4 sm:mb-6">
+                    <div>
+                      <p className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">95th Anniversary</p>
+                      <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground">
+                        Registration Exclusives
+                      </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
+                      These items are exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.
+                    </p>
+                    <a
+                      href={REGISTRATION_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-colors self-start"
+                    >
+                      Register Now
+                      <ExternalLink size={12} strokeWidth={1.5} />
+                    </a>
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
-                    These items are exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.
-                  </p>
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+                    {registrationProducts.map((product, i) => (
+                      <FadeIn key={product.id} delay={i * 80}>
+                        <ProductCard
+                          id={product.id}
+                          image={product.image}
+                          name={product.name}
+                          price="Registration Only"
+                        />
+                      </FadeIn>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reed Digital Group Live Preview */}
+                <div className="border border-border p-4 sm:p-5 md:p-8 flex flex-col">
+                  <div className="mb-4">
+                    <p className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-1">Powered By</p>
+                    <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight text-foreground">
+                      Reed Digital Group
+                    </h2>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed">
+                      Digital solutions for organizations that move with purpose.
+                    </p>
+                  </div>
+                  <div className="flex-1 min-h-[280px] md:min-h-[320px] bg-secondary overflow-hidden border border-border">
+                    <iframe
+                      src="https://reeddigitalgroup.com"
+                      title="Reed Digital Group"
+                      className="w-full h-full border-0 pointer-events-none"
+                      loading="lazy"
+                      sandbox="allow-scripts allow-same-origin"
+                    />
+                  </div>
                   <a
-                    href={REGISTRATION_URL}
+                    href="https://reeddigitalgroup.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-3 text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-colors self-start"
+                    className="inline-flex items-center gap-2 mt-4 text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors self-start"
                   >
-                    Register Now
+                    Visit Site
                     <ExternalLink size={12} strokeWidth={1.5} />
                   </a>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
-                  {registrationProducts.map((product, i) => (
-                    <FadeIn key={product.id} delay={i * 80}>
-                      <ProductCard
-                        id={product.id}
-                        image={product.image}
-                        name={product.name}
-                        price="Registration Only"
-                      />
-                    </FadeIn>
-                  ))}
                 </div>
               </div>
             </section>
