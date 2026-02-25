@@ -1,62 +1,16 @@
 import { useCart } from "@/contexts/CartContext";
-import { X, Minus, Plus, ShoppingBag, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useState } from "react";
-import { toast } from "sonner";
+import { X, Minus, Plus, ShoppingBag } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
-  const { items, cartOpen, setCartOpen, removeFromCart, updateQuantity, clearCart, totalItems, cartTotal } = useCart();
-  const [loading, setLoading] = useState(false);
+  const { items, cartOpen, setCartOpen, removeFromCart, updateQuantity, totalItems, cartTotal } = useCart();
+  const navigate = useNavigate();
 
   if (!cartOpen) return null;
 
-  const handleCheckout = async () => {
-    setLoading(true);
-    try {
-      const checkoutItems = items.map((item) => {
-        const imageUrl = item.image.startsWith("http")
-          ? item.image
-          : `${window.location.origin}${item.image}`;
-        const unitPrice = parseFloat(item.price.replace(/[^0-9.]/g, ""));
-        
-        // Socks: 3 for $20 deal
-        let finalPrice = unitPrice;
-        let finalQty = item.quantity;
-        if (item.id.startsWith("kream-k-diamond-socks") && item.quantity >= 3) {
-          const bundlesOf3 = Math.floor(item.quantity / 3);
-          const remainder = item.quantity % 3;
-          // Send as effective per-unit price
-          const totalSocksPrice = bundlesOf3 * 20 + remainder * unitPrice;
-          finalPrice = parseFloat((totalSocksPrice / item.quantity).toFixed(2));
-        }
-        
-        return {
-          name: item.name,
-          price: finalPrice,
-          quantity: finalQty,
-          image: imageUrl,
-        };
-      });
-
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { items: checkoutItems },
-      });
-
-      if (error) throw error;
-      if (data?.url) {
-        clearCart();
-        setCartOpen(false);
-        window.location.href = data.url;
-      } else {
-        throw new Error("No checkout URL returned");
-      }
-    } catch (err: any) {
-      console.error("Checkout error:", err);
-      toast.error("Checkout failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleCheckout = () => {
+    setCartOpen(false);
+    navigate("/checkout");
   };
 
   return (
@@ -165,17 +119,9 @@ const CartDrawer = () => {
             </div>
             <button
               onClick={handleCheckout}
-              disabled={loading}
-              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] active:bg-foreground/80 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-foreground text-background py-4 text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98] active:bg-foreground/80 flex items-center justify-center gap-2"
             >
-              {loading ? (
-                <>
-                  <Loader2 size={14} className="animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                "Checkout"
-              )}
+              Checkout
             </button>
           </div>
         )}

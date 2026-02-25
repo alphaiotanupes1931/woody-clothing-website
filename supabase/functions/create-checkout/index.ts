@@ -17,7 +17,7 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const { items, metadata } = await req.json();
+    const { items, shipping, metadata, customerEmail, customerName, shippingAddress } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error("No items provided");
@@ -36,21 +36,16 @@ serve(async (req) => {
       quantity: item.quantity,
     }));
 
-    // Calculate subtotal for shipping logic
-    const subtotal = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
-    const isBundle = metadata?.bundle === true;
-    const FLAT_SHIPPING = 9.99;
-    const FREE_SHIPPING_THRESHOLD = 149;
-
-    // Add shipping as a line item (free for bundles or orders >= $149)
-    if (!isBundle && subtotal < FREE_SHIPPING_THRESHOLD) {
+    // Add shipping cost as a line item if > 0
+    const shippingCost = shipping?.cost || 0;
+    if (shippingCost > 0) {
       line_items.push({
         price_data: {
           currency: "usd",
           product_data: {
-            name: "Shipping",
+            name: `Shipping: ${shipping?.label || "Standard"}`,
           },
-          unit_amount: Math.round(FLAT_SHIPPING * 100),
+          unit_amount: Math.round(shippingCost * 100),
         },
         quantity: 1,
       });
@@ -58,16 +53,27 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "https://lovable.dev";
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams: any = {
       payment_method_types: ["card", "klarna", "paypal"],
       line_items,
       mode: "payment",
       success_url: `${origin}/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/shop`,
-      shipping_address_collection: {
-        allowed_countries: ["US"],
+      cancel_url: `${origin}/checkout`,
+      metadata: {
+        shipping_service: shipping?.service || "unknown",
+        shipping_label: shipping?.label || "Standard",
+        shipping_estimate: shipping?.estimate || "",
+        shipping_cost: String(shippingCost),
+        ...(metadata || {}),
       },
-    });
+    };
+
+    // Pre-fill email if provided
+    if (customerEmail) {
+      sessionParams.customer_email = customerEmail;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
