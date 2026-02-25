@@ -71,10 +71,18 @@ const Footer = () => {
           </a>
         </div>
       </div>
-      <div className="border-t border-border px-5 md:px-10 py-5 text-center">
+      <div className="border-t border-border px-5 md:px-10 py-5 flex flex-col items-center gap-2">
         <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
           © 2026 AI NUPES. All rights reserved.
         </p>
+        <a
+          href="https://reeddgitalgroup.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[9px] text-muted-foreground/60 hover:text-muted-foreground tracking-[0.15em] uppercase transition-colors"
+        >
+          Built by Reed Digital Group
+        </a>
       </div>
     </footer>
   );

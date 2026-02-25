@@ -155,9 +155,9 @@ const CartDrawer = () => {
           <div className="px-6 py-5 border-t border-border space-y-3 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))]">
             {/* Free shipping banner */}
             <div className="text-center text-[10px] tracking-wider uppercase text-muted-foreground bg-secondary py-2">
-              {parseFloat(cartTotal) >= 100
+            {parseFloat(cartTotal) >= 149
                 ? "✓ You qualify for free shipping!"
-                : `$${(100 - parseFloat(cartTotal)).toFixed(2)} away from free shipping`}
+                : `$${(149 - parseFloat(cartTotal)).toFixed(2)} away from free shipping`}
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="font-semibold tracking-wider uppercase text-xs">Subtotal</span>

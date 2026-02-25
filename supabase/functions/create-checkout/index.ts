@@ -17,7 +17,7 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const { items } = await req.json();
+    const { items, metadata } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error("No items provided");
@@ -36,10 +36,30 @@ serve(async (req) => {
       quantity: item.quantity,
     }));
 
+    // Calculate subtotal for shipping logic
+    const subtotal = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
+    const isBundle = metadata?.bundle === true;
+    const FLAT_SHIPPING = 9.99;
+    const FREE_SHIPPING_THRESHOLD = 149;
+
+    // Add shipping as a line item (free for bundles or orders >= $149)
+    if (!isBundle && subtotal < FREE_SHIPPING_THRESHOLD) {
+      line_items.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: "Shipping",
+          },
+          unit_amount: Math.round(FLAT_SHIPPING * 100),
+        },
+        quantity: 1,
+      });
+    }
+
     const origin = req.headers.get("origin") || "https://lovable.dev";
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "klarna", "paypal"],
       line_items,
       mode: "payment",
       success_url: `${origin}/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
