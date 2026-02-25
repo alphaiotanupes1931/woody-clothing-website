@@ -34,7 +34,7 @@ const ShippingReturns = () => {
                 </p>
                 <ul className="space-y-3">
                   {[
-                    "Orders placed on or before March 14 are expected to arrive no later than April 10, in time for the 95th Anniversary celebration.",
+                    "Orders placed on or before March 14 are expected to arrive no later than April 21, in time for the 95th Anniversary celebration.",
                     "Production will begin after the pre-order window closes.",
                     "Orders will ship within 5–7 business days once production is complete.",
                     "All customers will receive a tracking number via email once their order has shipped.",
