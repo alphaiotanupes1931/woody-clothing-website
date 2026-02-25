@@ -64,13 +64,32 @@ serve(async (req) => {
         shipping_label: shipping?.label || "Standard",
         shipping_estimate: shipping?.estimate || "",
         shipping_cost: String(shippingCost),
+        customer_name: customerName || "",
+        shipping_address: shippingAddress ? `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}` : "",
         ...(metadata || {}),
       },
+      shipping_address_collection: undefined,
     };
 
     // Pre-fill email if provided
     if (customerEmail) {
       sessionParams.customer_email = customerEmail;
+    }
+
+    // Attach shipping details so they appear in Stripe dashboard
+    if (shippingAddress && customerName) {
+      sessionParams.payment_intent_data = {
+        shipping: {
+          name: customerName,
+          address: {
+            line1: shippingAddress.address,
+            city: shippingAddress.city,
+            state: shippingAddress.state,
+            postal_code: shippingAddress.zip,
+            country: "US",
+          },
+        },
+      };
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams);
