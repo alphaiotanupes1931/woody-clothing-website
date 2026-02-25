@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 import heroCrowd from "@/assets/hero-crowd2.png";
 import logo from "@/assets/logo.png";
 
-const values = [
-  { title: "God", description: "The spiritual foundation of the organization." },
-  { title: "Family", description: "The importance of familial ties and support." },
-  { title: "Education", description: "A focus on academic pursuits and intellectual growth." },
-  { title: "Kappa", description: "The commitment to the brotherhood and objectives of Kappa Alpha Psi." },
+const pillars = [
+  { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us.", width: "100%" },
+  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch — it's identity.", width: "85%" },
+  { number: "03", title: "CRAFT", text: "Premium materials, intentional design. No shortcuts, no compromises.", width: "70%" },
+  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it — we live it.", width: "55%" },
 ];
 
 const OurStory = () => {
@@ -51,25 +51,40 @@ const OurStory = () => {
           </section>
         </FadeIn>
 
-        {/* Values */}
-        <section className="bg-foreground py-16 md:py-24 mb-20 md:mb-28">
-          <div className="px-4 md:px-14 max-w-5xl mx-auto">
-            <TextReveal>
-              <h2 className="font-display text-3xl md:text-5xl tracking-wide text-primary-foreground text-center mb-12 md:mb-16">
-                WHAT WE STAND FOR
+        {/* What We Stand For — Pyramid Hierarchy */}
+        <section className="bg-foreground text-primary-foreground py-16 md:py-28 px-4 md:px-14 overflow-hidden mb-20 md:mb-28">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-14 md:mb-20">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-primary-foreground/40 mb-2">
+                The AI Collection
+              </p>
+              <h2 className="font-display text-4xl md:text-8xl tracking-tight text-primary-foreground leading-[0.85]">
+                WHAT WE
+                <br />
+                STAND FOR
               </h2>
-            </TextReveal>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              {values.map((value, i) => (
-                <FadeIn key={value.title} delay={i * 100}>
-                  <div className="border border-primary-foreground/10 p-6 md:p-8 group hover:border-primary-foreground/30 transition-colors duration-500">
-                    <h3 className="font-display text-2xl tracking-wide text-primary-foreground mb-3 group-hover:tracking-wider transition-all duration-500">
-                      {value.title}
-                    </h3>
-                    <p className="text-sm text-primary-foreground/60 leading-relaxed">
-                      {value.description}
-                    </p>
+            <div className="flex flex-col items-start gap-6 md:gap-8">
+              {pillars.map((pillar, i) => (
+                <FadeIn key={i} delay={i * 180}>
+                  <div
+                    className="pt-0 pb-0 group"
+                    style={{ width: "100%", maxWidth: pillar.width === "100%" ? "100%" : pillar.width }}
+                  >
+                    <div className="flex items-baseline gap-4 md:gap-6">
+                      <span className="font-display text-5xl md:text-8xl text-primary-foreground/10 leading-none group-hover:text-[hsl(var(--krimson))] transition-colors duration-500">
+                        {pillar.number}
+                      </span>
+                      <div>
+                        <h3 className="font-display text-xl md:text-3xl tracking-[0.15em] text-primary-foreground mb-2">
+                          {pillar.title}
+                        </h3>
+                        <p className="text-xs md:text-sm text-primary-foreground/50 leading-relaxed max-w-md">
+                          {pillar.text}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </FadeIn>
               ))}
