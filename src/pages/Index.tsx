@@ -10,11 +10,6 @@ import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
-import lifestyleAchievers from "@/assets/lifestyle/lifestyle-achievers.jpg";
-import lifestyleQuarterzip from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
-import lifestyleKdiamondFront1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
-import lifestyle95thBack from "@/assets/lifestyle/lifestyle-95th-back.jpg";
-import lifestyleKdiamondFront3 from "@/assets/lifestyle/lifestyle-kdiamond-front-3.jpg";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
@@ -22,62 +17,12 @@ const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" || p.category === "Accessories") && !p.registrationOnly);
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
 
-const lookbookImages = [
-  { src: lifestyleKdiamondFront1, alt: "K-Diamond Tee lifestyle" },
-  { src: lifestyleQuarterzip, alt: "Quarter-Zip lifestyle" },
-  { src: lifestyleKdiamondFront3, alt: "K-Diamond Tee lifestyle front" },
-  { src: lifestyleAchievers, alt: "Achievers Tee lifestyle" },
-  { src: lifestyle95thBack, alt: "95th Anniversary back" },
+const pillars = [
+  { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us." },
+  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch — it's identity." },
+  { number: "03", title: "CRAFT", text: "Premium materials, intentional design. No shortcuts, no compromises." },
+  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it — we live it." },
 ];
-
-const LookbookSlideshow = () => {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % lookbookImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <FadeIn>
-      <section className="px-4 md:px-14 py-10 md:py-16">
-        <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-1">
-          The AI Collection
-        </p>
-        <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground mb-6 md:mb-8">
-          THE LOOKBOOK
-        </h2>
-        <div className="relative aspect-square md:aspect-[16/9] overflow-hidden bg-secondary mx-auto">
-          {lookbookImages.map((img, i) => (
-            <img
-              key={i}
-              src={img.src}
-              alt={img.alt}
-              className="absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
-              style={{ opacity: i === current ? 1 : 0 }}
-            />
-          ))}
-        </div>
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-4">
-          {lookbookImages.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i === current ? "bg-foreground scale-125" : "bg-muted-foreground/30"
-              }`}
-              aria-label={`View image ${i + 1}`}
-            />
-          ))}
-        </div>
-      </section>
-    </FadeIn>
-  );
-};
-
 
 const Index = () => {
   return (
@@ -118,8 +63,41 @@ const Index = () => {
 
         <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
-        {/* Lifestyle Lookbook — Slideshow */}
-        <LookbookSlideshow />
+        {/* What We Stand For — Manifesto */}
+        <FadeIn>
+          <section className="px-4 md:px-14 py-16 md:py-24">
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-12 md:mb-16">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">
+                  The AI Collection
+                </p>
+                <h2 className="font-display text-4xl md:text-7xl tracking-tight text-foreground leading-[0.85]">
+                  WHAT WE
+                  <br />
+                  STAND FOR
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-t border-border">
+                {pillars.map((pillar, i) => (
+                  <FadeIn key={i} delay={i * 120}>
+                    <div className={`py-8 md:py-10 px-0 md:px-6 border-b border-border ${i % 2 === 0 ? "md:border-r" : ""}`}>
+                      <span className="text-[10px] tracking-[0.3em] text-muted-foreground/50 font-medium">
+                        {pillar.number}
+                      </span>
+                      <h3 className="font-display text-2xl md:text-3xl tracking-wide text-foreground mt-2 mb-3">
+                        {pillar.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+                        {pillar.text}
+                      </p>
+                    </div>
+                  </FadeIn>
+                ))}
+              </div>
+            </div>
+          </section>
+        </FadeIn>
 
         <ProductCarousel title="Tops" products={tops} />
 
