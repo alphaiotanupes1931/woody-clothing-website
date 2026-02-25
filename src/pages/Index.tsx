@@ -18,10 +18,10 @@ const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" 
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
 
 const pillars = [
-  { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us." },
-  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch — it's identity." },
-  { number: "03", title: "CRAFT", text: "Premium materials, intentional design. No shortcuts, no compromises." },
-  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it — we live it." },
+  { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us.", width: "100%" },
+  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch — it's identity.", width: "85%" },
+  { number: "03", title: "CRAFT", text: "Premium materials, intentional design. No shortcuts, no compromises.", width: "70%" },
+  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it — we live it.", width: "55%" },
 ];
 
 const Index = () => {
@@ -63,34 +63,41 @@ const Index = () => {
 
         <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
-        {/* What We Stand For — Manifesto */}
+        {/* What We Stand For — Pyramid Hierarchy */}
         <FadeIn>
-          <section className="px-4 md:px-14 py-16 md:py-24">
+          <section className="bg-foreground text-primary-foreground py-16 md:py-28 px-4 md:px-14 overflow-hidden">
             <div className="max-w-5xl mx-auto">
-              <div className="mb-12 md:mb-16">
-                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">
+              <div className="mb-14 md:mb-20">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-primary-foreground/40 mb-2">
                   The AI Collection
                 </p>
-                <h2 className="font-display text-4xl md:text-7xl tracking-tight text-foreground leading-[0.85]">
+                <h2 className="font-display text-4xl md:text-8xl tracking-tight text-primary-foreground leading-[0.85]">
                   WHAT WE
                   <br />
                   STAND FOR
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-t border-border">
+              <div className="flex flex-col items-start gap-0">
                 {pillars.map((pillar, i) => (
-                  <FadeIn key={i} delay={i * 120}>
-                    <div className={`py-8 md:py-10 px-0 md:px-6 border-b border-border ${i % 2 === 0 ? "md:border-r" : ""}`}>
-                      <span className="text-[10px] tracking-[0.3em] text-muted-foreground/50 font-medium">
-                        {pillar.number}
-                      </span>
-                      <h3 className="font-display text-2xl md:text-3xl tracking-wide text-foreground mt-2 mb-3">
-                        {pillar.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-                        {pillar.text}
-                      </p>
+                  <FadeIn key={i} delay={i * 180}>
+                    <div
+                      className="border-t border-primary-foreground/15 pt-6 pb-8 md:pt-8 md:pb-10 group"
+                      style={{ width: "100%", maxWidth: pillar.width === "100%" ? "100%" : pillar.width }}
+                    >
+                      <div className="flex items-baseline gap-4 md:gap-6">
+                        <span className="font-display text-5xl md:text-8xl text-primary-foreground/10 leading-none group-hover:text-[hsl(var(--krimson))] transition-colors duration-500">
+                          {pillar.number}
+                        </span>
+                        <div>
+                          <h3 className="font-display text-xl md:text-3xl tracking-[0.15em] text-primary-foreground mb-2">
+                            {pillar.title}
+                          </h3>
+                          <p className="text-xs md:text-sm text-primary-foreground/50 leading-relaxed max-w-md">
+                            {pillar.text}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </FadeIn>
                 ))}
