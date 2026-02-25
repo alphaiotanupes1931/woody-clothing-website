@@ -6,6 +6,8 @@ import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FadeIn from "@/components/FadeIn";
+import ParallaxGallery from "@/components/ParallaxGallery";
+import MagneticButton from "@/components/MagneticButton";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
 
@@ -51,12 +53,13 @@ const Index = () => {
               <p className="text-sm text-primary-foreground/75 mb-5 leading-relaxed font-light">
                 Celebrating 95 years of Alpha Iota. The limited-edition KREAM tee honors our legacy, 1931 to 2026.
               </p>
-              <a
+              <MagneticButton
+                as="a"
                 href="/shop"
                 className="inline-block w-fit bg-background text-foreground px-10 py-4 md:px-8 md:py-3 text-[12px] md:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 active:bg-background/80 transition-all duration-300 hover:tracking-[0.3em]"
               >
                 SHOP NOW
-              </a>
+              </MagneticButton>
             </div>
           </section>
         </FadeIn>
@@ -105,6 +108,8 @@ const Index = () => {
             </div>
           </section>
         </FadeIn>
+
+        <ParallaxGallery />
 
         <ProductCarousel title="Tops" products={tops} />
 
