@@ -19,11 +19,8 @@ const ParallaxGallery = () => {
     <FadeIn>
       <section className="py-12 md:py-20 overflow-hidden">
         <div className="px-4 md:px-14 mb-6">
-          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-1">
-            The AI Collection
-          </p>
           <h2 className="font-display text-2xl md:text-3xl tracking-wide uppercase text-foreground">
-            IN THE WILD
+            THE AI COLLECTION
           </h2>
         </div>
 
