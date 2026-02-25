@@ -93,14 +93,24 @@ const Footer = () => {
           <p className="text-[11px] text-primary-foreground/40 tracking-wider uppercase">
             © 2026 AI NUPES. All rights reserved.
           </p>
-          <a
-            href="https://reeddigitalgroup.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[11px] text-primary-foreground/50 hover:text-primary-foreground tracking-[0.15em] uppercase transition-colors"
-          >
-            Built by Reed Digital Group
-          </a>
+          <div className="text-right">
+            <a
+              href="https://reeddigitalgroup.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-primary-foreground/50 hover:text-primary-foreground tracking-[0.15em] uppercase transition-colors"
+            >
+              Built by Reed Digital Group
+            </a>
+            <a
+              href="https://reeddigitalgroup.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-[10px] text-primary-foreground/30 hover:text-primary-foreground/60 tracking-wider transition-colors mt-0.5"
+            >
+              reeddigitalgroup.com
+            </a>
+          </div>
         </div>
       </div>
     </footer>
