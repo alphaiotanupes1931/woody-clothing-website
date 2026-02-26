@@ -54,7 +54,7 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://lovable.dev";
 
     const sessionParams: any = {
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "google_pay"],
       line_items,
       mode: "payment",
       success_url: `${origin}/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
