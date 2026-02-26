@@ -22,6 +22,7 @@ import OurStory from "./pages/OurStory";
 import FAQs from "./pages/FAQs";
 import Contact from "./pages/Contact";
 import ShippingReturns from "./pages/ShippingReturns";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 import Wishlist from "./pages/Wishlist";
 
@@ -62,6 +63,7 @@ const App = () => (
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/shipping-returns" element={<ShippingReturns />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PageTransition>

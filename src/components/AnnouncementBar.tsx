@@ -6,6 +6,7 @@ const messages = [
   "Pre-orders ship by April 21",
   "95th Anniversary Exclusives · Register to unlock",
   "Limited edition fitted hats now available",
+  "Secure checkout · All major cards, Google Pay & Apple Pay",
 ];
 
 const AnnouncementBar = () => {

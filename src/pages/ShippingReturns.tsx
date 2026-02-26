@@ -23,8 +23,20 @@ const ShippingReturns = () => {
           </p>
 
           <div className="space-y-12">
-            {/* Shipping */}
+            {/* Free Shipping */}
             <FadeIn>
+              <div className="border border-border px-6 py-5 text-center">
+                <p className="text-xs font-bold tracking-[0.2em] uppercase text-foreground">
+                  Free Shipping on Orders Over $149
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Applies to USPS Ground Advantage — calculated automatically at checkout.
+                </p>
+              </div>
+            </FadeIn>
+
+            {/* Shipping */}
+            <FadeIn delay={100}>
               <div>
                 <h2 className="font-display text-2xl tracking-wide text-foreground mb-4">
                   Shipping (Pre-Order Policy)
@@ -52,8 +64,47 @@ const ShippingReturns = () => {
               </div>
             </FadeIn>
 
+            {/* Shipping Methods */}
+            <FadeIn delay={200}>
+              <div>
+                <h2 className="font-display text-2xl tracking-wide text-foreground mb-4">
+                  Shipping Methods & Rates
+                </h2>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Live USPS shipping rates are calculated at checkout based on your location and order weight. Available options include:
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "USPS Ground Advantage — 5–7 business days (FREE on orders over $149)",
+                    "USPS Priority Mail — 2–3 business days",
+                    "USPS Priority Mail Express — 1–2 business days",
+                  ].map((item, j) => (
+                    <li key={j} className="flex items-start gap-3 text-sm text-muted-foreground leading-relaxed">
+                      <span className="w-1 h-1 rounded-full bg-foreground mt-2 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-muted-foreground mt-4 leading-relaxed">
+                  A flat-rate fallback of $9.99 applies if live rates are temporarily unavailable.
+                </p>
+              </div>
+            </FadeIn>
+
+            {/* Payment */}
+            <FadeIn delay={300}>
+              <div>
+                <h2 className="font-display text-2xl tracking-wide text-foreground mb-4">
+                  Payment
+                </h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  All payments are processed securely through Stripe. We accept major credit/debit cards, Google Pay, and Apple Pay.
+                </p>
+              </div>
+            </FadeIn>
+
             {/* Returns */}
-            <FadeIn delay={100}>
+            <FadeIn delay={400}>
               <div>
                 <h2 className="font-display text-2xl tracking-wide text-foreground mb-4">
                   Returns, Exchanges & Refunds
