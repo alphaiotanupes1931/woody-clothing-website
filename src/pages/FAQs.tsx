@@ -23,14 +23,29 @@ const faqs = [
       "Each product page includes a Size Guide button with detailed measurements. We recommend measuring a garment you already own and comparing. When in doubt, size up for a relaxed fit.",
   },
   {
+    question: "Is this a pre-order?",
+    answer:
+      "Yes. This collection is pre-order only. Orders placed on or before March 14 are expected to arrive no later than April 21, in time for the 95th Anniversary celebration. Orders placed after March 14 will still be produced and shipped but are not guaranteed to arrive before the event.",
+  },
+  {
     question: "How long does shipping take?",
     answer:
-      "Standard shipping takes 5–7 business days within the US. Expedited options are available at checkout. You'll receive a tracking number once your order ships.",
+      "Once production is complete, orders ship within 5–7 business days. Live USPS shipping rates (Ground Advantage, Priority Mail, and Priority Mail Express) are calculated at checkout based on your location. You'll receive a tracking number via email once your order ships.",
+  },
+  {
+    question: "Do you offer free shipping?",
+    answer:
+      "Yes! Orders over $149 qualify for free USPS Ground Advantage shipping. This is applied automatically at checkout.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept all major credit and debit cards, Google Pay, and Apple Pay through our secure Stripe checkout.",
   },
   {
     question: "What is your refund policy?",
     answer:
-      "All sales are final. We do not offer refunds. Please refer to our Size Guide before purchasing to ensure the best fit.",
+      "Due to the custom and commemorative nature of this collection, all sales are final. No returns, exchanges, or refunds. Please review sizing carefully before purchasing.",
   },
   {
     question: "Do you ship internationally?",
