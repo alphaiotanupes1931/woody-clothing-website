@@ -10,9 +10,9 @@ import logo from "@/assets/logo.png";
 
 const pillars = [
   { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us.", width: "100%" },
-  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch — it's identity.", width: "85%" },
+  { number: "02", title: "BROTHERHOOD", text: "Built by brothers, worn by achievers. This isn't merch, it's identity.", width: "85%" },
   { number: "03", title: "CRAFT", text: "Premium materials, intentional design. No shortcuts, no compromises.", width: "70%" },
-  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it — we live it.", width: "55%" },
+  { number: "04", title: "PURPOSE", text: "Achievers of the Impossible. We don't just wear it, we live it.", width: "55%" },
 ];
 
 const OurStory = () => {
