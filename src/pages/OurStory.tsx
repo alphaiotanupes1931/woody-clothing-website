@@ -5,7 +5,7 @@ import BackToTop from "@/components/BackToTop";
 import FadeIn from "@/components/FadeIn";
 import TextReveal from "@/components/TextReveal";
 import { Link } from "react-router-dom";
-import heroCrowd from "@/assets/hero-crowd2.png";
+
 import logo from "@/assets/logo.png";
 
 const pillars = [
@@ -22,21 +22,14 @@ const OurStory = () => {
       <Header solid />
 
       <main className="pt-24 md:pt-32 pb-20">
-        {/* Hero */}
-        <section className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-foreground mb-16 md:mb-24">
-          <img
-            src={heroCrowd}
-            alt="Alpha Iota Chapter"
-            className="w-full h-full object-cover opacity-40"
-          />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-            <h1 className="font-display text-5xl md:text-8xl tracking-wide text-primary-foreground opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.2s_forwards]">
-              OUR STORY
-            </h1>
-            <p className="text-primary-foreground/60 text-sm tracking-[0.3em] uppercase mt-3 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.5s_forwards]">
-              95 Years of Achievers
-            </p>
-          </div>
+        {/* Page Title */}
+        <section className="text-center mb-16 md:mb-24 px-4">
+          <h1 className="font-display text-5xl md:text-8xl tracking-wide text-foreground mb-3">
+            OUR STORY
+          </h1>
+          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase">
+            95 Years of Achievers
+          </p>
         </section>
 
         {/* Intro */}
@@ -159,33 +152,6 @@ const OurStory = () => {
           </div>
         </section>
 
-        {/* Community Impact */}
-        <FadeIn>
-          <section className="px-4 md:px-14 max-w-4xl mx-auto mb-20 md:mb-28">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
-              <div>
-                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Beyond the Brand</p>
-                <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-5">
-                  GIVING BACK
-                  <br />
-                  TO THE COMMUNITY
-                </h2>
-              </div>
-              <div className="space-y-5">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  The AI Collection isn't just about what you wear. Every purchase directly supports Alpha Iota chapter 
-                  initiatives, from scholarship funds for Morgan State students to community service programs across 
-                  Baltimore. When you invest in our brand, you invest in the next generation of achievers.
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Our brothers are mentors, educators, entrepreneurs, and civic leaders. The proceeds from 
-                  The AI Collection help us continue programming that develops young men into the leaders 
-                  our communities need. This is how achievement becomes tangible.
-                </p>
-              </div>
-            </div>
-          </section>
-        </FadeIn>
 
         {/* CTA */}
         <FadeIn>
