@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
-
+import heroVideo from "@/assets/hero-video.mp4";
 import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -27,7 +27,38 @@ const Index = () => {
       <Header />
 
       <main>
-        
+        {/* Hero */}
+        <section className="relative h-screen w-full overflow-hidden bg-foreground">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-foreground/20" />
+          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/50 mb-4 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.3s_forwards]">
+              Est. 1931 · Morgan State University
+            </p>
+            <h1 className="font-display text-5xl sm:text-7xl md:text-9xl tracking-wide text-primary-foreground leading-[0.85] opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.5s_forwards]">
+              THE AI
+              <br />
+              COLLECTION
+            </h1>
+            <p className="text-xs md:text-sm text-primary-foreground/60 mt-5 mb-8 tracking-wide max-w-md opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.8s_forwards]">
+              95 years of legacy. Worn by achievers.
+            </p>
+            <Link
+              to="/shop"
+              className="opacity-0 animate-[fadeSlideUp_0.6s_ease-out_1s_forwards] inline-block bg-primary-foreground text-foreground px-10 py-4 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground/90 transition-all duration-300 hover:tracking-[0.35em]"
+            >
+              Shop Now
+            </Link>
+          </div>
+        </section>
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
