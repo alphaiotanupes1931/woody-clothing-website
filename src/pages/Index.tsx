@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
+
 import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -27,7 +27,7 @@ const Index = () => {
       <Header />
 
       <main>
-        <HeroSection />
+        
 
         <ProductCarousel title="New Arrivals" products={newArrivals} />
 
