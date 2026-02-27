@@ -86,14 +86,22 @@ const OurStory = () => {
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   We are a direct-to-consumer apparel company specializing in premium, Greek-letter-organization-inspired 
-                  clothing and accessories. Our brand operates online at theaicollection.com, serving members, alumni, 
+                  clothing and accessories. Our brand operates online at <strong className="text-foreground">alphaiotamerch.com</strong>, serving members, alumni, 
                   supporters, and fans of Alpha Iota and Kappa Alpha Psi nationwide. Every purchase directly supports 
                   chapter operations, community programming, and initiatives at Morgan State University.
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
+                  Created <strong className="text-foreground">for Alpha Iota brothers, by Alpha Iota brothers</strong>, this 
+                  95th Anniversary collection represents legacy, pride, and continued investment in our chapter's future. 
+                  A portion of all proceeds benefits the <strong className="text-foreground">Alpha Iota Foundation</strong>, supporting 
+                  fundraising efforts for the new Alpha Iota monument.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   We design, produce, and sell a curated range of men's and unisex apparel including t-shirts, 
                   performance polos, outerwear, fitted hats, flex caps, bucket hats, skullies, hoodies, and accessories. 
-                  All products are made with premium materials and feature original designs exclusive to our brand.
+                  All products are made with premium materials and feature original designs exclusive to our brand. 
+                  Proudly presented as a joint production by <strong className="text-foreground">For Hire Clothing</strong> and{" "}
+                  <strong className="text-foreground">C. Woods Productions</strong>.
                 </p>
               </div>
             </div>
@@ -222,7 +230,7 @@ const OurStory = () => {
             </h2>
             <div className="space-y-6 text-sm text-muted-foreground leading-relaxed">
               <p>
-                The AI Collection operates as an online retail store at <strong className="text-foreground">theaicollection.com</strong>. 
+                The AI Collection operates as an online retail store at <strong className="text-foreground">alphaiotamerch.com</strong>. 
                 We sell directly to customers across the United States with flat-rate and free shipping options available. 
                 All orders are processed securely through Stripe and shipped via USPS and UPS.
               </p>
