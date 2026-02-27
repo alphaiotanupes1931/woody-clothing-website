@@ -66,6 +66,39 @@ const Index = () => {
 
         <ProductCarousel title="Tops" products={tops} />
 
+        {/* Brand Mission */}
+        <FadeIn>
+          <section className="px-4 md:px-14 py-16 md:py-24">
+            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <div>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">The AI Collection</p>
+                <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-5">
+                  MORE THAN
+                  <br />
+                  JUST APPAREL
+                </h2>
+              </div>
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  The AI Collection is the official lifestyle brand of the Alpha Iota chapter of Kappa Alpha Psi 
+                  at Morgan State University. Every piece we create honors 95 years of brotherhood, leadership, 
+                  and Black excellence.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Your purchase directly supports chapter scholarships, community programming, and the next 
+                  generation of achievers. This isn't merch, it's a movement.
+                </p>
+                <Link
+                  to="/our-story"
+                  className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-foreground border-b border-foreground pb-1 hover:opacity-70 transition-opacity"
+                >
+                  Read Our Story
+                </Link>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+
         {/* Fitted Hat Feature */}
         <FadeIn>
           <section className="px-4 md:px-14 py-12 md:py-20">
