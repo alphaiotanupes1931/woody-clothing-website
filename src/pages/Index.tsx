@@ -77,7 +77,7 @@ const Index = () => {
 
       <main>
         {/* Hero Slideshow */}
-        <section className="relative h-[90vh] w-full overflow-hidden bg-foreground -mt-[76px]">
+        <section className="relative h-[100svh] w-full overflow-hidden bg-foreground -mt-[76px]">
           {heroSlides.map((slide, i) => (
             <img
               key={i}
