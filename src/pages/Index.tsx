@@ -49,7 +49,7 @@ const Index = () => {
 
       <main>
         {/* Hero */}
-        <section className="relative h-[85vh] w-full overflow-hidden bg-foreground">
+        <section className="relative h-[90vh] w-full overflow-hidden bg-foreground -mt-[76px]">
           <div
             className="absolute inset-0 will-change-transform"
             style={{ transform: `translateY(${scrollY * 0.35}px)` }}
