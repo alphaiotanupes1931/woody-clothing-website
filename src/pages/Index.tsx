@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 
@@ -21,6 +21,27 @@ const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p
 
 
 const Index = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.currentTime = 180;
+    const handleTime = () => {
+      if (el.currentTime >= 300) el.currentTime = 180;
+    };
+    el.addEventListener("timeupdate", handleTime);
+    el.play().catch(() => {});
+    return () => el.removeEventListener("timeupdate", handleTime);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <AnnouncementBar />
@@ -28,34 +49,34 @@ const Index = () => {
 
       <main>
         {/* Hero */}
-        <section className="relative h-screen w-full overflow-hidden bg-foreground">
-          <video
-            ref={(el) => {
-              if (!el) return;
-              el.currentTime = 180;
-              const handleTime = () => {
-                if (el.currentTime >= 300) el.currentTime = 180;
-              };
-              el.addEventListener("timeupdate", handleTime);
-              el.play().catch(() => {});
-            }}
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-50"
-            crossOrigin="anonymous"
+        <section className="relative h-[85vh] w-full overflow-hidden bg-foreground">
+          <div
+            className="absolute inset-0 will-change-transform"
+            style={{ transform: `translateY(${scrollY * 0.35}px)` }}
           >
-            <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/v1/videoplayback_1_j2pk9p" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/30 to-transparent" />
-          <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-14 pb-20 md:pb-28 max-w-2xl">
-            <h1 className="font-display text-5xl sm:text-7xl md:text-9xl tracking-wide text-primary-foreground leading-[0.85] opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.3s_forwards]">
-              THE AI
-              <br />
-              COLLECTION
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-[115%] object-cover opacity-60"
+              crossOrigin="anonymous"
+            >
+              <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/v1/videoplayback_1_j2pk9p" type="video/mp4" />
+            </video>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/20 to-transparent" />
+          <div
+            className="relative z-10 flex flex-col justify-end h-full px-6 md:px-14 pb-16 md:pb-24"
+            style={{ transform: `translateY(${scrollY * -0.15}px)`, opacity: Math.max(0, 1 - scrollY / 600) }}
+          >
+            <h1 className="font-display text-3xl sm:text-4xl md:text-6xl tracking-[0.15em] text-primary-foreground leading-[0.9] opacity-0 animate-[fadeSlideUp_0.8s_ease-out_0.3s_forwards]">
+              THE AI COLLECTION
             </h1>
             <Link
               to="/shop"
-              className="mt-8 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.7s_forwards] inline-block w-fit bg-primary-foreground text-foreground px-10 py-4 text-[11px] font-semibold tracking-[0.25em] uppercase hover:bg-primary-foreground/90 transition-all duration-300 hover:tracking-[0.35em]"
+              className="mt-6 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.7s_forwards] inline-block w-fit border border-primary-foreground/40 text-primary-foreground px-8 py-3 text-[10px] font-medium tracking-[0.3em] uppercase hover:bg-primary-foreground hover:text-foreground transition-all duration-500"
             >
               Shop Now
             </Link>
