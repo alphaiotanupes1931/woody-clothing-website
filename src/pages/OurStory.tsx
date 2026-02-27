@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef, useCallback } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,21 +7,6 @@ import TextReveal from "@/components/TextReveal";
 import { Link } from "react-router-dom";
 
 import logo from "@/assets/logo.png";
-import bro1 from "@/assets/brotherhood/brotherhood-1.jpg";
-import bro2 from "@/assets/brotherhood/brotherhood-2.jpg";
-import bro3 from "@/assets/brotherhood/brotherhood-3.jpg";
-import bro4 from "@/assets/brotherhood/brotherhood-4.jpg";
-import bro5 from "@/assets/brotherhood/brotherhood-5.jpg";
-import bro6 from "@/assets/brotherhood/brotherhood-6.jpg";
-
-const heroSlides = [
-  { image: bro1, position: "center 25%" },
-  { image: bro2, position: "center 20%" },
-  { image: bro3, position: "center 30%" },
-  { image: bro4, position: "center 25%" },
-  { image: bro5, position: "center 15%" },
-  { image: bro6, position: "center 30%" },
-];
 
 const pillars = [
   { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us.", width: "100%" },
@@ -54,91 +38,13 @@ const productCategories = [
   },
 ];
 
-const SLIDE_DURATION = 5000;
-
 const OurStory = () => {
-  const [current, setCurrent] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const startTimeRef = useRef(Date.now());
-
-  const goTo = useCallback((index: number) => {
-    setCurrent(index);
-    setProgress(0);
-    startTimeRef.current = Date.now();
-  }, []);
-
-  const next = useCallback(() => {
-    goTo((current + 1) % heroSlides.length);
-  }, [current, goTo]);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const elapsed = Date.now() - startTimeRef.current;
-      const pct = Math.min(elapsed / SLIDE_DURATION, 1);
-      setProgress(pct);
-      if (pct >= 1) next();
-    }, 50);
-    return () => clearInterval(timer);
-  }, [next]);
-
   return (
     <div className="min-h-screen bg-background">
       <AnnouncementBar />
-      <Header />
+      <Header solid />
 
-      <main>
-        {/* Hero Slideshow */}
-        <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden bg-foreground -mt-[76px]">
-          {heroSlides.map((slide, i) => (
-            <img
-              key={i}
-              src={slide.image}
-              alt={`Alpha Iota brotherhood ${i + 1}`}
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1.2s] ease-in-out"
-              style={{
-                objectPosition: slide.position,
-                opacity: i === current ? 1 : 0,
-                filter: "brightness(0.55)",
-              }}
-            />
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-foreground/20 z-[1]" />
-          
-          <div className="relative z-10 flex flex-col items-center justify-end h-full pb-14 md:pb-20 px-6 text-center">
-            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary-foreground/60 mb-3 opacity-0 animate-[fadeSlideUp_0.6s_ease-out_0.2s_forwards]">
-              Est. 1931 · Morgan State University
-            </p>
-            <h1 className="font-display text-5xl md:text-8xl tracking-wide text-primary-foreground leading-[0.85] mb-4 opacity-0 animate-[fadeSlideUp_0.7s_ease-out_0.35s_forwards]">
-              OUR STORY
-            </h1>
-            <p className="text-sm text-primary-foreground/70 max-w-md opacity-0 animate-[fadeSlideUp_0.5s_ease-out_0.55s_forwards]">
-              95 Years of Brotherhood, Leadership & Achievement
-            </p>
-
-            {/* Slide indicators */}
-            <div className="flex items-center gap-3 mt-10">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  className="group relative h-[2px] cursor-pointer"
-                  style={{ width: i === current ? 48 : 24 }}
-                  aria-label={`Go to slide ${i + 1}`}
-                >
-                  <div className="absolute inset-0 bg-primary-foreground/25 rounded-full" />
-                  <div
-                    className="absolute inset-y-0 left-0 bg-primary-foreground rounded-full transition-all duration-100"
-                    style={{
-                      width: i === current ? `${progress * 100}%` : i < current ? "100%" : "0%",
-                    }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <div className="pt-16 md:pt-24 pb-20">
+      <main className="pt-24 md:pt-32 pb-20">
 
         {/* Intro */}
         <FadeIn>
@@ -355,7 +261,6 @@ const OurStory = () => {
             </Link>
           </section>
         </FadeIn>
-        </div>
       </main>
 
       <Footer />

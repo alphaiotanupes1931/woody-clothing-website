@@ -15,6 +15,24 @@ import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
+import bro1 from "@/assets/brotherhood/brotherhood-1.jpg";
+import bro2 from "@/assets/brotherhood/brotherhood-2.jpg";
+import bro3 from "@/assets/brotherhood/brotherhood-3.jpg";
+import bro4 from "@/assets/brotherhood/brotherhood-4.jpg";
+import bro5 from "@/assets/brotherhood/brotherhood-5.jpg";
+import bro6 from "@/assets/brotherhood/brotherhood-6.jpg";
+
+const heroSlides = [
+  { image: bro1, position: "center 25%" },
+  { image: bro2, position: "center 20%" },
+  { image: bro3, position: "center 30%" },
+  { image: bro4, position: "center 25%" },
+  { image: bro5, position: "center 15%" },
+  { image: bro6, position: "center 30%" },
+];
+
+const HERO_DURATION = 5000;
+
 const newArrivals = allProducts.filter((p) => !p.registrationOnly).slice(0, 10);
 const hatsAndAccessories = allProducts.filter((p) => (p.category === "Headwear" || p.category === "Accessories") && !p.registrationOnly);
 const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p.category));
@@ -22,24 +40,34 @@ const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [current, setCurrent] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const startTimeRef = useRef(Date.now());
+
+  const goTo = useCallback((index: number) => {
+    setCurrent(index);
+    setProgress(0);
+    startTimeRef.current = Date.now();
+  }, []);
+
+  const next = useCallback(() => {
+    goTo((current + 1) % heroSlides.length);
+  }, [current, goTo]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const pct = Math.min(elapsed / HERO_DURATION, 1);
+      setProgress(pct);
+      if (pct >= 1) next();
+    }, 50);
+    return () => clearInterval(timer);
+  }, [next]);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    el.currentTime = 180;
-    const handleTime = () => {
-      if (el.currentTime >= 300) el.currentTime = 180;
-    };
-    el.addEventListener("timeupdate", handleTime);
-    el.play().catch(() => {});
-    return () => el.removeEventListener("timeupdate", handleTime);
   }, []);
 
   return (
@@ -48,24 +76,22 @@ const Index = () => {
       <Header />
 
       <main>
-        {/* Hero */}
+        {/* Hero Slideshow */}
         <section className="relative h-[90vh] w-full overflow-hidden bg-foreground -mt-[76px]">
-          <div
-            className="absolute inset-0 will-change-transform"
-            style={{ transform: `translateY(${scrollY * 0.35}px)` }}
-          >
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-[115%] object-cover opacity-60"
-              crossOrigin="anonymous"
-            >
-              <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/v1/videoplayback_1_j2pk9p" type="video/mp4" />
-            </video>
-          </div>
+          {heroSlides.map((slide, i) => (
+            <img
+              key={i}
+              src={slide.image}
+              alt={`Alpha Iota brotherhood ${i + 1}`}
+              className="absolute inset-0 w-full h-[115%] object-cover transition-opacity duration-[1.2s] ease-in-out will-change-[opacity,transform]"
+              style={{
+                objectPosition: slide.position,
+                opacity: i === current ? 1 : 0,
+                filter: "brightness(0.55)",
+                transform: `translateY(${scrollY * 0.25}px)`,
+              }}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/20 to-transparent" />
           <div
             className="relative z-10 flex flex-col justify-end h-full px-6 md:px-14 pb-16 md:pb-24"
@@ -80,6 +106,27 @@ const Index = () => {
             >
               Shop Now
             </Link>
+
+            {/* Slide indicators */}
+            <div className="flex items-center gap-3 mt-10">
+              {heroSlides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTo(i)}
+                  className="group relative h-[2px] cursor-pointer"
+                  style={{ width: i === current ? 48 : 24 }}
+                  aria-label={`Go to slide ${i + 1}`}
+                >
+                  <div className="absolute inset-0 bg-primary-foreground/25 rounded-full" />
+                  <div
+                    className="absolute inset-y-0 left-0 bg-primary-foreground rounded-full transition-all duration-100"
+                    style={{
+                      width: i === current ? `${progress * 100}%` : i < current ? "100%" : "0%",
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
