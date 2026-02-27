@@ -6,7 +6,7 @@ import FadeIn from "@/components/FadeIn";
 import TextReveal from "@/components/TextReveal";
 import { Link } from "react-router-dom";
 
-import logo from "@/assets/logo.png";
+import aiLogo from "@/assets/alpha-iota-logo.png";
 
 const pillars = [
   { number: "01", title: "LEGACY", text: "95 years of excellence. Every stitch carries the weight of those who came before us.", width: "100%" },
@@ -49,7 +49,7 @@ const OurStory = () => {
         {/* Intro */}
         <FadeIn>
           <section className="px-4 md:px-14 max-w-3xl mx-auto text-center mb-20 md:mb-28">
-            <img src={logo} alt="The AI Collection logo" className="h-12 mx-auto mb-6 opacity-30" />
+            <img src={aiLogo} alt="Alpha Iota chapter logo" className="h-20 mx-auto mb-6 opacity-80" />
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
               Alpha Iota isn't just a chapter, it's a brotherhood. For 95 years, we've shaped leaders, 
               built community, and pushed the standard of what it means to achieve. This is our story: 
