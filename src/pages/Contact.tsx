@@ -29,12 +29,46 @@ const Contact = () => {
               CONTACT US
             </h1>
           </TextReveal>
-          <p className="text-sm text-muted-foreground text-center mb-12">
-            Questions, feedback, or just want to connect? Drop us a line or email us at{" "}
-            <a href="mailto:ainupes1931@gmail.com" className="underline hover:text-foreground transition-colors">
-              ainupes1931@gmail.com
-            </a>
+          <p className="text-sm text-muted-foreground text-center mb-12 leading-relaxed max-w-lg mx-auto">
+            Whether you're a brother looking for custom chapter orders, an alumnus wanting to rep AI, 
+            or a supporter with questions about our products, we're here to help. Reach out and our team 
+            will get back to you within 24-48 hours.
           </p>
+
+          {/* How We Can Help */}
+          <FadeIn>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-14">
+              <div className="text-center p-5 border border-border">
+                <p className="font-display text-sm tracking-[0.15em] text-foreground mb-2">ORDERS & SIZING</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Questions about sizing, pre-orders, shipping timelines, or your existing order? We've got you.
+                </p>
+              </div>
+              <div className="text-center p-5 border border-border">
+                <p className="font-display text-sm tracking-[0.15em] text-foreground mb-2">CUSTOM & BULK</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Interested in custom chapter apparel or bulk orders for events and celebrations? Let's talk.
+                </p>
+              </div>
+              <div className="text-center p-5 border border-border">
+                <p className="font-display text-sm tracking-[0.15em] text-foreground mb-2">PARTNERSHIPS</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Brand collaborations, sponsorship inquiries, or media requests? We're open to connecting.
+                </p>
+              </div>
+            </div>
+          </FadeIn>
+
+          <FadeIn>
+            <div className="mb-10 text-center">
+              <p className="text-xs text-muted-foreground">
+                You can also email us directly at{" "}
+                <a href="mailto:ainupes1931@gmail.com" className="underline hover:text-foreground transition-colors">
+                  ainupes1931@gmail.com
+                </a>
+              </p>
+            </div>
+          </FadeIn>
 
           <FadeIn>
             <form onSubmit={handleSubmit} className="space-y-6">

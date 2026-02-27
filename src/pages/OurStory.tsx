@@ -43,11 +43,78 @@ const OurStory = () => {
         <FadeIn>
           <section className="px-4 md:px-14 max-w-3xl mx-auto text-center mb-20 md:mb-28">
             <img src={logo} alt="AI Nupes" className="h-12 mx-auto mb-6 opacity-30" />
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
               Alpha Iota isn't just a chapter, it's a brotherhood. For 95 years, we've shaped leaders, 
               built community, and pushed the standard of what it means to achieve. This is our story: 
               the journey of brothers who refused to settle, from 1931 to today.
             </p>
+          </section>
+        </FadeIn>
+
+        {/* Who We Are — Brand Story */}
+        <FadeIn>
+          <section className="px-4 md:px-14 max-w-4xl mx-auto mb-20 md:mb-28">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+              <div>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Who We Are</p>
+                <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-5">
+                  MORE THAN
+                  <br />
+                  A CLOTHING LINE
+                </h2>
+              </div>
+              <div className="space-y-5">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  The AI Collection is the official lifestyle brand of the Alpha Iota chapter of Kappa Alpha Psi Fraternity, Inc. 
+                  at Morgan State University. Founded in 1931, our chapter has produced generations of leaders, innovators, 
+                  and community builders who carry the motto "Achievement in Every Field of Human Endeavor."
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  We created this brand to give our brothers, supporters, and community a way to wear that legacy with pride. 
+                  Every piece we design reflects our values: excellence, brotherhood, and service. When you wear AI, you're not 
+                  just wearing a logo. You're representing a 95-year tradition of Black excellence at one of the nation's 
+                  most storied HBCUs.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  From campus to culture, The AI Collection bridges generations. Our pieces are designed for the boardroom, 
+                  the yard, the cookout, and everywhere in between. We believe that how you present yourself matters, and 
+                  our clothing is built to reflect the standard we've upheld for nearly a century.
+                </p>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
+
+        {/* Our Mission */}
+        <FadeIn>
+          <section className="bg-secondary/30 py-16 md:py-24 px-4 md:px-14 mb-20 md:mb-28">
+            <div className="max-w-3xl mx-auto text-center">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Our Mission</p>
+              <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground mb-6 leading-[0.9]">
+                CELEBRATING ACHIEVEMENT,
+                <br />
+                ONE PIECE AT A TIME
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
+                Our mission is to honor the legacy of Alpha Iota through premium, intentionally designed apparel 
+                that represents who we are and where we come from. We aim to strengthen the bond between current 
+                brothers, alumni, and supporters while funding chapter initiatives that uplift the Morgan State community.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center max-w-2xl mx-auto">
+                <div>
+                  <p className="font-display text-4xl md:text-5xl text-foreground mb-1">95</p>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Years of Legacy</p>
+                </div>
+                <div>
+                  <p className="font-display text-4xl md:text-5xl text-foreground mb-1">1931</p>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Founded at Morgan State</p>
+                </div>
+                <div>
+                  <p className="font-display text-4xl md:text-5xl text-foreground mb-1">∞</p>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Brothers for Life</p>
+                </div>
+              </div>
+            </div>
           </section>
         </FadeIn>
 
@@ -91,6 +158,34 @@ const OurStory = () => {
             </div>
           </div>
         </section>
+
+        {/* Community Impact */}
+        <FadeIn>
+          <section className="px-4 md:px-14 max-w-4xl mx-auto mb-20 md:mb-28">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+              <div>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Beyond the Brand</p>
+                <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-5">
+                  GIVING BACK
+                  <br />
+                  TO THE COMMUNITY
+                </h2>
+              </div>
+              <div className="space-y-5">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  The AI Collection isn't just about what you wear. Every purchase directly supports Alpha Iota chapter 
+                  initiatives, from scholarship funds for Morgan State students to community service programs across 
+                  Baltimore. When you invest in our brand, you invest in the next generation of achievers.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Our brothers are mentors, educators, entrepreneurs, and civic leaders. The proceeds from 
+                  The AI Collection help us continue programming that develops young men into the leaders 
+                  our communities need. This is how achievement becomes tangible.
+                </p>
+              </div>
+            </div>
+          </section>
+        </FadeIn>
 
         {/* CTA */}
         <FadeIn>
