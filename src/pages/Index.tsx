@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
-import heroVideo from "@/assets/hero-video.mp4";
+
 import ProductCarousel from "@/components/ProductCarousel";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -42,8 +42,9 @@ const Index = () => {
             muted
             playsInline
             className="absolute inset-0 w-full h-full object-cover opacity-50"
+            crossOrigin="anonymous"
           >
-            <source src={heroVideo} type="video/mp4" />
+            <source src="https://res.cloudinary.com/ddfe8uqth/video/upload/v1/videoplayback_1_j2pk9p" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/30 to-transparent" />
           <div className="relative z-10 flex flex-col justify-end h-full px-6 md:px-14 pb-20 md:pb-28 max-w-2xl">
