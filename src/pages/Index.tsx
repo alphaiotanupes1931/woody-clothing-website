@@ -15,17 +15,14 @@ import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
-import bro1 from "@/assets/brotherhood/brotherhood-1.jpg";
-import bro2 from "@/assets/brotherhood/brotherhood-2.jpg";
-import bro3 from "@/assets/brotherhood/brotherhood-3.jpg";
-import bro4 from "@/assets/brotherhood/brotherhood-4.jpg";
-import bro5 from "@/assets/brotherhood/brotherhood-5.jpg";
-import bro6 from "@/assets/brotherhood/brotherhood-6.jpg";
-import bro7 from "@/assets/brotherhood/brotherhood-7.jpg";
+import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
+import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
+import lifestyleKdiamond3 from "@/assets/lifestyle/lifestyle-kdiamond-front-3.jpg";
 
 const heroSlides = [
-  { image: bro2, position: "center 25%" },
-  { image: bro6, position: "center 35%" },
+  { image: lifestyleKdiamond1, position: "center 30%" },
+  { image: lifestyleQuarterzipHero, position: "center 25%" },
+  { image: lifestyleKdiamond3, position: "center 30%" },
 ];
 
 const HERO_DURATION = 5000;
