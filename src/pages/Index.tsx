@@ -182,10 +182,8 @@ const Index = () => {
                   at Morgan State University. Every piece we create honors 95 years of brotherhood, leadership, 
                   and Black excellence.
                 </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Your purchase directly supports chapter scholarships, community programming, and the next 
-                  generation of achievers. This isn't merch, it's a movement.
-                </p>
+
+
                 <Link
                   to="/our-story"
                   className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-foreground border-b border-foreground pb-1 hover:opacity-70 transition-opacity"
