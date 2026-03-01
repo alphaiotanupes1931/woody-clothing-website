@@ -81,12 +81,8 @@ const OurStory = () => {
                   supporters, and fans of Alpha Iota and Kappa Alpha Psi nationwide. Every purchase directly supports 
                   chapter operations, community programming, and initiatives at Morgan State University.
                 </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Created <strong className="text-foreground">for Alpha Iota brothers, by Alpha Iota brothers</strong>, this 
-                  95th Anniversary collection represents legacy, pride, and continued investment in our chapter's future. 
-                  A portion of all proceeds benefits the <strong className="text-foreground">Alpha Iota Foundation</strong>, supporting 
-                  fundraising efforts for the new Alpha Iota monument.
-                </p>
+
+
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   We design, produce, and sell a curated range of men's and unisex apparel including t-shirts, 
                   performance polos, outerwear, fitted hats, flex caps, bucket hats, skullies, hoodies, and accessories. 
