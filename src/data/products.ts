@@ -78,7 +78,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Heavyweight 6.5 oz cotton tee featuring the iconic \"Achievers of the Impossible\" graphic across the back. Relaxed boxy fit with ribbed crew neck. Pre-shrunk and garment-dyed in kream for a lived-in feel from day one.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this tee delivers a structured yet comfortable fit with a substantial hand feel. Designed to commemorate 95 years of legacy, achievement, and brotherhood, the \"Achievers of the Impossible\" graphic is intentionally placed to honor Alpha Iota's historic impact.\n\nModerate thickness and breathability make it ideal for year-round wear — whether layered or worn as a standalone statement piece.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   {
     image: kreamTeeCorner,
@@ -87,7 +87,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Limited-edition tee celebrating 95 years of Alpha Iota, 1931–2026. Front features the commemorative crest in krimson on a kream base. Bold anniversary graphic spanning the full back panel. Heavyweight 7 oz cotton, boxy cut, screen-printed with water-based inks for a soft hand feel.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this limited-edition tee celebrates 95 years of Alpha Iota, 1931–2026. Front features the commemorative crest in krimson on a kream base with a bold anniversary graphic spanning the full back panel.\n\nModerate thickness and breathability make it ideal for year-round wear — whether layered or worn as a standalone statement piece.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   {
     image: kreamTee1,
@@ -96,7 +96,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Minimalist take on the K-Diamond logo with a clean outline print on the left chest. 100% ring-spun cotton in kream. Relaxed fit with a slightly longer body for easy layering under flannels or jackets.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this tee features a minimalist K-Diamond outline on the left chest. Designed to commemorate 95 years of legacy, achievement, and brotherhood.\n\nModerate thickness and breathability make it ideal for year-round wear — whether layered or worn as a standalone statement piece.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   {
     image: kreamTeeAi95,
@@ -105,7 +105,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Kream heavyweight tee featuring the bold Alpha Iota 95th anniversary graphic across the chest. \"Not Your Typical Nupes\" silhouette design with the iconic tree and chapter crest. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with water-based inks.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this tee features the bold Alpha Iota 95th anniversary graphic across the chest. Designed to commemorate 95 years of legacy, achievement, and brotherhood.\n\nModerate thickness and breathability make it ideal for year-round wear — whether layered or worn as a standalone statement piece.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   {
     image: krimsonTee95th,
@@ -114,7 +114,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$31.00",
     category: "Tees",
     description:
-      "Krimson heavyweight tee featuring the 95th Anniversary crest in gold across the chest. Laurel wreath detail with \"Alpha Iota Anniversary 1931–2026\" banner. 6.5 oz ring-spun cotton, boxy relaxed fit, screen-printed with metallic gold ink.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this krimson tee features the 95th Anniversary crest in gold across the chest with laurel wreath detail. Designed to commemorate 95 years of legacy, achievement, and brotherhood.\n\nModerate thickness and breathability make it ideal for year-round wear — whether layered or worn as a standalone statement piece.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   // Polos (dry-fit only)
   {
@@ -123,7 +123,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$45.00",
     category: "Polos",
     description:
-      "Lightweight dry-fit polo in krimson with breathable mesh side panels. Anti-odor technology and quick-dry fabric keep you fresh through long days. K-Diamond embroidery on the chest. Athletic fit with ribbed sleeve cuffs.",
+      "Engineered for movement and performance, this lightweight polo features moisture-wicking fabric with 4-way stretch for enhanced comfort. Anti-wrinkle construction maintains a clean, structured look throughout wear.\n\nDesigned for active events, golf outings, and outdoor gatherings.\n\n• Material: Polyester / Cotton / Spandex Blend\n• Fabric Weight: 200 GSM\n• Breathability: High\n• Stretch: 4-Way Stretch\n• Finish: Anti-Wrinkle / Moisture-Wicking\n• Logo: Embroidered Chest Logo",
   },
   {
     image: kreamPerformancePolo,
@@ -131,7 +131,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$45.00",
     category: "Polos",
     description:
-      "Built for movement. Moisture-wicking dry-fit fabric in kream with four-way stretch and UPF 30 sun protection. K-Diamond logo heat-pressed on the chest. Ideal for the golf course, cookouts, or anytime you need to look polished while staying cool.",
+      "Engineered for movement and performance, this lightweight kream polo features moisture-wicking fabric with 4-way stretch for enhanced comfort. Anti-wrinkle construction maintains a clean, structured look throughout wear.\n\nDesigned for active events, golf outings, and outdoor gatherings.\n\n• Material: Polyester / Cotton / Spandex Blend\n• Fabric Weight: 200 GSM\n• Breathability: High\n• Stretch: 4-Way Stretch\n• Finish: Anti-Wrinkle / Moisture-Wicking\n• Logo: Embroidered Chest Logo",
   },
   // Headwear
   {
@@ -142,7 +142,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "fitted-hat",
     description:
-      "Structured six-panel fitted cap in krimson with the K-Diamond patch front and center. Premium wool blend, embroidered eyelets, and a satin-lined interior. Flat brim with a green undervisor for that classic look.",
+      "A true heritage silhouette. This classic fitted cap features authentic raised 3D embroidery on the front and back with a commemorative 95th anniversary side patch. Structured construction and precise sizing provide a premium, tailored fit that honors tradition.\n\n• Material: Premium Wool Blend\n• Crown: High-Profile Structured\n• Fit: True Fitted Sizing\n• Embroidery: Raised 3D (Front & Back)\n• Side Detail: 95th Anniversary Patch\n• Visor: Flat Bill (Can Be Curved)\n• Interior: Taped Seams / Moisture-Wicking Sweatband",
   },
   {
     image: krimsonBucketFront,
@@ -152,7 +152,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "one-size",
     description:
-      "Casual bucket hat in krimson with the K-Diamond patch on the front panel. Soft cotton twill construction with a short, downturned brim for sun coverage. Metal eyelets for ventilation. One size fits most with a comfortable interior sweatband.",
+      "Constructed from durable padded canvas, this bucket hat maintains structure while remaining lightweight and comfortable. Raised 3D embroidery provides bold dimension, blending modern streetwear styling with commemorative heritage design.\n\n• Material: Padded Cotton Canvas\n• Construction: Soft Structured\n• Embroidery: Raised 3D\n• Brim: 360° Stitched Brim\n• Fit: Standard Adjustable Interior",
   },
   {
     image: krimsonSkully,
@@ -161,7 +161,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "one-size",
     description:
-      "Ribbed-knit skully beanie in krimson with the K-Diamond logo embroidered at the cuff. Soft acrylic blend that stretches to fit. Fold the cuff up or pull it down for a slouch fit. Essential cold-weather gear.",
+      "A classic ribbed knit beanie designed for warmth and comfort. Midweight acrylic construction provides insulation without bulk, while the embroidered diamond insignia adds refined detail. Ideal for cooler seasons and transitional weather.\n\n• Material: Acrylic Knit\n• Weight: Midweight\n• Stretch: High Stretch\n• Embroidery: Flat Embroidered Diamond Logo\n• Construction: Ribbed Knit",
   },
   {
     image: flexKrimsonKap,
@@ -171,7 +171,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Headwear",
     sizeType: "one-size",
     description:
-      "FlexFit stretch-fit cap in krimson with kream K-Diamond patch. Comfortable stretch-band construction. Mid-profile crown with a pre-curved brim. Easy to wear, hard to take off.",
+      "Built on a structured flex-fit silhouette, this cap features raised 3D embroidery on the front and back for bold dimensional impact. The structured crown maintains shape while the elasticized interior band ensures a comfortable, secure fit.\n\nDesigned for everyday wear while maintaining commemorative presence.\n\n• Material: Cotton Twill (Structured)\n• Crown: 6-Panel Structured\n• Closure: Flex Fit (Elasticized Interior Band)\n• Embroidery: Raised 3D (Front & Back)\n• Visor: Pre-Curved\n• Sweatband: Moisture-Wicking Cotton Blend",
   },
   // Kream Hat — Registration Exclusive
   {
@@ -185,7 +185,7 @@ const rawProducts: Omit<Product, "id">[] = [
     registrationNote:
       "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe kream commemorative hat is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
     description:
-      "Registration-exclusive commemorative hat in kream with the K-Diamond patch. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
+      "Built on a structured flex-fit silhouette, this registration-exclusive kream cap features raised 3D embroidery for bold dimensional impact. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.\n\n• Material: Cotton Twill (Structured)\n• Crown: 6-Panel Structured\n• Closure: Flex Fit (Elasticized Interior Band)\n• Embroidery: Raised 3D (Front & Back)\n• Visor: Pre-Curved",
   },
   // Registration-only Tee
   {
@@ -198,7 +198,7 @@ const rawProducts: Omit<Product, "id">[] = [
     registrationNote:
       "This item is exclusively available to brothers who have officially registered for the Alpha Iota 95th Anniversary Celebration.\n\nThe kream commemorative tee is not available for direct purchase through this site.\n\nTo secure this item, you must complete your official 95th Anniversary registration.",
     description:
-      "Registration-exclusive commemorative tee in kream featuring the 95th Anniversary crest. Heavyweight cotton, boxy fit. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.",
+      "Crafted from premium 300 GSM (8.8 oz) 100% cotton, this registration-exclusive kream tee features the 95th Anniversary crest. Available only to registered attendees of the Alpha Iota 95th Anniversary Celebration.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print Method: High-density screen print",
   },
   // Outerwear
   {
@@ -208,7 +208,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$50.00",
     category: "Outerwear",
     description:
-      "Polished quarter-zip pullover in krimson with the K-Diamond logo embroidered at the left chest. Soft-brushed fleece interior for warmth without bulk. Stand-up collar, ribbed cuffs, and a straight hem. Layer it over a polo or tee for chapter events, travel, or everyday wear.",
+      "A refined layering essential crafted from a lightweight wool blend. The quarter-zip neckline allows versatile styling, while the embroidered chest insignia delivers subtle commemorative detailing.\n\nIdeal for transitional seasons and elevated casual settings.\n\n• Material: Wool Blend (Wool / Polyester)\n• Fabric Weight: 200 GSM\n• Thickness: Lightweight to Moderate\n• Breathability: Moderate\n• Closure: Metal Quarter Zip\n• Logo: Embroidered Chest Logo\n• Fit: Standard Tailored Fit",
   },
   // Accessories
   {
@@ -218,7 +218,7 @@ const rawProducts: Omit<Product, "id">[] = [
     category: "Accessories",
     sizeType: "one-size",
     description:
-      "Crew-length socks in kream with the K-Diamond logo knitted at the calf. Cushioned sole, reinforced heel and toe, and a ribbed cuff that stays up all day. Fits sizes 8–13. The finishing touch to any fit. 3 for $20.",
+      "Crafted for comfort and durability, these woven crew socks feature reinforced heel and toe construction with applied embroidered diamond detailing. Designed for everyday wear while maintaining symbolic presence. 3 for $20.\n\n• Material: Cotton / Polyester / Spandex Blend\n• Construction: Woven Crew Sock\n• Logo: Embroidered Diamond Patch\n• Stretch: Moderate\n• Cushioning: Reinforced Heel & Toe",
   },
 ];
 
