@@ -231,4 +231,4 @@ export function getProductById(id: string): Product | undefined {
   return allProducts.find((p) => p.id === id);
 }
 
-export const REGISTRATION_URL = "#register"; // placeholder until registration site is created
+export const REGISTRATION_URL = "https://alphaiota95.com/";
