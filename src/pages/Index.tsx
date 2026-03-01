@@ -248,21 +248,40 @@ const Index = () => {
 
         {/* Registration CTA */}
         <FadeIn>
-          <section className="bg-foreground text-primary-foreground py-14 md:py-20 text-center px-6">
-            <h2 className="font-display text-3xl md:text-5xl tracking-wide mb-4">
-              95TH ANNIVERSARY CELEBRATION
-            </h2>
-            <p className="text-sm text-primary-foreground/70 max-w-md mx-auto mb-6 leading-relaxed">
-              Register for the Alpha Iota 95th Anniversary Celebration to receive exclusive merch and event access.
-            </p>
-            <a
-              href={REGISTRATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-fill-sweep inline-block bg-background text-foreground px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase transition-transform duration-300 hover:tracking-[0.3em]"
-            >
-              Register Now
-            </a>
+          <section className="bg-foreground text-primary-foreground py-14 md:py-20 px-6">
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+              <div className="text-center md:text-left">
+                <h2 className="font-display text-3xl md:text-5xl tracking-wide mb-4">
+                  95TH ANNIVERSARY CELEBRATION
+                </h2>
+                <p className="text-sm text-primary-foreground/70 max-w-md mx-auto md:mx-0 mb-6 leading-relaxed">
+                  Register for the Alpha Iota 95th Anniversary Celebration to receive exclusive merch and event access.
+                </p>
+                <a
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-fill-sweep inline-block bg-background text-foreground px-10 py-4 text-xs font-semibold tracking-[0.2em] uppercase transition-transform duration-300 hover:tracking-[0.3em]"
+                >
+                  Register Now
+                </a>
+              </div>
+              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-primary-foreground/10">
+                <iframe
+                  src="https://alphaiota95.com/"
+                  title="Alpha Iota 95th Anniversary Registration"
+                  className="w-full h-full border-0 pointer-events-none"
+                  loading="lazy"
+                />
+                <a
+                  href={REGISTRATION_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10"
+                  aria-label="Visit registration site"
+                />
+              </div>
+            </div>
           </section>
         </FadeIn>
       </main>
