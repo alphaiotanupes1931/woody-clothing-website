@@ -56,7 +56,7 @@ const Footer = () => {
               </h4>
               <ul className="space-y-3">
                 <li><Link to="/our-story" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Our Story</Link></li>
-                <li><a href="https://ainupes1931.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Alpha Iota Chapter</a></li>
+                <li><a href="https://ainupes1931.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Official AI Chapter Page</a></li>
                 <li><Link to="/our-story" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">95th Anniversary</Link></li>
               </ul>
             </div>
