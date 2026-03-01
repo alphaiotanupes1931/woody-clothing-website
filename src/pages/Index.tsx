@@ -264,7 +264,7 @@ const Index = () => {
                   Register Now
                 </a>
               </div>
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-primary-foreground/10">
+              <div className="relative w-full max-w-md aspect-[4/3] rounded-lg overflow-hidden shadow-2xl border border-primary-foreground/10">
                 <iframe
                   src="https://alphaiota95.com/"
                   title="Alpha Iota 95th Anniversary Registration"
