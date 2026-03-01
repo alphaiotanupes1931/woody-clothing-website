@@ -24,10 +24,8 @@ import bro6 from "@/assets/brotherhood/brotherhood-6.jpg";
 import bro7 from "@/assets/brotherhood/brotherhood-7.jpg";
 
 const heroSlides = [
-  { image: bro1, position: "center 30%" },
   { image: bro2, position: "center 25%" },
   { image: bro6, position: "center 35%" },
-  { image: bro7, position: "center 30%" },
 ];
 
 const HERO_DURATION = 5000;
