@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const NewsletterPopup = () => {
   const [show, setShow] = useState(false);
@@ -24,9 +25,12 @@ const NewsletterPopup = () => {
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    try {
+      await supabase.from("newsletter_subscribers").insert({ email: email.trim().toLowerCase() });
+    } catch {}
     setSubmitted(true);
     setTimeout(handleClose, 2500);
   };

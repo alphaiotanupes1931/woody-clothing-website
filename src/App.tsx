@@ -25,6 +25,7 @@ import ShippingReturns from "./pages/ShippingReturns";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 import Wishlist from "./pages/Wishlist";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/shipping-returns" element={<ShippingReturns />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PageTransition>
