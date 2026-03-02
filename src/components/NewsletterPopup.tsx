@@ -29,7 +29,12 @@ const NewsletterPopup = () => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
     try {
-      await supabase.from("newsletter_subscribers").insert({ email: email.trim().toLowerCase() });
+      const trimmedEmail = email.trim().toLowerCase();
+      // Save to DB and sync to Mailchimp in parallel
+      await Promise.allSettled([
+        supabase.from("newsletter_subscribers").insert({ email: trimmedEmail }),
+        supabase.functions.invoke("mailchimp-subscribe", { body: { email: trimmedEmail } }),
+      ]);
     } catch {}
     setSubmitted(true);
     setTimeout(handleClose, 2500);
