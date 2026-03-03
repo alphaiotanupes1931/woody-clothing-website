@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import InventorySummary from "@/components/admin/InventorySummary";
 
 interface Subscriber {
   id: string;
