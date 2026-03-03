@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -23,8 +24,8 @@ serve(async (req) => {
       throw new Error("No items provided");
     }
 
-    // Build line items from the cart
-    const line_items = items.map((item: { name: string; price: number; quantity: number; image?: string }) => ({
+    // Build line items — size is already appended to name from frontend
+    const line_items = items.map((item: { name: string; price: number; quantity: number; image?: string; size?: string; productId?: string }) => ({
       price_data: {
         currency: "usd",
         product_data: {
@@ -51,7 +52,20 @@ serve(async (req) => {
       });
     }
 
+    // Build items detail string for Stripe metadata (sizes + quantities)
+    const itemsDetail = items.map((item: any) => {
+      const parts = [item.name];
+      if (item.size) parts.push(`Size: ${item.size}`);
+      parts.push(`Qty: ${item.quantity}`);
+      parts.push(`$${item.price}`);
+      return parts.join(" | ");
+    }).join(" // ");
+
     const origin = req.headers.get("origin") || "https://lovable.dev";
+
+    // Calculate subtotal
+    const subtotal = items.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
+    const total = subtotal + shippingCost;
 
     const sessionParams: any = {
       payment_method_types: ["card"],
@@ -66,6 +80,7 @@ serve(async (req) => {
         shipping_cost: String(shippingCost),
         customer_name: customerName || "",
         shipping_address: shippingAddress ? `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}` : "",
+        items_detail: itemsDetail.substring(0, 500), // Stripe metadata max 500 chars
         ...(metadata || {}),
       },
       shipping_address_collection: undefined,
@@ -93,6 +108,56 @@ serve(async (req) => {
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams);
+
+    // Save order to database
+    try {
+      const supabaseAdmin = createClient(
+        Deno.env.get("SUPABASE_URL") || "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
+      );
+
+      const { data: order, error: orderError } = await supabaseAdmin
+        .from("orders")
+        .insert({
+          stripe_session_id: session.id,
+          customer_name: customerName || "",
+          customer_email: customerEmail || "",
+          shipping_address: shippingAddress?.address || null,
+          shipping_city: shippingAddress?.city || null,
+          shipping_state: shippingAddress?.state || null,
+          shipping_zip: shippingAddress?.zip || null,
+          shipping_method: shipping?.label || null,
+          shipping_cost: shippingCost,
+          subtotal,
+          total,
+          status: "pending",
+        })
+        .select("id")
+        .single();
+
+      if (orderError) {
+        console.error("Order save error:", orderError);
+      } else if (order) {
+        const orderItems = items.map((item: any) => ({
+          order_id: order.id,
+          product_name: item.name.replace(/ \([^)]+\)$/, ""), // Remove size suffix from name
+          product_id: item.productId || null,
+          size: item.size || null,
+          quantity: item.quantity,
+          unit_price: item.price,
+        }));
+
+        const { error: itemsError } = await supabaseAdmin
+          .from("order_items")
+          .insert(orderItems);
+
+        if (itemsError) {
+          console.error("Order items save error:", itemsError);
+        }
+      }
+    } catch (dbErr) {
+      console.error("DB save error (non-blocking):", dbErr);
+    }
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -158,11 +158,16 @@ const Checkout = () => {
           finalPrice = parseFloat((totalSocksPrice / item.quantity).toFixed(2));
         }
 
+        // Extract size from cart item id (format: "product-id-SIZE")
+        const size = item.size || undefined;
+
         return {
-          name: item.name,
+          name: size ? `${item.name} (${size})` : item.name,
           price: finalPrice,
           quantity: item.quantity,
           image: imageUrl,
+          size,
+          productId: item.id.replace(/-[A-Z0-9.\/]+$/, ""),
         };
       });
 
