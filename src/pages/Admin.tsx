@@ -77,6 +77,23 @@ const Admin = () => {
   useEffect(() => {
     fetchSubscribers();
     fetchOrders();
+
+    // Auto-refresh inventory when new orders arrive
+    const channel = supabase
+      .channel('admin-orders-realtime')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'orders' },
+        () => {
+          console.log('New order detected, refreshing…');
+          fetchOrders();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const refreshAll = () => {
