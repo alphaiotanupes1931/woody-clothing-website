@@ -63,6 +63,45 @@ const Shop = () => {
     }
   }, [categoryParam]);
 
+  const [teeSize, setTeeSize] = useState("");
+  const [poloSize, setPoloSize] = useState("");
+  const [zipSize, setZipSize] = useState("");
+  const [bundleLoading, setBundleLoading] = useState(false);
+
+  const handleBundleCheckout = async () => {
+    if (!teeSize || !poloSize || !zipSize) {
+      toast.error("Please select all sizes before checking out.");
+      return;
+    }
+    setBundleLoading(true);
+    try {
+      const checkoutItems = bundleItems.map((item) => {
+        let size: string | null = null;
+        if (item.sizeKey === "tee") size = teeSize;
+        if (item.sizeKey === "polo") size = poloSize;
+        if (item.sizeKey === "zip") size = zipSize;
+        const imageUrl = item.image.startsWith("http") ? item.image : `${window.location.origin}${item.image}`;
+        return { name: size ? `${item.name} (${size})` : item.name, price: 0, quantity: 1, image: imageUrl, size };
+      });
+
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: {
+          items: [{ name: "95th Anniversary Complete Pack", price: BUNDLE_PRICE, quantity: 1, image: checkoutItems[0].image }],
+          bundleItems: checkoutItems,
+          metadata: { bundle: "true", teeSize, poloSize, zipSize, items: bundleItems.map((i) => i.name).join(", ") },
+        },
+      });
+      if (error) throw error;
+      if (data?.url) window.location.href = data.url;
+      else throw new Error("No checkout URL");
+    } catch (err: any) {
+      console.error("Bundle checkout error:", err);
+      toast.error("Checkout failed. Please try again.");
+    } finally {
+      setBundleLoading(false);
+    }
+  };
+
   let filtered = activeFilter === "All"
     ? shopProducts
     : activeFilter === "Headwear & Accessories"
