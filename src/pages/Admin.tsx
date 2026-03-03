@@ -86,8 +86,7 @@ const Admin = () => {
     if (!confirm(`Delete order from "${customerName}"? This cannot be undone.`)) return;
     try {
       const { data, error } = await supabase.functions.invoke("admin-orders", {
-        method: "DELETE",
-        body: { orderId },
+        body: { action: "delete", orderId },
       });
       if (error) throw error;
       setOrders((prev) => prev.filter((o) => o.id !== orderId));
@@ -103,8 +102,7 @@ const Admin = () => {
     if (!confirm(`Remove subscriber "${email}"? This cannot be undone.`)) return;
     try {
       const { data, error } = await supabase.functions.invoke("admin-subscribers", {
-        method: "DELETE",
-        body: { subscriberId },
+        body: { action: "delete", subscriberId },
       });
       if (error) throw error;
       setSubscribers((prev) => prev.filter((s) => s.id !== subscriberId));

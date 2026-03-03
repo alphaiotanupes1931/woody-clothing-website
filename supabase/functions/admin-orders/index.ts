@@ -17,12 +17,13 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
 
-    // Handle DELETE requests
-    if (req.method === "DELETE") {
-      const { orderId } = await req.json();
+    const body = await req.json().catch(() => ({}));
+
+    // Handle delete action
+    if (body.action === "delete") {
+      const { orderId } = body;
       if (!orderId) throw new Error("orderId is required");
 
-      // Delete order items first (foreign key)
       await supabaseAdmin.from("order_items").delete().eq("order_id", orderId);
       const { error } = await supabaseAdmin.from("orders").delete().eq("id", orderId);
       if (error) throw error;
