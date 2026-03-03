@@ -244,20 +244,26 @@ const Checkout = () => {
               <section>
                 <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4">Contact</h2>
                 <div className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Full Name *"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
+                    />
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      placeholder="Email Address *"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
+                    />
+                  </div>
                 </div>
               </section>
 
@@ -267,7 +273,8 @@ const Checkout = () => {
                 <div className="space-y-3">
                   <input
                     type="text"
-                    placeholder="Street Address"
+                    placeholder="Street Address *"
+                    required
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
@@ -275,14 +282,16 @@ const Checkout = () => {
                   <div className="grid grid-cols-3 gap-3">
                     <input
                       type="text"
-                      placeholder="City"
+                      placeholder="City *"
+                      required
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       className="col-span-1 border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
                     />
                     <input
                       type="text"
-                      placeholder="State"
+                      placeholder="State *"
+                      required
                       value={state}
                       onChange={(e) => setState(e.target.value.toUpperCase().slice(0, 2))}
                       maxLength={2}
@@ -290,7 +299,8 @@ const Checkout = () => {
                     />
                     <input
                       type="text"
-                      placeholder="ZIP Code"
+                      placeholder="ZIP Code *"
+                      required
                       value={zip}
                       onChange={(e) => setZip(e.target.value.replace(/\D/g, "").slice(0, 5))}
                       maxLength={5}

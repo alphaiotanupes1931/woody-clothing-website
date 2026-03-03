@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package } from "lucide-react";
+import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 interface Subscriber {
   id: string;
@@ -79,6 +80,39 @@ const Admin = () => {
   const refreshAll = () => {
     fetchSubscribers();
     fetchOrders();
+  };
+
+  const deleteOrder = async (orderId: string, customerName: string) => {
+    if (!confirm(`Delete order from "${customerName}"? This cannot be undone.`)) return;
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-orders", {
+        method: "DELETE",
+        body: { orderId },
+      });
+      if (error) throw error;
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      setExpandedOrder(null);
+      toast.success("Order deleted.");
+    } catch (err) {
+      console.error("Delete order error:", err);
+      toast.error("Failed to delete order.");
+    }
+  };
+
+  const deleteSubscriber = async (subscriberId: string, email: string) => {
+    if (!confirm(`Remove subscriber "${email}"? This cannot be undone.`)) return;
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-subscribers", {
+        method: "DELETE",
+        body: { subscriberId },
+      });
+      if (error) throw error;
+      setSubscribers((prev) => prev.filter((s) => s.id !== subscriberId));
+      toast.success("Subscriber removed.");
+    } catch (err) {
+      console.error("Delete subscriber error:", err);
+      toast.error("Failed to delete subscriber.");
+    }
   };
 
   const exportCSV = () => {
@@ -293,9 +327,18 @@ const Admin = () => {
                           </div>
                         </div>
 
-                        <div className="flex justify-end gap-6 text-sm pt-2 border-t border-border">
-                          <span className="text-muted-foreground">Subtotal: ${Number(o.subtotal).toFixed(2)}</span>
-                          <span className="font-medium">Total: ${Number(o.total).toFixed(2)}</span>
+                        <div className="flex items-center justify-between pt-2 border-t border-border">
+                          <button
+                            onClick={() => deleteOrder(o.id, o.customer_name)}
+                            className="flex items-center gap-1.5 text-xs text-destructive hover:text-destructive/80 transition-colors"
+                          >
+                            <Trash2 size={13} />
+                            Delete Order
+                          </button>
+                          <div className="flex gap-6 text-sm">
+                            <span className="text-muted-foreground">Subtotal: ${Number(o.subtotal).toFixed(2)}</span>
+                            <span className="font-medium">Total: ${Number(o.total).toFixed(2)}</span>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -334,6 +377,7 @@ const Admin = () => {
                       <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Email</th>
                       <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Source</th>
                       <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Date</th>
+                      <th className="text-right px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -345,6 +389,15 @@ const Admin = () => {
                           {new Date(s.subscribed_at).toLocaleDateString("en-US", {
                             month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
                           })}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button
+                            onClick={() => deleteSubscriber(s.id, s.email)}
+                            className="text-destructive hover:text-destructive/80 transition-colors"
+                            title="Delete subscriber"
+                          >
+                            <Trash2 size={14} />
+                          </button>
                         </td>
                       </tr>
                     ))}

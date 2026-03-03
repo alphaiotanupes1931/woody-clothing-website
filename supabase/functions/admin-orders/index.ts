@@ -17,7 +17,22 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
 
-    // Fetch orders with their items
+    // Handle DELETE requests
+    if (req.method === "DELETE") {
+      const { orderId } = await req.json();
+      if (!orderId) throw new Error("orderId is required");
+
+      // Delete order items first (foreign key)
+      await supabaseAdmin.from("order_items").delete().eq("order_id", orderId);
+      const { error } = await supabaseAdmin.from("orders").delete().eq("id", orderId);
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // GET: Fetch orders with their items
     const { data: orders, error: ordersError } = await supabaseAdmin
       .from("orders")
       .select("*")
@@ -26,7 +41,6 @@ Deno.serve(async (req) => {
 
     if (ordersError) throw ordersError;
 
-    // Fetch all order items for these orders
     const orderIds = (orders || []).map((o: any) => o.id);
     let items: any[] = [];
     if (orderIds.length > 0) {
@@ -39,7 +53,6 @@ Deno.serve(async (req) => {
       items = itemsData || [];
     }
 
-    // Group items by order
     const ordersWithItems = (orders || []).map((order: any) => ({
       ...order,
       items: items.filter((i: any) => i.order_id === order.id),
