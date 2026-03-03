@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Users, TrendingUp, RefreshCw } from "lucide-react";
+import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface Subscriber {
@@ -10,10 +10,40 @@ interface Subscriber {
   source: string;
 }
 
+interface OrderItem {
+  id: string;
+  product_name: string;
+  product_id: string | null;
+  size: string | null;
+  quantity: number;
+  unit_price: number;
+}
+
+interface Order {
+  id: string;
+  stripe_session_id: string | null;
+  customer_name: string;
+  customer_email: string;
+  shipping_address: string | null;
+  shipping_city: string | null;
+  shipping_state: string | null;
+  shipping_zip: string | null;
+  shipping_method: string | null;
+  shipping_cost: number;
+  subtotal: number;
+  total: number;
+  status: string;
+  created_at: string;
+  items: OrderItem[];
+}
+
 const Admin = () => {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"subscribers" | "overview">("overview");
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [tab, setTab] = useState<"overview" | "orders" | "subscribers">("overview");
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const fetchSubscribers = async () => {
     setLoading(true);
@@ -28,9 +58,28 @@ const Admin = () => {
     }
   };
 
+  const fetchOrders = async () => {
+    setOrdersLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-orders");
+      if (error) throw error;
+      setOrders(data.orders || []);
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchSubscribers();
+    fetchOrders();
   }, []);
+
+  const refreshAll = () => {
+    fetchSubscribers();
+    fetchOrders();
+  };
 
   const exportCSV = () => {
     const csv = ["Email,Subscribed At,Source"]
@@ -45,6 +94,23 @@ const Admin = () => {
     URL.revokeObjectURL(url);
   };
 
+  const exportOrdersCSV = () => {
+    const rows = ["Order Date,Customer,Email,Address,Items,Sizes,Subtotal,Shipping,Total,Status"];
+    orders.forEach((o) => {
+      const itemNames = o.items.map((i) => `${i.product_name} x${i.quantity}`).join("; ");
+      const sizes = o.items.map((i) => i.size || "N/A").join("; ");
+      const addr = [o.shipping_address, o.shipping_city, o.shipping_state, o.shipping_zip].filter(Boolean).join(", ");
+      rows.push(`"${new Date(o.created_at).toLocaleDateString()}","${o.customer_name}","${o.customer_email}","${addr}","${itemNames}","${sizes}",${o.subtotal},${o.shipping_cost},${o.total},${o.status}`);
+    });
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `orders-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const todayCount = subscribers.filter(
     (s) => new Date(s.subscribed_at).toDateString() === new Date().toDateString()
   ).length;
@@ -52,6 +118,8 @@ const Admin = () => {
   const weekCount = subscribers.filter(
     (s) => Date.now() - new Date(s.subscribed_at).getTime() < 7 * 86400000
   ).length;
+
+  const totalRevenue = orders.reduce((sum, o) => sum + Number(o.total), 0);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -65,10 +133,10 @@ const Admin = () => {
             <h1 className="font-display text-xl tracking-wider uppercase">Admin Dashboard</h1>
           </div>
           <button
-            onClick={fetchSubscribers}
+            onClick={refreshAll}
             className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
+            <RefreshCw size={14} className={loading || ordersLoading ? "animate-spin" : ""} />
             Refresh
           </button>
         </div>
@@ -77,7 +145,7 @@ const Admin = () => {
       {/* Tabs */}
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-4 flex gap-0">
-          {(["overview", "subscribers"] as const).map((t) => (
+          {(["overview", "orders", "subscribers"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -96,44 +164,145 @@ const Admin = () => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {tab === "overview" && (
           <div className="space-y-8">
-            {/* Stat Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <StatCard icon={<Users size={20} />} label="Total Subscribers" value={subscribers.length} />
-              <StatCard icon={<TrendingUp size={20} />} label="This Week" value={weekCount} />
-              <StatCard icon={<Mail size={20} />} label="Today" value={todayCount} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <StatCard icon={<ShoppingBag size={20} />} label="Total Orders" value={orders.length} />
+              <StatCard icon={<Package size={20} />} label="Revenue" value={`$${totalRevenue.toFixed(2)}`} />
+              <StatCard icon={<Users size={20} />} label="Subscribers" value={subscribers.length} />
+              <StatCard icon={<TrendingUp size={20} />} label="Signups This Week" value={weekCount} />
             </div>
 
-            {/* Recent signups */}
+            {/* Recent orders */}
             <div>
               <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">
-                Recent Signups
+                Recent Orders
               </h2>
-              {loading ? (
+              {ordersLoading ? (
                 <p className="text-sm text-muted-foreground">Loading…</p>
-              ) : subscribers.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No subscribers yet.</p>
+              ) : orders.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No orders yet.</p>
               ) : (
                 <div className="space-y-2">
-                  {subscribers.slice(0, 10).map((s) => (
-                    <div
-                      key={s.id}
-                      className="flex items-center justify-between border border-border px-4 py-3 text-sm"
-                    >
-                      <span className="font-medium">{s.email}</span>
-                      <span className="text-muted-foreground text-xs">
-                        {new Date(s.subscribed_at).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                        })}
-                      </span>
+                  {orders.slice(0, 5).map((o) => (
+                    <div key={o.id} className="border border-border px-4 py-3 text-sm flex items-center justify-between">
+                      <div>
+                        <span className="font-medium">{o.customer_name}</span>
+                        <span className="text-muted-foreground ml-2">— {o.items.length} item(s)</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className="font-medium">${Number(o.total).toFixed(2)}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {new Date(o.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {tab === "orders" && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+                All Orders ({orders.length})
+              </h2>
+              <button
+                onClick={exportOrdersCSV}
+                disabled={orders.length === 0}
+                className="flex items-center gap-2 bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
+              >
+                <Download size={14} />
+                Export CSV
+              </button>
+            </div>
+
+            {ordersLoading ? (
+              <p className="text-sm text-muted-foreground">Loading…</p>
+            ) : orders.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No orders yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {orders.map((o) => (
+                  <div key={o.id} className="border border-border overflow-hidden">
+                    <button
+                      onClick={() => setExpandedOrder(expandedOrder === o.id ? null : o.id)}
+                      className="w-full text-left px-4 py-4 flex items-center justify-between hover:bg-muted/20 transition-colors"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3">
+                          <span className="font-medium text-sm">{o.customer_name}</span>
+                          <span className="text-xs text-muted-foreground">{o.customer_email}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {o.items.map((i) => {
+                            const parts = [i.product_name];
+                            if (i.size) parts.push(`(${i.size})`);
+                            parts.push(`x${i.quantity}`);
+                            return parts.join(" ");
+                          }).join(", ")}
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-4">
+                        <div className="font-medium text-sm">${Number(o.total).toFixed(2)}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {new Date(o.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        </div>
+                      </div>
+                    </button>
+
+                    {expandedOrder === o.id && (
+                      <div className="border-t border-border px-4 py-4 bg-muted/10 space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-1">Shipping Address</p>
+                            <p>{o.shipping_address}</p>
+                            <p>{o.shipping_city}, {o.shipping_state} {o.shipping_zip}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-1">Shipping Method</p>
+                            <p>{o.shipping_method || "N/A"}</p>
+                            <p className="text-muted-foreground">Cost: ${Number(o.shipping_cost).toFixed(2)}</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-2">Items</p>
+                          <div className="border border-border overflow-hidden">
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr className="border-b border-border bg-muted/30">
+                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Product</th>
+                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Size</th>
+                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Qty</th>
+                                  <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Price</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {o.items.map((item) => (
+                                  <tr key={item.id} className="border-b border-border last:border-0">
+                                    <td className="px-3 py-2">{item.product_name}</td>
+                                    <td className="px-3 py-2 text-muted-foreground">{item.size || "—"}</td>
+                                    <td className="px-3 py-2">{item.quantity}</td>
+                                    <td className="px-3 py-2 text-right">${Number(item.unit_price).toFixed(2)}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end gap-6 text-sm pt-2 border-t border-border">
+                          <span className="text-muted-foreground">Subtotal: ${Number(o.subtotal).toFixed(2)}</span>
+                          <span className="font-medium">Total: ${Number(o.total).toFixed(2)}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -162,15 +331,9 @@ const Admin = () => {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border bg-muted/30">
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
-                        Email
-                      </th>
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
-                        Source
-                      </th>
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
-                        Date
-                      </th>
+                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Email</th>
+                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Source</th>
+                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -180,11 +343,7 @@ const Admin = () => {
                         <td className="px-4 py-3 text-muted-foreground capitalize">{s.source || "popup"}</td>
                         <td className="px-4 py-3 text-muted-foreground">
                           {new Date(s.subscribed_at).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "2-digit",
+                            month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
                           })}
                         </td>
                       </tr>
@@ -200,7 +359,7 @@ const Admin = () => {
   );
 };
 
-const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) => (
+const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) => (
   <div className="border border-border p-6 space-y-2">
     <div className="flex items-center gap-2 text-muted-foreground">{icon}<span className="text-xs font-semibold tracking-[0.15em] uppercase">{label}</span></div>
     <p className="font-display text-4xl">{value}</p>
