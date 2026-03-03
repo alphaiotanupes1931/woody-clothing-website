@@ -18,7 +18,7 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const { items, shipping, metadata, customerEmail, customerName, shippingAddress } = await req.json();
+    const { items, shipping, metadata, customerEmail, customerName, shippingAddress, bundleItems: bundleItemsRaw } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error("No items provided");
@@ -149,13 +149,18 @@ serve(async (req) => {
       if (orderError) {
         console.error("Order save error:", orderError);
       } else if (order) {
-        const orderItems = items.map((item: any) => ({
+        // If bundle items are provided, store those instead of the single line item
+        const itemsToStore = bundleItemsRaw && Array.isArray(bundleItemsRaw) && bundleItemsRaw.length > 0
+          ? bundleItemsRaw
+          : items;
+
+        const orderItems = itemsToStore.map((item: any) => ({
           order_id: order.id,
-          product_name: item.name.replace(/ \([^)]+\)$/, ""), // Remove size suffix from name
+          product_name: item.name.replace(/ \([^)]+\)$/, ""),
           product_id: item.productId || null,
           size: item.size || null,
-          quantity: item.quantity,
-          unit_price: item.price,
+          quantity: item.quantity || 1,
+          unit_price: item.price || 0,
         }));
 
         const { error: itemsError } = await supabaseAdmin
