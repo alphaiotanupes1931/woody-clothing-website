@@ -83,15 +83,27 @@ const Header = ({ solid = false }: HeaderProps) => {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((item) => (
-              <Link
-                key={item.label}
-                to={item.href}
-                className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navLinks.map((item) =>
+              item.external ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-[13px] font-medium tracking-wide uppercase hover:opacity-70 transition-opacity"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
           </nav>
 
           <div className="flex items-center gap-2 md:gap-4">
@@ -138,15 +150,28 @@ const Header = ({ solid = false }: HeaderProps) => {
         }`}
       >
         <nav className="flex flex-col items-start px-6 pt-24 gap-1">
-          {navLinks.map((item) => (
-            <Link
-              key={item.label}
-              to={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-2xl font-display tracking-wider uppercase text-foreground hover:text-muted-foreground active:text-muted-foreground transition-colors flex items-center gap-2 py-2 w-full"
-            >
-              {item.label}
-            </Link>
+          {navLinks.map((item) =>
+            item.external ? (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="text-2xl font-display tracking-wider uppercase text-foreground hover:text-muted-foreground active:text-muted-foreground transition-colors flex items-center gap-2 py-2 w-full"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="text-2xl font-display tracking-wider uppercase text-foreground hover:text-muted-foreground active:text-muted-foreground transition-colors flex items-center gap-2 py-2 w-full"
+              >
+                {item.label}
+              </Link>
+            )
           ))}
         </nav>
       </div>
