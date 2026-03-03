@@ -172,7 +172,7 @@ const Header = ({ solid = false }: HeaderProps) => {
                 {item.label}
               </Link>
             )
-          ))}
+          )}
         </nav>
       </div>
     </>
