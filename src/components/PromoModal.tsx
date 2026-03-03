@@ -103,30 +103,28 @@ const PromoModal = () => {
 
     setLoading(true);
     try {
+      // Send individual items with sizes so DB captures everything
       const checkoutItems = bundleItems.map((item) => {
-        let sizeSuffix = "";
-        if (item.sizeKey === "tee") sizeSuffix = ` (${teeSize})`;
-        if (item.sizeKey === "polo") sizeSuffix = ` (${poloSize})`;
-        if (item.sizeKey === "zip") sizeSuffix = ` (${zipSize})`;
+        let size: string | null = null;
+        if (item.sizeKey === "tee") size = teeSize;
+        if (item.sizeKey === "polo") size = poloSize;
+        if (item.sizeKey === "zip") size = zipSize;
 
         const imageUrl = item.image.startsWith("http")
           ? item.image
           : `${window.location.origin}${item.image}`;
 
         return {
-          name: `${item.name}${sizeSuffix}`,
-          price: 0, // individual price zeroed; bundle total set below
+          name: size ? `${item.name} (${size})` : item.name,
+          price: 0,
           quantity: 1,
           image: imageUrl,
+          size,
         };
       });
 
-      // Set the first item's price to the bundle total so Stripe shows $199
-      checkoutItems[0].price = BUNDLE_PRICE;
-      // Rename first item to reflect the bundle
-      checkoutItems[0].name = `95th Anniversary Complete Pack · $${BUNDLE_PRICE}`;
-
-      // Send as a single bundle line item for cleaner checkout
+      // Stripe line item: single bundle for clean checkout display
+      // But send individual items in bundleItems for DB storage
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: {
           items: [
@@ -137,8 +135,10 @@ const PromoModal = () => {
               image: checkoutItems[0].image,
             },
           ],
+          // Send the detailed items separately for DB storage
+          bundleItems: checkoutItems,
           metadata: {
-            bundle: true,
+            bundle: "true",
             teeSize,
             poloSize,
             zipSize,

@@ -7,7 +7,37 @@ import BackToTop from "@/components/BackToTop";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+// Bundle items (same as PromoModal)
+import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
+import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
+import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
+import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
+import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
+import ktrZip from "@/assets/products/ktr-zip.jpg";
+import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
+import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
+import kreamSocks from "@/assets/products/kream-socks.jpg";
+import krimsonSkully from "@/assets/products/krimson-skully.jpg";
+
+const BUNDLE_PRICE = 259;
+const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
+
+const bundleItems = [
+  { name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap },
+  { name: '"Achievers" KREAM Tee', image: kreamTeeAchievers, needsSize: true, sizeKey: "tee" },
+  { name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner, needsSize: true, sizeKey: "tee" },
+  { name: "K-Diamond Outline Tee, Kream", image: kreamTee1, needsSize: true, sizeKey: "tee" },
+  { name: "AI 95th Large Logo Tee", image: kreamTeeAi95, needsSize: true, sizeKey: "tee" },
+  { name: "KRIMSON Quarter-Zip Sweater", image: ktrZip, needsSize: true, sizeKey: "zip" },
+  { name: "KRIMSON Dry-Fit Polo", image: dryFitPolo, needsSize: true, sizeKey: "polo" },
+  { name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo, needsSize: true, sizeKey: "polo" },
+  { name: "KREAM K-Diamond Socks (1 Pair)", image: kreamSocks },
+  { name: "KRIMSON K-Diamond Skully", image: krimsonSkully },
+];
 
 const registrationProducts = allProducts.filter((p) => p.registrationOnly);
 const shopProducts = allProducts.filter((p) => !p.registrationOnly);
