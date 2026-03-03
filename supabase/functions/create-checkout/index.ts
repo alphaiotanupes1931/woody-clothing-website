@@ -18,7 +18,7 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const { items, shipping, metadata, customerEmail, customerName, shippingAddress } = await req.json();
+    const { items, shipping, metadata, customerEmail, customerName, shippingAddress, bundleItems: bundleItemsRaw } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error("No items provided");
