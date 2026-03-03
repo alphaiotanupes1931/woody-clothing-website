@@ -299,28 +299,32 @@ const Admin = () => {
                         </div>
 
                         <div>
-                          <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-2">Items</p>
-                          <div className="border border-border overflow-hidden">
-                            <table className="w-full text-sm">
-                              <thead>
-                                <tr className="border-b border-border bg-muted/30">
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Product</th>
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Size</th>
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Qty</th>
-                                  <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Price</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {o.items.map((item) => (
-                                  <tr key={item.id} className="border-b border-border last:border-0">
-                                    <td className="px-3 py-2">{item.product_name}</td>
-                                    <td className="px-3 py-2 text-muted-foreground">{item.size || "—"}</td>
-                                    <td className="px-3 py-2">{item.quantity}</td>
-                                    <td className="px-3 py-2 text-right">${Number(item.unit_price).toFixed(2)}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                          <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-2">Order Summary</p>
+                          <div className="space-y-1.5">
+                            {(() => {
+                              // Group items by product name, aggregate sizes
+                              const grouped: Record<string, { totalQty: number; sizes: Record<string, number> }> = {};
+                              o.items.forEach((item) => {
+                                const key = item.product_name;
+                                if (!grouped[key]) grouped[key] = { totalQty: 0, sizes: {} };
+                                grouped[key].totalQty += item.quantity;
+                                const size = item.size || "One Size";
+                                grouped[key].sizes[size] = (grouped[key].sizes[size] || 0) + item.quantity;
+                              });
+                              return Object.entries(grouped).map(([name, data]) => {
+                                const sizeBreakdown = Object.entries(data.sizes)
+                                  .map(([s, q]) => `${q} ${s}`)
+                                  .join(", ");
+                                return (
+                                  <div key={name} className="flex items-baseline gap-2 text-sm">
+                                    <span className="font-medium">{name}</span>
+                                    <span className="text-muted-foreground">—</span>
+                                    <span>{data.totalQty} pcs</span>
+                                    <span className="text-muted-foreground text-xs">({sizeBreakdown})</span>
+                                  </div>
+                                );
+                              });
+                            })()}
                           </div>
                         </div>
 
