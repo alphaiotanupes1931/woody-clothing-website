@@ -35,6 +35,95 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          id: string
+          order_id: string
+          product_id: string | null
+          product_name: string
+          quantity: number
+          size: string | null
+          unit_price: number
+        }
+        Insert: {
+          id?: string
+          order_id: string
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          size?: string | null
+          unit_price: number
+        }
+        Update: {
+          id?: string
+          order_id?: string
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          size?: string | null
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          id: string
+          shipping_address: string | null
+          shipping_city: string | null
+          shipping_cost: number | null
+          shipping_method: string | null
+          shipping_state: string | null
+          shipping_zip: string | null
+          status: string
+          stripe_session_id: string | null
+          subtotal: number
+          total: number
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          id?: string
+          shipping_address?: string | null
+          shipping_city?: string | null
+          shipping_cost?: number | null
+          shipping_method?: string | null
+          shipping_state?: string | null
+          shipping_zip?: string | null
+          status?: string
+          stripe_session_id?: string | null
+          subtotal: number
+          total: number
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          id?: string
+          shipping_address?: string | null
+          shipping_city?: string | null
+          shipping_cost?: number | null
+          shipping_method?: string | null
+          shipping_state?: string | null
+          shipping_zip?: string | null
+          status?: string
+          stripe_session_id?: string | null
+          subtotal?: number
+          total?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
