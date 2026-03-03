@@ -4,6 +4,7 @@ import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Tra
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
+import OrderDetail from "@/components/admin/OrderDetail";
 
 interface Subscriber {
   id: string;
@@ -285,60 +286,11 @@ const Admin = () => {
                     </button>
 
                     {expandedOrder === o.id && (
-                      <div className="border-t border-border px-4 py-4 bg-muted/10 space-y-3">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-1">Shipping Address</p>
-                            <p>{o.shipping_address}</p>
-                            <p>{o.shipping_city}, {o.shipping_state} {o.shipping_zip}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-1">Shipping Method</p>
-                            <p>{o.shipping_method || "N/A"}</p>
-                            <p className="text-muted-foreground">Cost: ${Number(o.shipping_cost).toFixed(2)}</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-2">Items</p>
-                          <div className="border border-border overflow-hidden">
-                            <table className="w-full text-sm">
-                              <thead>
-                                <tr className="border-b border-border bg-muted/30">
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Product</th>
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Size</th>
-                                  <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Qty</th>
-                                  <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Price</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {o.items.map((item) => (
-                                  <tr key={item.id} className="border-b border-border last:border-0">
-                                    <td className="px-3 py-2">{item.product_name}</td>
-                                    <td className="px-3 py-2 text-muted-foreground">{item.size || "—"}</td>
-                                    <td className="px-3 py-2">{item.quantity}</td>
-                                    <td className="px-3 py-2 text-right">${Number(item.unit_price).toFixed(2)}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-2 border-t border-border">
-                          <button
-                            onClick={() => deleteOrder(o.id, o.customer_name)}
-                            className="flex items-center gap-1.5 text-xs text-destructive hover:text-destructive/80 transition-colors"
-                          >
-                            <Trash2 size={13} />
-                            Delete Order
-                          </button>
-                          <div className="flex gap-6 text-sm">
-                            <span className="text-muted-foreground">Subtotal: ${Number(o.subtotal).toFixed(2)}</span>
-                            <span className="font-medium">Total: ${Number(o.total).toFixed(2)}</span>
-                          </div>
-                        </div>
-                      </div>
+                      <OrderDetail
+                        order={o}
+                        onDelete={deleteOrder}
+                        onClose={() => setExpandedOrder(null)}
+                      />
                     )}
                   </div>
                 ))}
