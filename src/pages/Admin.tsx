@@ -43,7 +43,7 @@ const Admin = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
-  const [tab, setTab] = useState<"overview" | "orders" | "subscribers">("overview");
+  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const fetchSubscribers = async () => {
@@ -177,7 +177,7 @@ const Admin = () => {
       {/* Tabs */}
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-4 flex gap-0">
-          {(["overview", "orders", "subscribers"] as const).map((t) => (
+          {(["overview", "orders", "inventory", "subscribers"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -344,6 +344,10 @@ const Admin = () => {
               </div>
             )}
           </div>
+        )}
+
+        {tab === "inventory" && (
+          <InventorySummary orders={orders} loading={ordersLoading} />
         )}
 
         {tab === "subscribers" && (
