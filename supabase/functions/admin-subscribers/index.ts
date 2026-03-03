@@ -16,9 +16,11 @@ Deno.serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-    // Handle DELETE requests
-    if (req.method === "DELETE") {
-      const { subscriberId } = await req.json();
+    const body = await req.json().catch(() => ({}));
+
+    // Handle delete action
+    if (body.action === "delete") {
+      const { subscriberId } = body;
       if (!subscriberId) throw new Error("subscriberId is required");
 
       const { error } = await supabase.from("newsletter_subscribers").delete().eq("id", subscriberId);
