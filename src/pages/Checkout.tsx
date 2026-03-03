@@ -133,14 +133,20 @@ const Checkout = () => {
   const orderTotal = (subtotal + shippingCost).toFixed(2);
 
   const handleCheckout = async () => {
-    if (!name || !email || !address || !city || !state || !zip) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-    if (!selectedRate) {
-      toast.error("Please select a shipping option.");
-      return;
-    }
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedAddress = address.trim();
+    const trimmedCity = city.trim();
+    const trimmedState = state.trim();
+    const trimmedZip = zip.trim();
+
+    if (!trimmedName) { toast.error("Please enter your full name."); return; }
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) { toast.error("Please enter a valid email address."); return; }
+    if (!trimmedAddress) { toast.error("Please enter your street address."); return; }
+    if (!trimmedCity) { toast.error("Please enter your city."); return; }
+    if (!trimmedState || trimmedState.length !== 2) { toast.error("Please enter a valid 2-letter state code."); return; }
+    if (!trimmedZip || trimmedZip.length !== 5) { toast.error("Please enter a valid 5-digit ZIP code."); return; }
+    if (!selectedRate) { toast.error("Please select a shipping option."); return; }
 
     setCheckoutLoading(true);
     try {
