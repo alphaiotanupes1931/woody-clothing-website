@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
 import OrderDetail from "@/components/admin/OrderDetail";
+import AdminLogin from "@/components/admin/AdminLogin";
 
 interface Subscriber {
   id: string;
@@ -41,6 +42,7 @@ interface Order {
 }
 
 const Admin = () => {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem("admin-auth") === "true");
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,10 +77,10 @@ const Admin = () => {
   };
 
   useEffect(() => {
+    if (!authed) return;
     fetchSubscribers();
     fetchOrders();
 
-    // Auto-refresh inventory when new orders arrive
     const channel = supabase
       .channel('admin-orders-realtime')
       .on(
@@ -94,7 +96,11 @@ const Admin = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [authed]);
+
+  if (!authed) {
+    return <AdminLogin onAuth={() => setAuthed(true)} />;
+  }
 
   const refreshAll = () => {
     fetchSubscribers();
