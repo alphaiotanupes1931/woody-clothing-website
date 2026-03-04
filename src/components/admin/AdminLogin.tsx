@@ -19,9 +19,7 @@ const AdminLogin = ({ onAuth }: { onAuth: () => void }) => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-8 text-center">
         <div className="space-y-2">
-          <div className="w-12 h-12 border border-border flex items-center justify-center mx-auto">
-            <Lock size={20} className="text-muted-foreground" />
-          </div>
+          <img src={logo} alt="The AI Collection" className="h-12 mx-auto object-contain" />
           <h1 className="text-lg font-semibold tracking-[0.15em] uppercase">Admin Panel</h1>
           <p className="text-xs text-muted-foreground tracking-wider uppercase">
             Managed by Reed Digital Group
