@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Lock } from "lucide-react";
-
+import logo from "@/assets/logo.png";
 const AdminLogin = ({ onAuth }: { onAuth: () => void }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
