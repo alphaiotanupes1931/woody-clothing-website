@@ -42,12 +42,17 @@ interface Order {
 }
 
 const Admin = () => {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem("admin-auth") === "true");
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+
+  if (!authed) {
+    return <AdminLogin onAuth={() => setAuthed(true)} />;
+  }
 
   const fetchSubscribers = async () => {
     setLoading(true);
