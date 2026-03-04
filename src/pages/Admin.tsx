@@ -50,41 +50,38 @@ const Admin = () => {
   const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
-  if (!authed) {
-    return <AdminLogin onAuth={() => setAuthed(true)} />;
-  }
-
-  const fetchSubscribers = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("admin-subscribers");
-      if (error) throw error;
-      setSubscribers(data.subscribers || []);
-    } catch (err) {
-      console.error("Failed to fetch subscribers:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchOrders = async () => {
-    setOrdersLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("admin-orders");
-      if (error) throw error;
-      setOrders(data.orders || []);
-    } catch (err) {
-      console.error("Failed to fetch orders:", err);
-    } finally {
-      setOrdersLoading(false);
-    }
-  };
-
   useEffect(() => {
+    if (!authed) return;
+
+    const fetchSubscribers = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke("admin-subscribers");
+        if (error) throw error;
+        setSubscribers(data.subscribers || []);
+      } catch (err) {
+        console.error("Failed to fetch subscribers:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchOrders = async () => {
+      setOrdersLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke("admin-orders");
+        if (error) throw error;
+        setOrders(data.orders || []);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+
     fetchSubscribers();
     fetchOrders();
 
-    // Auto-refresh inventory when new orders arrive
     const channel = supabase
       .channel('admin-orders-realtime')
       .on(
@@ -100,7 +97,11 @@ const Admin = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [authed]);
+
+  if (!authed) {
+    return <AdminLogin onAuth={() => setAuthed(true)} />;
+  }
 
   const refreshAll = () => {
     fetchSubscribers();
