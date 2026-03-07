@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +8,6 @@ import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { ExternalLink, ChevronDown, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 // Bundle items (same as PromoModal)
@@ -45,6 +44,7 @@ const categories = ["All", "Headwear & Accessories", "Tees", "Polos", "Outerwear
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
 
@@ -66,40 +66,27 @@ const Shop = () => {
   const [teeSize, setTeeSize] = useState("");
   const [poloSize, setPoloSize] = useState("");
   const [zipSize, setZipSize] = useState("");
-  const [bundleLoading, setBundleLoading] = useState(false);
 
-  const handleBundleCheckout = async () => {
+  const handleBundleCheckout = () => {
     if (!teeSize || !poloSize || !zipSize) {
       toast.error("Please select all sizes before checking out.");
       return;
     }
-    setBundleLoading(true);
-    try {
-      const checkoutItems = bundleItems.map((item) => {
-        let size: string | null = null;
-        if (item.sizeKey === "tee") size = teeSize;
-        if (item.sizeKey === "polo") size = poloSize;
-        if (item.sizeKey === "zip") size = zipSize;
-        const imageUrl = item.image.startsWith("http") ? item.image : `${window.location.origin}${item.image}`;
-        return { name: size ? `${item.name} (${size})` : item.name, price: 0, quantity: 1, image: imageUrl, size };
-      });
-
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          items: [{ name: "95th Anniversary Complete Pack", price: BUNDLE_PRICE, quantity: 1, image: checkoutItems[0].image }],
-          bundleItems: checkoutItems,
-          metadata: { bundle: "true", teeSize, poloSize, zipSize, items: bundleItems.map((i) => i.name).join(", ") },
-        },
-      });
-      if (error) throw error;
-      if (data?.url) window.location.href = data.url;
-      else throw new Error("No checkout URL");
-    } catch (err: any) {
-      console.error("Bundle checkout error:", err);
-      toast.error("Checkout failed. Please try again.");
-    } finally {
-      setBundleLoading(false);
-    }
+    // Store bundle details in session for the checkout page to pick up
+    const checkoutItems = bundleItems.map((item) => {
+      let size: string | null = null;
+      if (item.sizeKey === "tee") size = teeSize;
+      if (item.sizeKey === "polo") size = poloSize;
+      if (item.sizeKey === "zip") size = zipSize;
+      const imageUrl = item.image.startsWith("http") ? item.image : `${window.location.origin}${item.image}`;
+      return { name: size ? `${item.name} (${size})` : item.name, price: 0, quantity: 1, image: imageUrl, size };
+    });
+    sessionStorage.setItem("bundle-checkout", JSON.stringify({
+      items: [{ name: "95th Anniversary Complete Pack", price: BUNDLE_PRICE, quantity: 1, image: checkoutItems[0].image }],
+      bundleItems: checkoutItems,
+      metadata: { bundle: "true", teeSize, poloSize, zipSize, items: bundleItems.map((i) => i.name).join(", ") },
+    }));
+    navigate("/checkout?bundle=true");
   };
 
   let filtered = activeFilter === "All"
@@ -233,14 +220,10 @@ const Shop = () => {
                   </div>
                   <button
                     onClick={handleBundleCheckout}
-                    disabled={bundleLoading || !teeSize || !poloSize || !zipSize}
+                    disabled={!teeSize || !poloSize || !zipSize}
                     className="bg-background text-foreground py-3 px-8 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
                   >
-                    {bundleLoading ? (
-                      <><Loader2 size={13} className="animate-spin" /> Processing...</>
-                    ) : (
-                      teeSize && poloSize && zipSize ? `Checkout · $${BUNDLE_PRICE}` : "Select Sizes"
-                    )}
+                    {teeSize && poloSize && zipSize ? `Checkout · $${BUNDLE_PRICE}` : "Select Sizes"}
                   </button>
                 </div>
                 <p className="text-[7px] sm:text-[8px] text-background/40 mt-2 tracking-wider">
