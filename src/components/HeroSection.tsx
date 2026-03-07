@@ -121,7 +121,7 @@ const HeroSection = () => {
       ))}
 
       {/* Gradient overlays for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-foreground/40 via-transparent to-transparent z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 via-30% to-transparent z-[1]" />
       <div className="absolute inset-0 bg-gradient-to-r from-foreground/15 to-transparent z-[1]" />
 
       {/* Content */}
