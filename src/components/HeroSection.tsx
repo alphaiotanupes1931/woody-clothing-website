@@ -121,7 +121,7 @@ const HeroSection = () => {
       ))}
 
       {/* Gradient overlays for depth + bottom blend into page */}
-      <div className="absolute bottom-0 left-0 right-0 h-[40%] bg-gradient-to-t from-background via-background/60 to-transparent z-[1]" />
+      <div className="absolute bottom-0 left-0 right-0 h-[15%] bg-gradient-to-t from-background/50 to-transparent z-[1]" />
       <div className="absolute inset-0 bg-gradient-to-r from-foreground/15 to-transparent z-[1]" />
 
       {/* Content */}
