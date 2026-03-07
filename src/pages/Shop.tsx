@@ -220,14 +220,10 @@ const Shop = () => {
                   </div>
                   <button
                     onClick={handleBundleCheckout}
-                    disabled={bundleLoading || !teeSize || !poloSize || !zipSize}
+                    disabled={!teeSize || !poloSize || !zipSize}
                     className="bg-background text-foreground py-3 px-8 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-background/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
                   >
-                    {bundleLoading ? (
-                      <><Loader2 size={13} className="animate-spin" /> Processing...</>
-                    ) : (
-                      teeSize && poloSize && zipSize ? `Checkout · $${BUNDLE_PRICE}` : "Select Sizes"
-                    )}
+                    {teeSize && poloSize && zipSize ? `Checkout · $${BUNDLE_PRICE}` : "Select Sizes"}
                   </button>
                 </div>
                 <p className="text-[7px] sm:text-[8px] text-background/40 mt-2 tracking-wider">
