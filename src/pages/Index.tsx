@@ -87,6 +87,8 @@ const Index = () => {
             />
           ))}
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/60 via-foreground/20 to-transparent" />
+          {/* Bottom blend into white */}
+          <div className="absolute bottom-0 left-0 right-0 h-[25%] bg-gradient-to-t from-background to-transparent z-[1]" />
           <div
             className="relative z-10 flex flex-col justify-end h-full px-6 md:px-14 pb-16 md:pb-24"
             style={{ transform: `translateY(${scrollY * -0.15}px)`, opacity: Math.max(0, 1 - scrollY / 600) }}
@@ -128,14 +130,18 @@ const Index = () => {
 
         <FadeIn>
           <section className="relative w-full min-h-[60vh] md:h-[70vh] md:min-h-[400px] overflow-hidden bg-foreground flex flex-col md:flex-row items-center">
-            <div className="w-full md:w-1/2 h-[260px] md:h-full flex items-center justify-center p-6 md:p-10">
+            {/* Top blend from white */}
+            <div className="absolute top-0 left-0 right-0 h-[20%] bg-gradient-to-b from-background to-transparent z-[1]" />
+            {/* Bottom blend to white */}
+            <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-background to-transparent z-[1]" />
+            <div className="relative z-[2] w-full md:w-1/2 h-[260px] md:h-full flex items-center justify-center p-6 md:p-10">
               <img
                 src={tee95thBackNoBg}
                 alt="95th Anniversary Tee"
                 className="max-h-[200px] md:max-h-[420px] object-contain drop-shadow-2xl"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 pb-10 md:pr-20 md:pb-0">
+            <div className="relative z-[2] w-full md:w-1/2 flex flex-col justify-center px-6 pb-10 md:pr-20 md:pb-0">
               <h2 className="font-display text-4xl md:text-6xl tracking-wide text-primary-foreground mb-3 leading-[0.9]">
                 95TH ANNIVERSARY
               </h2>
@@ -243,8 +249,12 @@ const Index = () => {
 
         {/* Registration CTA */}
         <FadeIn>
-          <section className="bg-foreground text-primary-foreground py-14 md:py-20 px-6">
-            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <section className="relative bg-foreground text-primary-foreground py-14 md:py-20 px-6">
+            {/* Top blend from white */}
+            <div className="absolute top-0 left-0 right-0 h-[20%] bg-gradient-to-b from-background to-transparent z-[1]" />
+            {/* Bottom blend to white (before footer) */}
+            <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-background to-transparent z-[1]" />
+            <div className="relative z-[2] max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
               <div className="text-center md:text-left">
                 <h2 className="font-display text-3xl md:text-5xl tracking-wide mb-4">
                   95TH ANNIVERSARY CELEBRATION
