@@ -15,6 +15,11 @@ import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
+import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
+import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
+import ktrZip from "@/assets/products/ktr-zip.jpg";
+import kreamSocks from "@/assets/products/kream-socks.jpg";
+
 import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
 import lifestyleKdiamond3 from "@/assets/lifestyle/lifestyle-kdiamond-front-3.jpg";
@@ -149,6 +154,59 @@ const Index = () => {
               >
                 SHOP NOW
               </MagneticButton>
+            </div>
+          </section>
+        </FadeIn>
+
+        {/* 95th Anniversary Complete Pack */}
+        <FadeIn>
+          <section className="px-4 md:px-14 py-16 md:py-24 bg-muted/30">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-10">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Limited Edition</p>
+                <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-4">
+                  95TH ANNIVERSARY
+                  <br />
+                  COMPLETE PACK
+                </h2>
+                <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed mb-2">
+                  Get the entire 95th Anniversary collection — 10 pieces including tees, polos, quarter-zip, hat, socks & skully. All for one price, with free shipping.
+                </p>
+                <div className="flex items-center justify-center gap-3 mt-4">
+                  <span className="text-muted-foreground line-through text-sm">$331</span>
+                  <span className="font-display text-4xl text-foreground">$259</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 gap-2 md:gap-3 mb-10">
+                {[
+                  { img: flexKrimsonKap, label: "FlexFit Kap" },
+                  { img: kreamTeeAchievers, label: "Achievers Tee" },
+                  { img: ktrZip, label: "Quarter-Zip" },
+                  { img: kreamSocks, label: "K-Diamond Socks" },
+                ].map((item, i) => (
+                  <FadeIn key={i} delay={i * 80}>
+                    <div className="aspect-square overflow-hidden bg-secondary">
+                      <img
+                        src={item.img}
+                        alt={item.label}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                    <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground text-center mt-2 hidden md:block">{item.label}</p>
+                  </FadeIn>
+                ))}
+              </div>
+
+              <div className="text-center">
+                <Link
+                  to="/shop?bundle=true"
+                  className="inline-block bg-foreground text-background px-10 py-4 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300"
+                >
+                  Get the Complete Pack · $259
+                </Link>
+                <p className="text-[10px] text-muted-foreground mt-3 tracking-wide">10 ITEMS · FREE SHIPPING · SAVE $72</p>
+              </div>
             </div>
           </section>
         </FadeIn>
