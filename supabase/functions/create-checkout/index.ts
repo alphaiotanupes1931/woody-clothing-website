@@ -97,7 +97,7 @@ serve(async (req) => {
         items_detail: itemsDetail.substring(0, 500), // Stripe metadata max 500 chars
         ...(metadata || {}),
       },
-      shipping_address_collection: undefined,
+      ...(isBundleCheckout ? { shipping_address_collection: { allowed_countries: ["US"] } } : { shipping_address_collection: undefined }),
     };
 
     // Pre-fill email if provided
