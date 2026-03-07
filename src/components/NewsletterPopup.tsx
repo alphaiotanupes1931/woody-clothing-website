@@ -9,6 +9,7 @@ const NewsletterPopup = () => {
   const [closing, setClosing] = useState(false);
 
   useEffect(() => {
+    if (window.location.pathname === "/admin") return;
     const dismissed = sessionStorage.getItem("newsletter-dismissed");
     if (dismissed) return;
 

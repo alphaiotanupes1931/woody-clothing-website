@@ -94,6 +94,7 @@ const PromoModal = () => {
   const [zip, setZip] = useState("");
 
   useEffect(() => {
+    if (window.location.pathname === "/admin") return;
     const now = new Date();
     if (now < PROMO_START || now > PROMO_END) return;
     if (sessionStorage.getItem("promo-dismissed")) return;
