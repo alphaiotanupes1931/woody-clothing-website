@@ -19,8 +19,6 @@ import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
 import ktrZip from "@/assets/products/ktr-zip.jpg";
 import kreamSocks from "@/assets/products/kream-socks.jpg";
-import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
-import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
 
 import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
