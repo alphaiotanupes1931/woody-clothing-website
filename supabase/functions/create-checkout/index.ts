@@ -24,15 +24,18 @@ serve(async (req) => {
       throw new Error("No items provided");
     }
 
-    // Server-side address validation
-    if (!customerName || !customerName.trim()) {
-      throw new Error("Customer name is required");
-    }
-    if (!customerEmail || !customerEmail.trim()) {
-      throw new Error("Customer email is required");
-    }
-    if (!shippingAddress || !shippingAddress.address?.trim() || !shippingAddress.city?.trim() || !shippingAddress.state?.trim() || !shippingAddress.zip?.trim()) {
-      throw new Error("Complete shipping address is required (street, city, state, ZIP)");
+    // Server-side address validation — skip for bundle/direct checkout (Stripe collects info)
+    const isBundleCheckout = metadata?.bundle === "true";
+    if (!isBundleCheckout) {
+      if (!customerName || !customerName.trim()) {
+        throw new Error("Customer name is required");
+      }
+      if (!customerEmail || !customerEmail.trim()) {
+        throw new Error("Customer email is required");
+      }
+      if (!shippingAddress || !shippingAddress.address?.trim() || !shippingAddress.city?.trim() || !shippingAddress.state?.trim() || !shippingAddress.zip?.trim()) {
+        throw new Error("Complete shipping address is required (street, city, state, ZIP)");
+      }
     }
 
     // Build line items — size is already appended to name from frontend
