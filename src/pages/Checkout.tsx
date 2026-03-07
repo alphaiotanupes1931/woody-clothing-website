@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 import { allProducts } from "@/data/products";
@@ -24,6 +24,16 @@ const FREE_SHIPPING_THRESHOLD = 149;
 const Checkout = () => {
   const { items, cartTotal, clearCart, totalItems } = useCart();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const isBundle = searchParams.get("bundle") === "true";
+  const bundleData = useMemo(() => {
+    if (!isBundle) return null;
+    try {
+      const raw = sessionStorage.getItem("bundle-checkout");
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  }, [isBundle]);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,13 +48,31 @@ const Checkout = () => {
   const [ratesFetched, setRatesFetched] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
-  const subtotal = parseFloat(cartTotal);
-  const freeGroundShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const subtotal = isBundle ? (bundleData?.items?.[0]?.price || 259) : parseFloat(cartTotal);
+  const freeGroundShipping = isBundle || subtotal >= FREE_SHIPPING_THRESHOLD;
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty and not bundle mode
   useEffect(() => {
-    if (items.length === 0) navigate("/shop");
-  }, [items.length, navigate]);
+    if (!isBundle && items.length === 0) navigate("/shop");
+    if (isBundle && !bundleData) navigate("/shop");
+  }, [items.length, navigate, isBundle, bundleData]);
+
+  // For bundle, auto-set free shipping
+  useEffect(() => {
+    if (isBundle) {
+      const freeRate: ShippingRate = {
+        id: "free",
+        service: "free",
+        label: "Free Shipping",
+        estimate: "5–7 business days",
+        price: 0,
+        currency: "USD",
+      };
+      setRates([freeRate]);
+      setSelectedRate(freeRate);
+      setRatesFetched(true);
+    }
+  }, [isBundle]);
 
   // Compute package specs from cart items
   const getPackageSpec = useCallback(() => {
@@ -61,9 +89,9 @@ const Checkout = () => {
     return computePackage(cartSpecs);
   }, [items]);
 
-  // Fetch shipping rates when zip is 5 digits
+  // Fetch shipping rates when zip is 5 digits (non-bundle only)
   const fetchRates = useCallback(async (zipCode: string) => {
-    if (zipCode.length !== 5) return;
+    if (isBundle || zipCode.length !== 5) return;
     setRatesLoading(true);
     setRatesFetched(false);
     try {
@@ -84,7 +112,6 @@ const Checkout = () => {
 
       let fetchedRates: ShippingRate[] = data?.rates || [];
 
-      // If free shipping applies, set Ground Advantage to $0
       if (freeGroundShipping) {
         fetchedRates = fetchedRates.map((r) =>
           r.service === "usps_ground_advantage" || r.service === "flat_rate"
@@ -94,7 +121,6 @@ const Checkout = () => {
       }
 
       setRates(fetchedRates);
-      // Auto-select cheapest
       if (fetchedRates.length > 0) {
         const cheapest = fetchedRates.reduce((a, b) => (a.price <= b.price ? a : b));
         setSelectedRate(cheapest);
@@ -102,7 +128,6 @@ const Checkout = () => {
       setRatesFetched(true);
     } catch (err) {
       console.error("Failed to fetch rates:", err);
-      // Fallback
       const fallback: ShippingRate = {
         id: "fallback",
         service: "flat_rate",
@@ -117,9 +142,10 @@ const Checkout = () => {
     } finally {
       setRatesLoading(false);
     }
-  }, [getPackageSpec, state, city, freeGroundShipping]);
+  }, [isBundle, getPackageSpec, state, city, freeGroundShipping]);
 
   useEffect(() => {
+    if (isBundle) return;
     if (zip.length === 5) {
       fetchRates(zip);
     } else {
@@ -127,7 +153,7 @@ const Checkout = () => {
       setSelectedRate(null);
       setRatesFetched(false);
     }
-  }, [zip, fetchRates]);
+  }, [zip, fetchRates, isBundle]);
 
   const shippingCost = selectedRate?.price || 0;
   const orderTotal = (subtotal + shippingCost).toFixed(2);
@@ -150,35 +176,44 @@ const Checkout = () => {
 
     setCheckoutLoading(true);
     try {
-      const checkoutItems = items.map((item) => {
-        const imageUrl = item.image.startsWith("http")
-          ? item.image
-          : `${window.location.origin}${item.image}`;
-        const unitPrice = parseFloat(item.price.replace(/[^0-9.]/g, ""));
+      let body: any;
 
-        let finalPrice = unitPrice;
-        if (item.id.startsWith("kream-k-diamond-socks") && item.quantity >= 3) {
-          const bundlesOf3 = Math.floor(item.quantity / 3);
-          const remainder = item.quantity % 3;
-          const totalSocksPrice = bundlesOf3 * 20 + remainder * unitPrice;
-          finalPrice = parseFloat((totalSocksPrice / item.quantity).toFixed(2));
-        }
-
-        // Extract size from cart item id (format: "product-id-SIZE")
-        const size = item.size || undefined;
-
-        return {
-          name: size ? `${item.name} (${size})` : item.name,
-          price: finalPrice,
-          quantity: item.quantity,
-          image: imageUrl,
-          size,
-          productId: item.id.replace(/-[A-Z0-9.\/]+$/, ""),
+      if (isBundle && bundleData) {
+        body = {
+          ...bundleData,
+          customerEmail: trimmedEmail,
+          customerName: trimmedName,
+          shippingAddress: { address: trimmedAddress, city: trimmedCity, state: trimmedState, zip: trimmedZip },
+          shipping: { label: "Free Shipping", cost: 0, service: "free" },
         };
-      });
+      } else {
+        const checkoutItems = items.map((item) => {
+          const imageUrl = item.image.startsWith("http")
+            ? item.image
+            : `${window.location.origin}${item.image}`;
+          const unitPrice = parseFloat(item.price.replace(/[^0-9.]/g, ""));
 
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
+          let finalPrice = unitPrice;
+          if (item.id.startsWith("kream-k-diamond-socks") && item.quantity >= 3) {
+            const bundlesOf3 = Math.floor(item.quantity / 3);
+            const remainder = item.quantity % 3;
+            const totalSocksPrice = bundlesOf3 * 20 + remainder * unitPrice;
+            finalPrice = parseFloat((totalSocksPrice / item.quantity).toFixed(2));
+          }
+
+          const size = item.size || undefined;
+
+          return {
+            name: size ? `${item.name} (${size})` : item.name,
+            price: finalPrice,
+            quantity: item.quantity,
+            image: imageUrl,
+            size,
+            productId: item.id.replace(/-[A-Z0-9.\/]+$/, ""),
+          };
+        });
+
+        body = {
           items: checkoutItems,
           shipping: {
             cost: shippingCost,
@@ -186,15 +221,16 @@ const Checkout = () => {
             service: selectedRate.service,
             estimate: selectedRate.estimate,
           },
-          customerEmail: email,
-          customerName: name,
-          shippingAddress: { address, city, state, zip },
-        },
-      });
+          customerEmail: trimmedEmail,
+          customerName: trimmedName,
+          shippingAddress: { address: trimmedAddress, city: trimmedCity, state: trimmedState, zip: trimmedZip },
+        };
+      }
+
+      const { data, error } = await supabase.functions.invoke("create-checkout", { body });
 
       if (error) throw error;
       if (data?.url) {
-        // Store shipping info for confirmation page
         sessionStorage.setItem(
           "order-shipping",
           JSON.stringify({
@@ -203,7 +239,11 @@ const Checkout = () => {
             cost: shippingCost,
           })
         );
-        clearCart();
+        if (isBundle) {
+          sessionStorage.removeItem("bundle-checkout");
+        } else {
+          clearCart();
+        }
         window.location.href = data.url;
       } else {
         throw new Error("No checkout URL returned");
@@ -216,7 +256,14 @@ const Checkout = () => {
     }
   };
 
-  if (items.length === 0) return null;
+  if (!isBundle && items.length === 0) return null;
+  if (isBundle && !bundleData) return null;
+
+  const displayItems = isBundle
+    ? [{ id: "bundle", name: "95th Anniversary Complete Pack", image: bundleData?.bundleItems?.[0]?.image || "", price: `$${bundleData?.items?.[0]?.price || 259}`, quantity: 1, size: undefined as string | undefined }]
+    : items;
+  const displayTotal = isBundle ? String(bundleData?.items?.[0]?.price || 259) : cartTotal;
+  const displayItemCount = isBundle ? 1 : totalItems;
 
   return (
     <div className="min-h-screen bg-background">
@@ -244,26 +291,22 @@ const Checkout = () => {
               <section>
                 <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4">Contact</h2>
                 <div className="space-y-3">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Full Name *"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
-                    />
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="email"
-                      placeholder="Email Address *"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Full Name *"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email Address *"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-foreground"
+                  />
                 </div>
               </section>
 
@@ -311,55 +354,57 @@ const Checkout = () => {
               </section>
 
               {/* Shipping Options */}
-              <section>
-                <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
-                  <Truck size={16} strokeWidth={1.5} />
-                  Shipping Method
-                </h2>
+              {!isBundle && (
+                <section>
+                  <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
+                    <Truck size={16} strokeWidth={1.5} />
+                    Shipping Method
+                  </h2>
 
-                {zip.length < 5 && (
-                  <p className="text-xs text-muted-foreground">Enter your ZIP code to see shipping options.</p>
-                )}
+                  {zip.length < 5 && (
+                    <p className="text-xs text-muted-foreground">Enter your ZIP code to see shipping options.</p>
+                  )}
 
-                {ratesLoading && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground py-4">
-                    <Loader2 size={14} className="animate-spin" />
-                    Fetching live USPS rates...
-                  </div>
-                )}
+                  {ratesLoading && (
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground py-4">
+                      <Loader2 size={14} className="animate-spin" />
+                      Fetching live USPS rates...
+                    </div>
+                  )}
 
-                {ratesFetched && rates.length > 0 && (
-                  <div className="space-y-2">
-                    {rates.map((rate) => (
-                      <label
-                        key={rate.id}
-                        className={`flex items-center justify-between border px-4 py-3 cursor-pointer transition-colors ${
-                          selectedRate?.id === rate.id
-                            ? "border-foreground bg-secondary/50"
-                            : "border-border hover:border-foreground/30"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          <input
-                            type="radio"
-                            name="shipping"
-                            checked={selectedRate?.id === rate.id}
-                            onChange={() => setSelectedRate(rate)}
-                            className="accent-foreground"
-                          />
-                          <div>
-                            <span className="text-sm font-medium">{rate.label}</span>
-                            <p className="text-[10px] text-muted-foreground">{rate.estimate}</p>
+                  {ratesFetched && rates.length > 0 && (
+                    <div className="space-y-2">
+                      {rates.map((rate) => (
+                        <label
+                          key={rate.id}
+                          className={`flex items-center justify-between border px-4 py-3 cursor-pointer transition-colors ${
+                            selectedRate?.id === rate.id
+                              ? "border-foreground bg-secondary/50"
+                              : "border-border hover:border-foreground/30"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="shipping"
+                              checked={selectedRate?.id === rate.id}
+                              onChange={() => setSelectedRate(rate)}
+                              className="accent-foreground"
+                            />
+                            <div>
+                              <span className="text-sm font-medium">{rate.label}</span>
+                              <p className="text-[10px] text-muted-foreground">{rate.estimate}</p>
+                            </div>
                           </div>
-                        </div>
-                        <span className="text-sm font-semibold">
-                          {rate.price === 0 ? "FREE" : `$${rate.price.toFixed(2)}`}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </section>
+                          <span className="text-sm font-semibold">
+                            {rate.price === 0 ? "FREE" : `$${rate.price.toFixed(2)}`}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              )}
             </div>
 
             {/* RIGHT: Order Summary */}
@@ -367,11 +412,11 @@ const Checkout = () => {
               <div className="border border-border p-5 sticky top-36">
                 <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
                   <Package size={16} strokeWidth={1.5} />
-                  Order Summary ({totalItems})
+                  Order Summary ({displayItemCount})
                 </h2>
 
                 <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
-                  {items.map((item) => (
+                  {displayItems.map((item) => (
                     <div key={item.id} className="flex gap-3">
                       <div className="w-14 h-16 bg-secondary flex-shrink-0 overflow-hidden">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
@@ -386,10 +431,19 @@ const Checkout = () => {
                   ))}
                 </div>
 
+                {isBundle && bundleData?.metadata && (
+                  <div className="mb-3 text-[10px] text-muted-foreground border border-border p-2.5 space-y-0.5">
+                    <p className="font-medium text-foreground text-[9px] tracking-[0.15em] uppercase mb-1">10 Items Included</p>
+                    <p>Tee Size: {bundleData.metadata.teeSize}</p>
+                    <p>Polo Size: {bundleData.metadata.poloSize}</p>
+                    <p>Quarter-Zip Size: {bundleData.metadata.zipSize}</p>
+                  </div>
+                )}
+
                 <div className="border-t border-border pt-3 space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${cartTotal}</span>
+                    <span>${displayTotal}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
@@ -407,9 +461,9 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {freeGroundShipping && (
+                {(freeGroundShipping || isBundle) && (
                   <div className="mt-3 text-center text-[10px] tracking-wider uppercase text-muted-foreground bg-secondary py-2">
-                    ✓ Free ground shipping applied
+                    ✓ Free shipping {isBundle ? "included" : "applied"}
                   </div>
                 )}
 
