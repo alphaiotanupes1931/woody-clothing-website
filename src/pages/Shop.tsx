@@ -8,6 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { ExternalLink, ChevronDown, Loader2 } from "lucide-react";
+import PromoDealsSection from "@/components/PromoDealsSection";
 import { toast } from "sonner";
 
 // Bundle items (same as PromoModal)
