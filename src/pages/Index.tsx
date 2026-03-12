@@ -10,6 +10,8 @@ import ParallaxGallery from "@/components/ParallaxGallery";
 import MagneticButton from "@/components/MagneticButton";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 import PromoDealsSection from "@/components/PromoDealsSection";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
@@ -20,6 +22,12 @@ import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
 import ktrZip from "@/assets/products/ktr-zip.jpg";
 import kreamSocks from "@/assets/products/kream-socks.jpg";
+import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
+import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
+import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
+import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
+import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
+import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
 
 import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
@@ -39,6 +47,7 @@ const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p
 
 
 const Index = () => {
+  const { addToCart } = useCart();
   const [scrollY, setScrollY] = useState(0);
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -200,12 +209,32 @@ const Index = () => {
               </div>
 
               <div className="text-center">
-                <Link
-                  to="/shop?bundle=true"
-                  className="inline-block bg-foreground text-background px-10 py-4 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300"
+                <button
+                  onClick={() => {
+                    const PACK_PRICE = 259;
+                    // 10 items: 5 tees, 2 polos, 1 quarter-zip, 1 hat, 1 socks (3 pairs)
+                    const packItems = [
+                      { id: "achievers-kream-tee", name: '"Achievers" KREAM Tee', image: kreamTeeAchievers },
+                      { id: "95th-anniversary-kream-tee", name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner },
+                      { id: "k-diamond-outline-tee-kream", name: "K-Diamond Outline Tee, Kream", image: kreamTee1 },
+                      { id: "ai-95th-large-logo-tee", name: "AI 95th Large Logo Tee", image: kreamTeeAi95 },
+                      { id: "krimson-95th-anniversary-tee", name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th },
+                      { id: "krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", image: dryFitPolo },
+                      { id: "kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo },
+                      { id: "krimson-quarter-zip-sweater", name: "KRIMSON Quarter-Zip Sweater", image: ktrZip },
+                      { id: "krimson-flexfit-k-diamond-kap", name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap },
+                      { id: "kream-k-diamond-socks-pack", name: "KREAM K-Diamond Socks (3 pairs)", image: kreamSocks },
+                    ];
+                    const unitPrice = (PACK_PRICE / packItems.length).toFixed(2);
+                    packItems.forEach((item) => {
+                      addToCart({ id: `pack-${item.id}`, name: item.name, price: `$${unitPrice}`, image: item.image });
+                    });
+                    toast.success("Complete Pack added to cart!");
+                  }}
+                  className="inline-block bg-foreground text-background px-10 py-4 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300 cursor-pointer"
                 >
-                  Get the Complete Pack · $259
-                </Link>
+                  Add to Cart · $259
+                </button>
                 <p className="text-[10px] text-muted-foreground mt-3 tracking-wide">10 ITEMS · FREE SHIPPING · SAVE $72</p>
               </div>
             </div>
