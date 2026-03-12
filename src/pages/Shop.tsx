@@ -235,6 +235,8 @@ const Shop = () => {
           </section>
         </FadeIn>
 
+        <PromoDealsSection />
+
         <FadeIn>
           <div className="px-4 md:px-14 mb-6 md:mb-8">
             <h1 className="font-display text-3xl md:text-6xl tracking-tight text-foreground">

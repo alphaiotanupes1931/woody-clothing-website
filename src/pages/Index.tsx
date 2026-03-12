@@ -212,6 +212,8 @@ const Index = () => {
           </section>
         </FadeIn>
 
+        <PromoDealsSection />
+
         <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
 
