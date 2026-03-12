@@ -481,9 +481,9 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {(freeGroundShipping || isBundle) && (
+                {freeGroundShipping && (
                   <div className="mt-3 text-center text-[10px] tracking-wider uppercase text-muted-foreground bg-secondary py-2">
-                    ✓ Free shipping {isBundle ? "included" : "applied"}
+                    ✓ Free shipping applied
                   </div>
                 )}
 
