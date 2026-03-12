@@ -10,6 +10,7 @@ import ParallaxGallery from "@/components/ParallaxGallery";
 import MagneticButton from "@/components/MagneticButton";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
+import PromoDealsSection from "@/components/PromoDealsSection";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
@@ -210,6 +211,8 @@ const Index = () => {
             </div>
           </section>
         </FadeIn>
+
+        <PromoDealsSection />
 
         <ProductCarousel title="Accessories" products={hatsAndAccessories} />
 
