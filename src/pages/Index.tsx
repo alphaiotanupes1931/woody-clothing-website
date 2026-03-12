@@ -215,12 +215,12 @@ const Index = () => {
                     // 10 items: 5 tees, 2 polos, 1 quarter-zip, 1 hat, 1 socks (3 pairs)
                     const packItems = [
                       { id: "achievers-kream-tee", name: '"Achievers" KREAM Tee', image: kreamTeeAchievers },
-                      { id: "95th-anniversary-kream-tee", name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeAchievers },
-                      { id: "k-diamond-outline-tee-kream", name: "K-Diamond Outline Tee, Kream", image: kreamTeeAchievers },
-                      { id: "ai-95th-large-logo-tee", name: "AI 95th Large Logo Tee", image: kreamTeeAchievers },
-                      { id: "krimson-95th-anniversary-tee", name: "KRIMSON 95th Anniversary Tee", image: kreamTeeAchievers },
-                      { id: "krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", image: kreamTeeAchievers },
-                      { id: "kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", image: kreamTeeAchievers },
+                      { id: "95th-anniversary-kream-tee", name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner },
+                      { id: "k-diamond-outline-tee-kream", name: "K-Diamond Outline Tee, Kream", image: kreamTee1 },
+                      { id: "ai-95th-large-logo-tee", name: "AI 95th Large Logo Tee", image: kreamTeeAi95 },
+                      { id: "krimson-95th-anniversary-tee", name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th },
+                      { id: "krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", image: dryFitPolo },
+                      { id: "kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo },
                       { id: "krimson-quarter-zip-sweater", name: "KRIMSON Quarter-Zip Sweater", image: ktrZip },
                       { id: "krimson-flexfit-k-diamond-kap", name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap },
                       { id: "kream-k-diamond-socks-pack", name: "KREAM K-Diamond Socks (3 pairs)", image: kreamSocks },
