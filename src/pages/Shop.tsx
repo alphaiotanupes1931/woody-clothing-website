@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -7,37 +7,7 @@ import BackToTop from "@/components/BackToTop";
 import ProductCard from "@/components/ProductCard";
 import FadeIn from "@/components/FadeIn";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
-import { ExternalLink, ChevronDown, Loader2 } from "lucide-react";
-import PromoDealsSection from "@/components/PromoDealsSection";
-import { toast } from "sonner";
-
-// Bundle items (same as PromoModal)
-import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
-import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
-import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
-import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
-import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
-import ktrZip from "@/assets/products/ktr-zip.jpg";
-import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
-import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
-import kreamSocks from "@/assets/products/kream-socks.jpg";
-import krimsonSkully from "@/assets/products/krimson-skully.jpg";
-
-const BUNDLE_PRICE = 259;
-const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
-
-const bundleItems = [
-  { name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap },
-  { name: '"Achievers" KREAM Tee', image: kreamTeeAchievers, needsSize: true, sizeKey: "tee" },
-  { name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner, needsSize: true, sizeKey: "tee" },
-  { name: "K-Diamond Outline Tee, Kream", image: kreamTee1, needsSize: true, sizeKey: "tee" },
-  { name: "AI 95th Large Logo Tee", image: kreamTeeAi95, needsSize: true, sizeKey: "tee" },
-  { name: "KRIMSON Quarter-Zip Sweater", image: ktrZip, needsSize: true, sizeKey: "zip" },
-  { name: "KRIMSON Dry-Fit Polo", image: dryFitPolo, needsSize: true, sizeKey: "polo" },
-  { name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo, needsSize: true, sizeKey: "polo" },
-  { name: "KREAM K-Diamond Socks (1 Pair)", image: kreamSocks },
-  { name: "KRIMSON K-Diamond Skully", image: krimsonSkully },
-];
+import { ExternalLink } from "lucide-react";
 
 const registrationProducts = allProducts.filter((p) => p.registrationOnly);
 const shopProducts = allProducts.filter((p) => !p.registrationOnly);
@@ -45,11 +15,9 @@ const categories = ["All", "Headwear & Accessories", "Tees", "Polos", "Outerwear
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
 
-  // Map individual category params to the combined filter
   const categoryMap: Record<string, string> = {
     "Headwear": "Headwear & Accessories",
     "Accessories": "Headwear & Accessories",
@@ -63,32 +31,6 @@ const Shop = () => {
       setActiveFilter(mapped);
     }
   }, [categoryParam]);
-
-  const [teeSize, setTeeSize] = useState("");
-  const [poloSize, setPoloSize] = useState("");
-  const [zipSize, setZipSize] = useState("");
-
-  const handleBundleCheckout = () => {
-    if (!teeSize || !poloSize || !zipSize) {
-      toast.error("Please select all sizes before checking out.");
-      return;
-    }
-    // Store bundle details in session for the checkout page to pick up
-    const checkoutItems = bundleItems.map((item) => {
-      let size: string | null = null;
-      if (item.sizeKey === "tee") size = teeSize;
-      if (item.sizeKey === "polo") size = poloSize;
-      if (item.sizeKey === "zip") size = zipSize;
-      const imageUrl = item.image.startsWith("http") ? item.image : `${window.location.origin}${item.image}`;
-      return { name: size ? `${item.name} (${size})` : item.name, price: 0, quantity: 1, image: imageUrl, size };
-    });
-    sessionStorage.setItem("bundle-checkout", JSON.stringify({
-      items: [{ name: "95th Anniversary Complete Pack", price: BUNDLE_PRICE, quantity: 1, image: checkoutItems[0].image }],
-      bundleItems: checkoutItems,
-      metadata: { bundle: "true", teeSize, poloSize, zipSize, items: bundleItems.map((i) => i.name).join(", ") },
-    }));
-    navigate("/checkout?bundle=true");
-  };
 
   let filtered = activeFilter === "All"
     ? shopProducts
