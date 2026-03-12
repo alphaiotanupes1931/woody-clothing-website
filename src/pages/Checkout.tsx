@@ -260,7 +260,7 @@ const Checkout = () => {
   if (isBundle && !bundleData) return null;
 
   const displayItems = isBundle
-    ? [{ id: "bundle", name: "95th Anniversary Complete Pack", image: bundleData?.bundleItems?.[0]?.image || "", price: `$${bundleData?.items?.[0]?.price || 259}`, quantity: 1, size: undefined as string | undefined }]
+    ? [{ id: "bundle", name: bundleData?.items?.[0]?.name || "Bundle", image: bundleData?.bundleItems?.[0]?.image || bundleData?.items?.[0]?.image || "", price: `$${bundleData?.items?.[0]?.price || 0}`, quantity: 1, size: undefined as string | undefined }]
     : items;
   const displayTotal = isBundle ? String(bundleData?.items?.[0]?.price || 259) : cartTotal;
   const displayItemCount = isBundle ? 1 : totalItems;
