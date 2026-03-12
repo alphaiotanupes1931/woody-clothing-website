@@ -49,7 +49,7 @@ const Checkout = () => {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const subtotal = isBundle ? (bundleData?.items?.[0]?.price || 259) : parseFloat(cartTotal);
-  const freeGroundShipping = isBundle || subtotal >= FREE_SHIPPING_THRESHOLD;
+  const freeGroundShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
 
   // Redirect if cart is empty and not bundle mode
   useEffect(() => {
@@ -57,9 +57,9 @@ const Checkout = () => {
     if (isBundle && !bundleData) navigate("/shop");
   }, [items.length, navigate, isBundle, bundleData]);
 
-  // For bundle, auto-set free shipping
+  // For bundle with free shipping threshold met, auto-set free shipping
   useEffect(() => {
-    if (isBundle) {
+    if (isBundle && freeGroundShipping) {
       const freeRate: ShippingRate = {
         id: "free",
         service: "free",
@@ -72,10 +72,18 @@ const Checkout = () => {
       setSelectedRate(freeRate);
       setRatesFetched(true);
     }
-  }, [isBundle]);
+  }, [isBundle, freeGroundShipping]);
 
-  // Compute package specs from cart items
+  // Compute package specs from cart items or bundle items
   const getPackageSpec = useCallback(() => {
+    if (isBundle && bundleData?.bundleItems) {
+      // Use category data from bundle items
+      const bundleSpecs = bundleData.bundleItems.map((item: any) => ({
+        category: item.category || "Tees",
+        quantity: item.quantity || 1,
+      }));
+      return computePackage(bundleSpecs);
+    }
     const cartSpecs = items.map((item) => {
       const baseId = item.id.split("-").slice(0, -1).join("-") || item.id;
       const product = allProducts.find(
@@ -87,11 +95,12 @@ const Checkout = () => {
       };
     });
     return computePackage(cartSpecs);
-  }, [items]);
+  }, [items, isBundle, bundleData]);
 
-  // Fetch shipping rates when zip is 5 digits (non-bundle only)
+  // Fetch shipping rates when zip is 5 digits
   const fetchRates = useCallback(async (zipCode: string) => {
-    if (isBundle || zipCode.length !== 5) return;
+    if (zipCode.length !== 5) return;
+    if (isBundle && freeGroundShipping) return; // skip if bundle qualifies for free shipping
     setRatesLoading(true);
     setRatesFetched(false);
     try {
@@ -145,7 +154,7 @@ const Checkout = () => {
   }, [isBundle, getPackageSpec, state, city, freeGroundShipping]);
 
   useEffect(() => {
-    if (isBundle) return;
+    if (isBundle && freeGroundShipping) return; // already handled
     if (zip.length === 5) {
       fetchRates(zip);
     } else {
@@ -153,7 +162,7 @@ const Checkout = () => {
       setSelectedRate(null);
       setRatesFetched(false);
     }
-  }, [zip, fetchRates, isBundle]);
+  }, [zip, fetchRates, isBundle, freeGroundShipping]);
 
   const shippingCost = selectedRate?.price || 0;
   const orderTotal = (subtotal + shippingCost).toFixed(2);
@@ -179,12 +188,18 @@ const Checkout = () => {
       let body: any;
 
       if (isBundle && bundleData) {
+        const bundleShippingCost = selectedRate?.price || 0;
         body = {
           ...bundleData,
           customerEmail: trimmedEmail,
           customerName: trimmedName,
           shippingAddress: { address: trimmedAddress, city: trimmedCity, state: trimmedState, zip: trimmedZip },
-          shipping: { label: "Free Shipping", cost: 0, service: "free" },
+          shipping: {
+            label: selectedRate?.label || "Standard Shipping",
+            cost: bundleShippingCost,
+            service: selectedRate?.service || "unknown",
+            estimate: selectedRate?.estimate || "",
+          },
         };
       } else {
         const checkoutItems = items.map((item) => {
@@ -354,7 +369,7 @@ const Checkout = () => {
               </section>
 
               {/* Shipping Options */}
-              {!isBundle && (
+              {!(isBundle && freeGroundShipping) && (
                 <section>
                   <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
                     <Truck size={16} strokeWidth={1.5} />
@@ -466,9 +481,9 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {(freeGroundShipping || isBundle) && (
+                {freeGroundShipping && (
                   <div className="mt-3 text-center text-[10px] tracking-wider uppercase text-muted-foreground bg-secondary py-2">
-                    ✓ Free shipping {isBundle ? "included" : "applied"}
+                    ✓ Free shipping applied
                   </div>
                 )}
 

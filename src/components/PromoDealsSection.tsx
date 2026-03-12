@@ -120,8 +120,8 @@ const PromoDealsSection = () => {
 
     if (deal.id === "2-polos") {
       checkoutItems = [
-        { name: `KRIMSON Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: dryFitPolo, size },
-        { name: `KREAM Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: kreamPerformancePolo, size },
+        { name: `KRIMSON Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: dryFitPolo, size, category: "Polos" },
+        { name: `KREAM Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: kreamPerformancePolo, size, category: "Polos" },
       ];
     } else if (deal.id === "2-shirts") {
       const selected = teeSelections.map((name) => teeOptions.find((t) => t.name === name)!);
@@ -131,15 +131,16 @@ const PromoDealsSection = () => {
         quantity: 1,
         image: t.image,
         size,
+        category: "Tees",
       }));
     } else if (deal.id === "3-socks") {
       checkoutItems = [
-        { name: "KREAM K-Diamond Socks", price: 0, quantity: 3, image: kreamSocks, size: null },
+        { name: "KREAM K-Diamond Socks", price: 0, quantity: 3, image: kreamSocks, size: null, category: "Accessories" },
       ];
     } else if (deal.id === "bucket-skully") {
       checkoutItems = [
-        { name: "KRIMSON K-Diamond Bucket Hat", price: 0, quantity: 1, image: krimsonBucketFront, size: null },
-        { name: "KRIMSON K-Diamond Skully", price: 0, quantity: 1, image: krimsonSkully, size: null },
+        { name: "KRIMSON K-Diamond Bucket Hat", price: 0, quantity: 1, image: krimsonBucketFront, size: null, category: "Headwear" },
+        { name: "KRIMSON K-Diamond Skully", price: 0, quantity: 1, image: krimsonSkully, size: null, category: "Headwear" },
       ];
     }
 
