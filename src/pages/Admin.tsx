@@ -7,20 +7,27 @@ import InventorySummary from "@/components/admin/InventorySummary";
 import OrderDetail from "@/components/admin/OrderDetail";
 import AdminLogin from "@/components/admin/AdminLogin";
 
+const getGreeting = () => {
+  const estHour = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" })).getHours();
+  if (estHour < 12) return "Good Morning";
+  if (estHour < 17) return "Good Afternoon";
+  return "Good Evening";
+};
+
 const TypingWelcome = () => {
-  const fullText = "Welcome, Woody_";
+  const fullText = `${getGreeting()}, Woody`;
   const [displayed, setDisplayed] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
-      setDisplayed(fullText.slice(0, i + 1));
       i++;
-      if (i >= fullText.length - 1) clearInterval(interval);
+      setDisplayed(fullText.slice(0, i));
+      if (i >= fullText.length) clearInterval(interval);
     }, 70);
     return () => clearInterval(interval);
-  }, []);
+  }, [fullText]);
 
   useEffect(() => {
     const blink = setInterval(() => setShowCursor((v) => !v), 530);
@@ -33,7 +40,7 @@ const TypingWelcome = () => {
         // system.dashboard.init()
       </p>
       <h2 className="font-display text-3xl sm:text-4xl tracking-wide">
-        {displayed.slice(0, -1)}
+        {displayed}
         <span
           className="inline-block w-[3px] h-[1em] bg-primary ml-1 align-middle"
           style={{ opacity: showCursor ? 1 : 0, transition: "opacity 0.1s" }}
