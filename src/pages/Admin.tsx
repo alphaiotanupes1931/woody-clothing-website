@@ -36,9 +36,6 @@ const TypingWelcome = () => {
 
   return (
     <div className="border border-border p-6 bg-muted/10">
-      <p className="font-mono text-xs text-muted-foreground tracking-widest uppercase mb-2 opacity-60">
-        // system.dashboard.init()
-      </p>
       <h2 className="font-display text-3xl sm:text-4xl tracking-wide">
         {displayed}
         <span
