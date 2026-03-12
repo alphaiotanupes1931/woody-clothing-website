@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChevronDown, Tag } from "lucide-react";
 import { toast } from "sonner";
+import { useCart } from "@/contexts/CartContext";
 import FadeIn from "./FadeIn";
 
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
@@ -18,11 +18,11 @@ import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
 const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
 const teeOptions = [
-  { name: '"Achievers" KREAM Tee', image: kreamTeeAchievers },
-  { name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner },
-  { name: "K-Diamond Outline Tee, Kream", image: kreamTee1 },
-  { name: "AI 95th Large Logo Tee", image: kreamTeeAi95 },
-  { name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th },
+  { name: '"Achievers" KREAM Tee', image: kreamTeeAchievers, id: "achievers-kream-tee" },
+  { name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner, id: "95th-anniversary-kream-tee" },
+  { name: "K-Diamond Outline Tee, Kream", image: kreamTee1, id: "k-diamond-outline-tee-kream" },
+  { name: "AI 95th Large Logo Tee", image: kreamTeeAi95, id: "ai-95th-large-logo-tee" },
+  { name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th, id: "krimson-95th-anniversary-tee" },
 ];
 
 interface DealConfig {
@@ -93,13 +93,13 @@ const SizeSelect = ({ value, onChange, label }: { value: string; onChange: (v: s
 );
 
 const PromoDealsSection = () => {
-  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [sizes, setSizes] = useState<Record<string, string>>({});
   const [teeSelections, setTeeSelections] = useState<[string, string]>(["", ""]);
 
   const setSize = (dealId: string, size: string) => setSizes((prev) => ({ ...prev, [dealId]: size }));
 
-  const handleDealCheckout = (deal: DealConfig) => {
+  const handleAddDealToCart = (deal: DealConfig) => {
     if (deal.needsSize && !sizes[deal.id]) {
       toast.error("Please select a size.");
       return;
@@ -115,41 +115,32 @@ const PromoDealsSection = () => {
       }
     }
 
-    let checkoutItems: any[] = [];
-    const size = sizes[deal.id] || null;
+    const size = sizes[deal.id] || undefined;
 
     if (deal.id === "2-polos") {
-      checkoutItems = [
-        { name: `KRIMSON Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: dryFitPolo, size, category: "Polos" },
-        { name: `KREAM Dry-Fit Polo${size ? ` (${size})` : ""}`, price: 0, quantity: 1, image: kreamPerformancePolo, size, category: "Polos" },
-      ];
+      const unitPrice = (deal.price / 2).toFixed(2);
+      addToCart({ id: "krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", price: `$${unitPrice}`, image: dryFitPolo, size });
+      addToCart({ id: "kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", price: `$${unitPrice}`, image: kreamPerformancePolo, size });
     } else if (deal.id === "2-shirts") {
+      const unitPrice = (deal.price / 2).toFixed(2);
       const selected = teeSelections.map((name) => teeOptions.find((t) => t.name === name)!);
-      checkoutItems = selected.map((t) => ({
-        name: `${t.name}${size ? ` (${size})` : ""}`,
-        price: 0,
-        quantity: 1,
-        image: t.image,
-        size,
-        category: "Tees",
-      }));
+      selected.forEach((t) => {
+        addToCart({ id: t.id, name: t.name, price: `$${unitPrice}`, image: t.image, size });
+      });
     } else if (deal.id === "3-socks") {
-      checkoutItems = [
-        { name: "KREAM K-Diamond Socks", price: 0, quantity: 3, image: kreamSocks, size: null, category: "Accessories" },
-      ];
+      // Add 3 socks as quantity 3 at deal unit price
+      const unitPrice = (deal.price / 3).toFixed(2);
+      addToCart({ id: "kream-k-diamond-socks", name: "KREAM K-Diamond Socks", price: `$${unitPrice}`, image: kreamSocks });
+      // Add 2 more to get quantity 3
+      addToCart({ id: "kream-k-diamond-socks", name: "KREAM K-Diamond Socks", price: `$${unitPrice}`, image: kreamSocks });
+      addToCart({ id: "kream-k-diamond-socks", name: "KREAM K-Diamond Socks", price: `$${unitPrice}`, image: kreamSocks });
     } else if (deal.id === "bucket-skully") {
-      checkoutItems = [
-        { name: "KRIMSON K-Diamond Bucket Hat", price: 0, quantity: 1, image: krimsonBucketFront, size: null, category: "Headwear" },
-        { name: "KRIMSON K-Diamond Skully", price: 0, quantity: 1, image: krimsonSkully, size: null, category: "Headwear" },
-      ];
+      // Split $40 between bucket ($24) and skully ($16) — proportional to original prices
+      addToCart({ id: "krimson-k-diamond-bucket-hat", name: "KRIMSON K-Diamond Bucket Hat", price: "$22.86", image: krimsonBucketFront });
+      addToCart({ id: "krimson-k-diamond-skully", name: "KRIMSON K-Diamond Skully", price: "$17.14", image: krimsonSkully });
     }
 
-    sessionStorage.setItem("bundle-checkout", JSON.stringify({
-      items: [{ name: deal.title + " Deal", price: deal.price, quantity: 1, image: checkoutItems[0]?.image }],
-      bundleItems: checkoutItems,
-      metadata: { bundle: "true", deal: deal.id, items: checkoutItems.map((i: any) => i.name).join(", ") },
-    }));
-    navigate("/checkout?bundle=true");
+    toast.success(`${deal.title} deal added to cart!`);
   };
 
   return (
@@ -220,10 +211,10 @@ const PromoDealsSection = () => {
                 )}
 
                 <button
-                  onClick={() => handleDealCheckout(deal)}
+                  onClick={() => handleAddDealToCart(deal)}
                   className="w-full bg-foreground text-background py-2 text-[10px] md:text-[11px] font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors active:scale-[0.98]"
                 >
-                  Checkout · ${deal.price}
+                  Add to Cart · ${deal.price}
                 </button>
               </div>
             </div>
