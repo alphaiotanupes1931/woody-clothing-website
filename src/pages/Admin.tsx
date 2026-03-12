@@ -221,6 +221,7 @@ const Admin = () => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {tab === "overview" && (
           <div className="space-y-8">
+            <TypingWelcome />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <StatCard icon={<ShoppingBag size={20} />} label="Total Orders" value={orders.length} />
               <StatCard icon={<TrendingUp size={20} />} label="Gross Income" value={`$${totalRevenue.toFixed(2)}`} />
