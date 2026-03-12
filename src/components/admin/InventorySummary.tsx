@@ -1,9 +1,12 @@
-import { useMemo, useState } from "react";
-import { Download, Package, CalendarIcon } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { Download, Package, CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Switch } from "@/components/ui/switch";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   Popover,
   PopoverContent,
@@ -34,6 +37,24 @@ interface ProductSummary {
 const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boolean }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [shippedMap, setShippedMap] = useState<Record<string, boolean>>({});
+  const [togglingProduct, setTogglingProduct] = useState<string | null>(null);
+
+  // Fetch shipped statuses on mount
+  useEffect(() => {
+    const fetchShipped = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("admin-orders", {
+          body: { action: "get_shipped" },
+        });
+        if (error) throw error;
+        setShippedMap(data.shipped || {});
+      } catch (err) {
+        console.error("Failed to fetch shipped statuses:", err);
+      }
+    };
+    fetchShipped();
+  }, []);
 
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
@@ -63,13 +84,30 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
     setEndDate(undefined);
   };
 
+  const toggleShipped = async (productName: string, newValue: boolean) => {
+    setTogglingProduct(productName);
+    try {
+      const { error } = await supabase.functions.invoke("admin-orders", {
+        body: { action: "toggle_shipped", productName, shipped: newValue },
+      });
+      if (error) throw error;
+      setShippedMap((prev) => ({ ...prev, [productName]: newValue }));
+      toast.success(`${productName} marked as ${newValue ? "shipped" : "not shipped"}`);
+    } catch (err) {
+      console.error("Toggle shipped error:", err);
+      toast.error("Failed to update shipped status.");
+    } finally {
+      setTogglingProduct(null);
+    }
+  };
+
   const exportInventoryCSV = () => {
-    const rows = ["Product,Total Qty,Size Breakdown"];
+    const rows = ["Product,Total Qty,Size Breakdown,Shipped"];
     summary.forEach((p) => {
       const sizeStr = Object.entries(p.sizes)
         .map(([s, q]) => `${q} ${s}`)
         .join("; ");
-      rows.push(`"${p.name}",${p.totalQty},"${sizeStr}"`);
+      rows.push(`"${p.name}",${p.totalQty},"${sizeStr}",${shippedMap[p.name] ? "Yes" : "No"}`);
     });
     const dateLabel = startDate || endDate
       ? `_${startDate ? format(startDate, "yyyy-MM-dd") : "start"}-${endDate ? format(endDate, "yyyy-MM-dd") : "end"}`
@@ -84,6 +122,7 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
   };
 
   const totalItems = summary.reduce((s, p) => s + p.totalQty, 0);
+  const shippedCount = summary.filter((p) => shippedMap[p.name]).length;
 
   return (
     <div className="space-y-4">
@@ -169,7 +208,7 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
             Inventory Summary
           </h2>
           <span className="text-xs text-muted-foreground">
-            {summary.length} products · {totalItems} total pcs
+            {summary.length} products · {totalItems} total pcs · {shippedCount} shipped
           </span>
         </div>
         <button
@@ -190,30 +229,61 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
         </p>
       ) : (
         <div className="space-y-3">
-          {summary.map((p) => (
-            <div key={p.name} className="border border-border px-4 py-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Package size={16} className="text-muted-foreground" />
-                  <span className="font-medium text-sm">{p.name}</span>
-                </div>
-                <span className="text-sm font-semibold">{p.totalQty} pcs</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(p.sizes)
-                  .sort(([a], [b]) => a.localeCompare(b))
-                  .map(([size, qty]) => (
-                    <span
-                      key={size}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs border border-border bg-muted/20"
-                    >
-                      <span className="font-semibold">{qty}</span>
-                      <span className="text-muted-foreground">{size}</span>
+          {summary.map((p) => {
+            const isShipped = !!shippedMap[p.name];
+            const isToggling = togglingProduct === p.name;
+
+            return (
+              <div
+                key={p.name}
+                className={cn(
+                  "border px-4 py-4 transition-colors",
+                  isShipped ? "border-primary/30 bg-primary/5" : "border-border"
+                )}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Package size={16} className="text-muted-foreground" />
+                    <span className={cn("font-medium text-sm", isShipped && "line-through text-muted-foreground")}>
+                      {p.name}
                     </span>
-                  ))}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm font-semibold">{p.totalQty} pcs</span>
+                    <div className="flex items-center gap-2">
+                      {isToggling && <Loader2 size={14} className="animate-spin text-muted-foreground" />}
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <Switch
+                          checked={isShipped}
+                          onCheckedChange={(checked) => toggleShipped(p.name, checked)}
+                          disabled={isToggling}
+                        />
+                        <span className={cn(
+                          "text-xs font-semibold tracking-wider uppercase",
+                          isShipped ? "text-primary" : "text-muted-foreground"
+                        )}>
+                          {isShipped ? "Shipped" : "Not Shipped"}
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(p.sizes)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([size, qty]) => (
+                      <span
+                        key={size}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs border border-border bg-muted/20"
+                      >
+                        <span className="font-semibold">{qty}</span>
+                        <span className="text-muted-foreground">{size}</span>
+                      </span>
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
