@@ -10,6 +10,8 @@ import ParallaxGallery from "@/components/ParallaxGallery";
 import MagneticButton from "@/components/MagneticButton";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 import PromoDealsSection from "@/components/PromoDealsSection";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
