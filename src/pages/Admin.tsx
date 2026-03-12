@@ -228,34 +228,6 @@ const Admin = () => {
               <StatCard icon={<Mail size={20} />} label="Signups This Week" value={weekCount} />
             </div>
 
-            {/* Recent orders */}
-            <div>
-              <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground mb-4">
-                Recent Orders
-              </h2>
-              {ordersLoading ? (
-                <p className="text-sm text-muted-foreground">Loading…</p>
-              ) : orders.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No orders yet.</p>
-              ) : (
-                <div className="space-y-2">
-                  {orders.slice(0, 5).map((o) => (
-                    <div key={o.id} className="border border-border px-4 py-3 text-sm flex items-center justify-between">
-                      <div>
-                        <span className="font-medium">{o.customer_name}</span>
-                        <span className="text-muted-foreground ml-2">— {o.items.length} item(s)</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <span className="font-medium">${Number(o.total).toFixed(2)}</span>
-                        <span className="text-muted-foreground text-xs">
-                          {new Date(o.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
         )}
 

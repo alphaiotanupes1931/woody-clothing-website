@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      inventory_shipped: {
+        Row: {
+          id: string
+          product_name: string
+          shipped: boolean
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          product_name: string
+          shipped?: boolean
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          product_name?: string
+          shipped?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           email: string

@@ -33,6 +33,39 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Handle shipped status toggle
+    if (body.action === "toggle_shipped") {
+      const { productName, shipped } = body;
+      if (!productName) throw new Error("productName is required");
+
+      const { error } = await supabaseAdmin
+        .from("inventory_shipped")
+        .upsert(
+          { product_name: productName, shipped: !!shipped, updated_at: new Date().toISOString() },
+          { onConflict: "product_name" }
+        );
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Handle get shipped statuses
+    if (body.action === "get_shipped") {
+      const { data, error } = await supabaseAdmin
+        .from("inventory_shipped")
+        .select("product_name, shipped");
+      if (error) throw error;
+
+      const map: Record<string, boolean> = {};
+      (data || []).forEach((r: any) => { map[r.product_name] = r.shipped; });
+
+      return new Response(JSON.stringify({ shipped: map }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // GET: Fetch orders with their items
     const { data: orders, error: ordersError } = await supabaseAdmin
       .from("orders")
