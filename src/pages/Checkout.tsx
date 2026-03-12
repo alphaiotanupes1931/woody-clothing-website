@@ -154,7 +154,7 @@ const Checkout = () => {
   }, [isBundle, getPackageSpec, state, city, freeGroundShipping]);
 
   useEffect(() => {
-    if (isBundle) return;
+    if (isBundle && freeGroundShipping) return; // already handled
     if (zip.length === 5) {
       fetchRates(zip);
     } else {
@@ -162,7 +162,7 @@ const Checkout = () => {
       setSelectedRate(null);
       setRatesFetched(false);
     }
-  }, [zip, fetchRates, isBundle]);
+  }, [zip, fetchRates, isBundle, freeGroundShipping]);
 
   const shippingCost = selectedRate?.price || 0;
   const orderTotal = (subtotal + shippingCost).toFixed(2);
