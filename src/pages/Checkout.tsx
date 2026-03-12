@@ -57,9 +57,9 @@ const Checkout = () => {
     if (isBundle && !bundleData) navigate("/shop");
   }, [items.length, navigate, isBundle, bundleData]);
 
-  // For bundle, auto-set free shipping
+  // For bundle with free shipping threshold met, auto-set free shipping
   useEffect(() => {
-    if (isBundle) {
+    if (isBundle && freeGroundShipping) {
       const freeRate: ShippingRate = {
         id: "free",
         service: "free",
@@ -72,7 +72,7 @@ const Checkout = () => {
       setSelectedRate(freeRate);
       setRatesFetched(true);
     }
-  }, [isBundle]);
+  }, [isBundle, freeGroundShipping]);
 
   // Compute package specs from cart items
   const getPackageSpec = useCallback(() => {
