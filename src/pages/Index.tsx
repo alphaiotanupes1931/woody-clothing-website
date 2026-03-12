@@ -22,6 +22,12 @@ import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
 import ktrZip from "@/assets/products/ktr-zip.jpg";
 import kreamSocks from "@/assets/products/kream-socks.jpg";
+import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
+import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
+import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
+import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
+import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
+import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
 
 import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
