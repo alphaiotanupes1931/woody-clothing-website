@@ -74,8 +74,16 @@ const Checkout = () => {
     }
   }, [isBundle, freeGroundShipping]);
 
-  // Compute package specs from cart items
+  // Compute package specs from cart items or bundle items
   const getPackageSpec = useCallback(() => {
+    if (isBundle && bundleData?.bundleItems) {
+      // Use category data from bundle items
+      const bundleSpecs = bundleData.bundleItems.map((item: any) => ({
+        category: item.category || "Tees",
+        quantity: item.quantity || 1,
+      }));
+      return computePackage(bundleSpecs);
+    }
     const cartSpecs = items.map((item) => {
       const baseId = item.id.split("-").slice(0, -1).join("-") || item.id;
       const product = allProducts.find(
@@ -87,7 +95,7 @@ const Checkout = () => {
       };
     });
     return computePackage(cartSpecs);
-  }, [items]);
+  }, [items, isBundle, bundleData]);
 
   // Fetch shipping rates when zip is 5 digits (non-bundle only)
   const fetchRates = useCallback(async (zipCode: string) => {
