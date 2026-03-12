@@ -260,7 +260,7 @@ const Checkout = () => {
   if (isBundle && !bundleData) return null;
 
   const displayItems = isBundle
-    ? [{ id: "bundle", name: "95th Anniversary Complete Pack", image: bundleData?.bundleItems?.[0]?.image || "", price: `$${bundleData?.items?.[0]?.price || 259}`, quantity: 1, size: undefined as string | undefined }]
+    ? [{ id: "bundle", name: bundleData?.items?.[0]?.name || "Bundle", image: bundleData?.bundleItems?.[0]?.image || bundleData?.items?.[0]?.image || "", price: `$${bundleData?.items?.[0]?.price || 0}`, quantity: 1, size: undefined as string | undefined }]
     : items;
   const displayTotal = isBundle ? String(bundleData?.items?.[0]?.price || 259) : cartTotal;
   const displayItemCount = isBundle ? 1 : totalItems;
@@ -431,12 +431,17 @@ const Checkout = () => {
                   ))}
                 </div>
 
-                {isBundle && bundleData?.metadata && (
+                {isBundle && bundleData?.bundleItems && (
                   <div className="mb-3 text-[10px] text-muted-foreground border border-border p-2.5 space-y-0.5">
-                    <p className="font-medium text-foreground text-[9px] tracking-[0.15em] uppercase mb-1">10 Items Included</p>
-                    <p>Tee Size: {bundleData.metadata.teeSize}</p>
-                    <p>Polo Size: {bundleData.metadata.poloSize}</p>
-                    <p>Quarter-Zip Size: {bundleData.metadata.zipSize}</p>
+                    <p className="font-medium text-foreground text-[9px] tracking-[0.15em] uppercase mb-1">
+                      {bundleData.bundleItems.length} Item{bundleData.bundleItems.length !== 1 ? "s" : ""} Included
+                    </p>
+                    {bundleData.metadata?.teeSize && <p>Tee Size: {bundleData.metadata.teeSize}</p>}
+                    {bundleData.metadata?.poloSize && <p>Polo Size: {bundleData.metadata.poloSize}</p>}
+                    {bundleData.metadata?.zipSize && <p>Quarter-Zip Size: {bundleData.metadata.zipSize}</p>}
+                    {bundleData.bundleItems.map((bi: any, idx: number) => (
+                      <p key={idx}>{bi.name}{bi.quantity > 1 ? ` × ${bi.quantity}` : ""}</p>
+                    ))}
                   </div>
                 )}
 
