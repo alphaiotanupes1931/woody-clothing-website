@@ -369,7 +369,7 @@ const Checkout = () => {
               </section>
 
               {/* Shipping Options */}
-              {!isBundle && (
+              {!(isBundle && freeGroundShipping) && (
                 <section>
                   <h2 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 flex items-center gap-2">
                     <Truck size={16} strokeWidth={1.5} />
