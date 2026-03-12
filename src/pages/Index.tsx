@@ -42,7 +42,7 @@ const tops = allProducts.filter((p) => ["Tees", "Polos", "Outerwear"].includes(p
 
 const Index = () => {
   const { addToCart } = useCart();
-  const [current, setCurrent] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const [progress, setProgress] = useState(0);
   const startTimeRef = useRef(Date.now());
 
