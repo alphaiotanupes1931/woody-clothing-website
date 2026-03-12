@@ -188,12 +188,18 @@ const Checkout = () => {
       let body: any;
 
       if (isBundle && bundleData) {
+        const bundleShippingCost = selectedRate?.price || 0;
         body = {
           ...bundleData,
           customerEmail: trimmedEmail,
           customerName: trimmedName,
           shippingAddress: { address: trimmedAddress, city: trimmedCity, state: trimmedState, zip: trimmedZip },
-          shipping: { label: "Free Shipping", cost: 0, service: "free" },
+          shipping: {
+            label: selectedRate?.label || "Standard Shipping",
+            cost: bundleShippingCost,
+            service: selectedRate?.service || "unknown",
+            estimate: selectedRate?.estimate || "",
+          },
         };
       } else {
         const checkoutItems = items.map((item) => {
