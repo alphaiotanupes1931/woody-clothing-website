@@ -49,7 +49,7 @@ const Checkout = () => {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const subtotal = isBundle ? (bundleData?.items?.[0]?.price || 259) : parseFloat(cartTotal);
-  const freeGroundShipping = isBundle || subtotal >= FREE_SHIPPING_THRESHOLD;
+  const freeGroundShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
 
   // Redirect if cart is empty and not bundle mode
   useEffect(() => {
