@@ -97,9 +97,10 @@ const Checkout = () => {
     return computePackage(cartSpecs);
   }, [items, isBundle, bundleData]);
 
-  // Fetch shipping rates when zip is 5 digits (non-bundle only)
+  // Fetch shipping rates when zip is 5 digits
   const fetchRates = useCallback(async (zipCode: string) => {
-    if (isBundle || zipCode.length !== 5) return;
+    if (zipCode.length !== 5) return;
+    if (isBundle && freeGroundShipping) return; // skip if bundle qualifies for free shipping
     setRatesLoading(true);
     setRatesFetched(false);
     try {
