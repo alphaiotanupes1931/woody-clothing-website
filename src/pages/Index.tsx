@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
 
@@ -11,24 +11,12 @@ import MagneticButton from "@/components/MagneticButton";
 import { allProducts, REGISTRATION_URL } from "@/data/products";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
-import { toast } from "sonner";
 import PromoDealsSection from "@/components/PromoDealsSection";
 import CompletePackSection from "@/components/CompletePackSection";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
 import krimsonFittedSide from "@/assets/products/krimson-fitted-side-2.jpg";
-
-import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
-import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
-import ktrZip from "@/assets/products/ktr-zip.jpg";
-import kreamSocks from "@/assets/products/kream-socks.jpg";
-import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
-import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
-import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
-import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
-import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
-import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
 
 import lifestyleKdiamond1 from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
 import lifestyleQuarterzipHero from "@/assets/lifestyle/lifestyle-quarterzip.jpg";
