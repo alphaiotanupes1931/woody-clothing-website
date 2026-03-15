@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import PromoDealsSection from "@/components/PromoDealsSection";
+import CompletePackSection from "@/components/CompletePackSection";
 
 import tee95thBackNoBg from "@/assets/products/tee-95th-back-nobg.png";
 import krimsonFittedFront from "@/assets/products/krimson-fitted-front-1.jpg";
