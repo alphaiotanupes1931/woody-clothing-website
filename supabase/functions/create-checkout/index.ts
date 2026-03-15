@@ -18,25 +18,39 @@ serve(async (req) => {
       apiVersion: "2025-08-27.basil",
     });
 
-    const { items, shipping, metadata, customerEmail, customerName, shippingAddress, bundleItems: bundleItemsRaw } = await req.json();
+    const {
+      items,
+      shipping,
+      metadata,
+      customerEmail,
+      customerName,
+      shippingAddress,
+      bundleItems: bundleItemsRaw,
+      collectShipping,
+    } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error("No items provided");
     }
 
-    // Server-side address validation
-    if (!customerName || !customerName.trim()) {
-      throw new Error("Customer name is required");
-    }
-    if (!customerEmail || !customerEmail.trim()) {
-      throw new Error("Customer email is required");
-    }
-    if (!shippingAddress || !shippingAddress.address?.trim() || !shippingAddress.city?.trim() || !shippingAddress.state?.trim() || !shippingAddress.zip?.trim()) {
-      throw new Error("Complete shipping address is required (street, city, state, ZIP)");
+    // When collectShipping is true (popup bundle flow), Stripe collects shipping — skip address validation
+    const stripeCollectsShipping = collectShipping === true;
+
+    if (!stripeCollectsShipping) {
+      // Standard checkout flow: require all fields
+      if (!customerName || !customerName.trim()) {
+        throw new Error("Customer name is required");
+      }
+      if (!customerEmail || !customerEmail.trim()) {
+        throw new Error("Customer email is required");
+      }
+      if (!shippingAddress || !shippingAddress.address?.trim() || !shippingAddress.city?.trim() || !shippingAddress.state?.trim() || !shippingAddress.zip?.trim()) {
+        throw new Error("Complete shipping address is required (street, city, state, ZIP)");
+      }
     }
 
-    // Build line items — size is already appended to name from frontend
-    const line_items = items.map((item: { name: string; price: number; quantity: number; image?: string; size?: string; productId?: string }) => ({
+    // Build line items
+    const line_items = items.map((item: { name: string; price: number; quantity: number; image?: string }) => ({
       price_data: {
         currency: "usd",
         product_data: {
@@ -63,7 +77,7 @@ serve(async (req) => {
       });
     }
 
-    // Build items detail string for Stripe metadata (sizes + quantities)
+    // Build items detail string for Stripe metadata
     const itemsDetail = items.map((item: any) => {
       const parts = [item.name];
       if (item.size) parts.push(`Size: ${item.size}`);
@@ -74,7 +88,6 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "https://lovable.dev";
 
-    // Calculate subtotal
     const subtotal = items.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
     const total = subtotal + shippingCost;
 
@@ -91,19 +104,27 @@ serve(async (req) => {
         shipping_cost: String(shippingCost),
         customer_name: customerName || "",
         shipping_address: shippingAddress ? `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zip}` : "",
-        items_detail: itemsDetail.substring(0, 500), // Stripe metadata max 500 chars
+        items_detail: itemsDetail.substring(0, 500),
         ...(metadata || {}),
       },
-      shipping_address_collection: undefined,
     };
+
+    // If Stripe should collect shipping (popup bundle flow), enable shipping address collection
+    if (stripeCollectsShipping) {
+      sessionParams.shipping_address_collection = {
+        allowed_countries: ["US"],
+      };
+      // Also collect name + email via Stripe
+      sessionParams.billing_address_collection = "required";
+    }
 
     // Pre-fill email if provided
     if (customerEmail) {
       sessionParams.customer_email = customerEmail;
     }
 
-    // Attach shipping details so they appear in Stripe dashboard
-    if (shippingAddress && customerName) {
+    // Attach shipping details for standard flow (already collected from our form)
+    if (!stripeCollectsShipping && shippingAddress && customerName) {
       sessionParams.payment_intent_data = {
         shipping: {
           name: customerName,
@@ -131,7 +152,7 @@ serve(async (req) => {
         .from("orders")
         .insert({
           stripe_session_id: session.id,
-          customer_name: customerName || "",
+          customer_name: customerName || "Pending (Stripe)",
           customer_email: customerEmail || "",
           shipping_address: shippingAddress?.address || null,
           shipping_city: shippingAddress?.city || null,
@@ -149,7 +170,6 @@ serve(async (req) => {
       if (orderError) {
         console.error("Order save error:", orderError);
       } else if (order) {
-        // If bundle items are provided, store those instead of the single line item
         const itemsToStore = bundleItemsRaw && Array.isArray(bundleItemsRaw) && bundleItemsRaw.length > 0
           ? bundleItemsRaw
           : items;
