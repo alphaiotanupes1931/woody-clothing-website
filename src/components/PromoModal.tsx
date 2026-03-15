@@ -16,7 +16,7 @@ import kreamSocks from "@/assets/products/kream-socks.jpg";
 import krimsonSkully from "@/assets/products/krimson-skully.jpg";
 
 const PROMO_START = new Date("2026-02-21T00:00:00");
-const PROMO_END = new Date("2026-03-14T23:59:59");
+const PROMO_END = new Date("2026-12-31T23:59:59");
 const BUNDLE_PRICE = 259;
 
 const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
