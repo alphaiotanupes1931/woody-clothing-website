@@ -292,7 +292,7 @@ const Admin = () => {
           <div className="space-y-8">
             <TypingWelcome />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatCard icon={<ShoppingBag size={20} />} label="Total Orders" value={orders.length} />
+              <StatCard icon={<ShoppingBag size={20} />} label="Paid Orders" value={paidOrders.length} />
               <StatCard icon={<TrendingUp size={20} />} label="Gross Income" value={`$${totalRevenue.toFixed(2)}`} />
               <StatCard icon={<Users size={20} />} label="Subscribers" value={subscribers.length} />
               <StatCard icon={<Mail size={20} />} label="Signups This Week" value={weekCount} />
