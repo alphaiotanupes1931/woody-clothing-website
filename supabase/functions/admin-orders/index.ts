@@ -6,6 +6,18 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+async function withRetry<T>(fn: () => Promise<T>, retries = 2, delay = 500): Promise<T> {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (i === retries) throw err;
+      await new Promise((r) => setTimeout(r, delay * (i + 1)));
+    }
+  }
+  throw new Error("Unreachable");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -67,21 +79,25 @@ Deno.serve(async (req) => {
     }
 
     // GET: Fetch orders with their items
-    const { data: orders, error: ordersError } = await supabaseAdmin
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
+    const { data: orders, error: ordersError } = await withRetry(() =>
+      supabaseAdmin
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(200)
+    );
 
     if (ordersError) throw ordersError;
 
     const orderIds = (orders || []).map((o: any) => o.id);
     let items: any[] = [];
     if (orderIds.length > 0) {
-      const { data: itemsData, error: itemsError } = await supabaseAdmin
-        .from("order_items")
-        .select("*")
-        .in("order_id", orderIds);
+      const { data: itemsData, error: itemsError } = await withRetry(() =>
+        supabaseAdmin
+          .from("order_items")
+          .select("*")
+          .in("order_id", orderIds)
+      );
 
       if (itemsError) throw itemsError;
       items = itemsData || [];
