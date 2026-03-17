@@ -307,11 +307,11 @@ const Admin = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-                All Orders ({orders.length}){orders.length !== paidOrders.length && ` -- ${paidOrders.length} paid`}
+                Paid Orders ({displayOrders.length})
               </h2>
               <button
                 onClick={exportOrdersCSV}
-                disabled={orders.length === 0}
+                disabled={displayOrders.length === 0}
                 className="flex items-center gap-2 bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
               >
                 <Download size={14} />
@@ -320,12 +320,12 @@ const Admin = () => {
             </div>
 
             {ordersLoading ? (
-              <p className="text-sm text-muted-foreground">Loading…</p>
-            ) : orders.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No orders yet.</p>
+              <p className="text-sm text-muted-foreground">Loading...</p>
+            ) : displayOrders.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No paid orders yet.</p>
             ) : (
               <div className="space-y-3">
-                {orders.map((o) => (
+                {displayOrders.map((o) => (
                   <div key={o.id} className="border border-border overflow-hidden">
                     <button
                       onClick={() => setExpandedOrder(expandedOrder === o.id ? null : o.id)}
@@ -335,13 +335,6 @@ const Admin = () => {
                         <div className="flex items-center gap-3">
                           <span className="font-medium text-sm">{o.customer_name}</span>
                           <span className="text-xs text-muted-foreground">{o.customer_email}</span>
-                          <span className={`text-[10px] px-1.5 py-0.5 uppercase tracking-wider font-semibold border ${
-                            o.status === "paid"
-                              ? "border-green-600/30 text-green-600 bg-green-600/10"
-                              : "border-yellow-600/30 text-yellow-600 bg-yellow-600/10"
-                          }`}>
-                            {o.status}
-                          </span>
                         </div>
                         <div className="text-xs text-muted-foreground mt-1">
                           {o.items.map((i) => {
@@ -371,10 +364,6 @@ const Admin = () => {
                 ))}
               </div>
             )}
-          </div>
-        )}
-
-        {tab === "inventory" && (
           <InventorySummary orders={paidOrders} loading={ordersLoading} />
         )}
 
