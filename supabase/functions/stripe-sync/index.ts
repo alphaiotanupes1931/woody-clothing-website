@@ -95,11 +95,17 @@ serve(async (req) => {
 
         const shippingAddr = session.shipping_details?.address || ({} as any);
 
+        const stripeCreatedAt = session.created
+          ? new Date(session.created * 1000).toISOString()
+          : undefined;
+
         const updateData: Record<string, any> = {
           status: "paid",
           customer_name: customerName,
           customer_email: customerEmail,
         };
+
+        if (stripeCreatedAt) updateData.created_at = stripeCreatedAt;
 
         if (shippingAddr.line1) updateData.shipping_address = shippingAddr.line1;
         if (shippingAddr.city) updateData.shipping_city = shippingAddr.city;
@@ -163,6 +169,10 @@ serve(async (req) => {
           const subtotal = (session.amount_subtotal || 0) / 100;
           const shippingCost = total - subtotal;
 
+          const stripeCreatedAt = session.created
+            ? new Date(session.created * 1000).toISOString()
+            : new Date().toISOString();
+
           const { data: newOrder, error: insertErr } = await supabaseAdmin
             .from("orders")
             .insert({
@@ -177,6 +187,7 @@ serve(async (req) => {
               shipping_cost: shippingCost > 0 ? shippingCost : 0,
               total,
               status: "paid",
+              created_at: stripeCreatedAt,
             })
             .select("id")
             .single();
