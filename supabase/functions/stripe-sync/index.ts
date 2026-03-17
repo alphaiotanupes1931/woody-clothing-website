@@ -200,9 +200,14 @@ serve(async (req) => {
           try {
             const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
             for (const item of lineItems.data) {
+              // Skip shipping line items
+              const desc = item.description || "";
+              if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground")) {
+                continue;
+              }
               await supabaseAdmin.from("order_items").insert({
                 order_id: newOrder.id,
-                product_name: item.description || "Unknown Product",
+                product_name: desc || "Unknown Product",
                 quantity: item.quantity || 1,
                 unit_price: (item.price?.unit_amount || 0) / 100,
               });
