@@ -8,6 +8,18 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const isRefundedIntent = (intent: any) => {
+  if (!intent || typeof intent !== "object") return false;
+
+  const latestCharge = intent.latest_charge;
+  const refundedOnCharge =
+    latestCharge &&
+    typeof latestCharge === "object" &&
+    ((latestCharge.refunded === true) || Number(latestCharge.amount_refunded || 0) > 0);
+
+  return refundedOnCharge || Number(intent.amount_received || 0) <= 0;
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -23,17 +35,20 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
 
+    const body = await req.json().catch(() => ({}));
+    const recoverMissing = body?.recoverMissing === true;
+
     const results: string[] = [];
     let synced = 0;
     let removed = 0;
     let created = 0;
 
-    // ── Step 1: Clean up local orders against Stripe ──
+    // Step 1: validate local orders against Stripe and remove unpaid/refunded
     const { data: orders, error: ordersError } = await supabaseAdmin
       .from("orders")
-      .select("id, stripe_session_id, status, customer_name, customer_email, shipping_address")
+      .select("id, stripe_session_id, customer_name, customer_email")
       .order("created_at", { ascending: false })
-      .limit(200);
+      .limit(300);
 
     if (ordersError) throw ordersError;
 
@@ -45,14 +60,14 @@ serve(async (req) => {
 
       try {
         const session = await stripe.checkout.sessions.retrieve(order.stripe_session_id, {
-          expand: ["payment_intent", "line_items"],
+          expand: ["payment_intent.latest_charge"],
         });
 
-        // Remove if not paid OR if refunded
-        const pi = (session as any).payment_intent;
-        const isRefunded = pi && typeof pi === "object" && (pi.status === "canceled" || (pi.charges?.data?.[0]?.refunded === true));
+        const paymentIntent = (session as any).payment_intent;
+        const isRefunded = isRefundedIntent(paymentIntent);
+        const isPaid = session.payment_status === "paid";
 
-        if (session.payment_status !== "paid" || isRefunded) {
+        if (!isPaid || isRefunded) {
           await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
           await supabaseAdmin.from("orders").delete().eq("id", order.id);
           removed++;
@@ -60,7 +75,6 @@ serve(async (req) => {
           continue;
         }
 
-        // Sync real data from Stripe
         const customerName =
           session.shipping_details?.name ||
           session.customer_details?.name ||
@@ -85,115 +99,124 @@ serve(async (req) => {
         if (shippingAddr.state) updateData.shipping_state = shippingAddr.state;
         if (shippingAddr.postal_code) updateData.shipping_zip = shippingAddr.postal_code;
 
-        const pi = (session as any).payment_intent;
-        if (pi && typeof pi === "object" && pi.amount_received) {
-          updateData.total = pi.amount_received / 100;
+        if (paymentIntent && typeof paymentIntent === "object" && paymentIntent.amount_received) {
+          updateData.total = Number(paymentIntent.amount_received) / 100;
         }
 
         await supabaseAdmin.from("orders").update(updateData).eq("id", order.id);
         synced++;
       } catch (stripeErr: any) {
-        if (stripeErr.statusCode === 404) {
+        if (stripeErr?.statusCode === 404) {
           await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
           await supabaseAdmin.from("orders").delete().eq("id", order.id);
           removed++;
           results.push(`Removed stale order ${order.id}`);
         } else {
-          results.push(`Stripe error for ${order.id}: ${stripeErr.message}`);
+          results.push(`Stripe error for ${order.id}: ${stripeErr?.message || "Unknown error"}`);
         }
       }
     }
 
-    // ── Step 2: Pull ALL succeeded checkout sessions from Stripe and create missing ones ──
-    let hasMore = true;
-    let startingAfter: string | undefined;
+    // Step 2 (optional): recover missing paid sessions from Stripe
+    if (recoverMissing) {
+      let hasMore = true;
+      let startingAfter: string | undefined;
+      let pageCount = 0;
 
-    while (hasMore) {
-      const params: any = { limit: 100, status: "complete", expand: ["data.payment_intent"] };
-      if (startingAfter) params.starting_after = startingAfter;
+      while (hasMore && pageCount < 5) {
+        const params: any = {
+          limit: 100,
+          status: "complete",
+          expand: ["data.payment_intent.latest_charge"],
+        };
+        if (startingAfter) params.starting_after = startingAfter;
 
-      const sessions = await stripe.checkout.sessions.list(params);
+        const sessions = await stripe.checkout.sessions.list(params);
 
-      for (const session of sessions.data) {
-        if (session.payment_status !== "paid") continue;
-        if (knownSessionIds.has(session.id)) continue;
+        for (const session of sessions.data) {
+          if (session.payment_status !== "paid") continue;
+          if (knownSessionIds.has(session.id)) continue;
 
-        // Skip refunded
-        const sPi = (session as any).payment_intent;
-        if (sPi && typeof sPi === "object" && (sPi.status === "canceled" || sPi.charges?.data?.[0]?.refunded === true)) continue;
+          const paymentIntent = (session as any).payment_intent;
+          if (isRefundedIntent(paymentIntent)) continue;
 
-        // This is a paid session missing from our DB -- create it
-        const customerName =
-          session.shipping_details?.name ||
-          session.customer_details?.name ||
-          (session as any).metadata?.customer_name ||
-          "Unknown";
+          const customerName =
+            session.shipping_details?.name ||
+            session.customer_details?.name ||
+            (session as any).metadata?.customer_name ||
+            "Unknown";
 
-        const customerEmail =
-          session.customer_details?.email ||
-          (session as any).customer_email ||
-          "";
+          const customerEmail =
+            session.customer_details?.email ||
+            (session as any).customer_email ||
+            "";
 
-        const shippingAddr = session.shipping_details?.address || ({} as any);
+          const shippingAddr = session.shipping_details?.address || ({} as any);
+          const total = (session.amount_total || 0) / 100;
+          const subtotal = (session.amount_subtotal || 0) / 100;
+          const shippingCost = total - subtotal;
 
-        const total = (session.amount_total || 0) / 100;
-        const subtotal = (session.amount_subtotal || 0) / 100;
-        const shippingCost = total - subtotal;
+          const { data: newOrder, error: insertErr } = await supabaseAdmin
+            .from("orders")
+            .insert({
+              stripe_session_id: session.id,
+              customer_name: customerName,
+              customer_email: customerEmail,
+              shipping_address: shippingAddr.line1 || null,
+              shipping_city: shippingAddr.city || null,
+              shipping_state: shippingAddr.state || null,
+              shipping_zip: shippingAddr.postal_code || null,
+              subtotal,
+              shipping_cost: shippingCost > 0 ? shippingCost : 0,
+              total,
+              status: "paid",
+            })
+            .select("id")
+            .single();
 
-        // Insert order
-        const { data: newOrder, error: insertErr } = await supabaseAdmin
-          .from("orders")
-          .insert({
-            stripe_session_id: session.id,
-            customer_name: customerName,
-            customer_email: customerEmail,
-            shipping_address: shippingAddr.line1 || null,
-            shipping_city: shippingAddr.city || null,
-            shipping_state: shippingAddr.state || null,
-            shipping_zip: shippingAddr.postal_code || null,
-            subtotal: subtotal,
-            shipping_cost: shippingCost > 0 ? shippingCost : 0,
-            total: total,
-            status: "paid",
-          })
-          .select("id")
-          .single();
-
-        if (insertErr) {
-          results.push(`Failed to create order for session ${session.id}: ${insertErr.message}`);
-          continue;
-        }
-
-        // Fetch line items for this session
-        try {
-          const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
-
-          for (const item of lineItems.data) {
-            await supabaseAdmin.from("order_items").insert({
-              order_id: newOrder.id,
-              product_name: item.description || "Unknown Product",
-              quantity: item.quantity || 1,
-              unit_price: (item.price?.unit_amount || 0) / 100,
-            });
+          if (insertErr) {
+            results.push(`Failed to create order for session ${session.id}: ${insertErr.message}`);
+            continue;
           }
-        } catch (lineErr: any) {
-          results.push(`Could not fetch line items for session ${session.id}: ${lineErr.message}`);
+
+          try {
+            const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
+            for (const item of lineItems.data) {
+              await supabaseAdmin.from("order_items").insert({
+                order_id: newOrder.id,
+                product_name: item.description || "Unknown Product",
+                quantity: item.quantity || 1,
+                unit_price: (item.price?.unit_amount || 0) / 100,
+              });
+            }
+          } catch (lineErr: any) {
+            results.push(`Could not fetch line items for session ${session.id}: ${lineErr?.message || "Unknown error"}`);
+          }
+
+          knownSessionIds.add(session.id);
+          created++;
         }
 
-        created++;
-        results.push(`Created missing order for ${customerEmail} ($${total.toFixed(2)})`);
-      }
+        hasMore = sessions.has_more;
+        if (sessions.data.length > 0) {
+          startingAfter = sessions.data[sessions.data.length - 1].id;
+        } else {
+          hasMore = false;
+        }
 
-      hasMore = sessions.has_more;
-      if (sessions.data.length > 0) {
-        startingAfter = sessions.data[sessions.data.length - 1].id;
-      } else {
-        hasMore = false;
+        pageCount++;
       }
     }
 
     return new Response(
-      JSON.stringify({ synced, removed, created, total: (orders || []).length, details: results }),
+      JSON.stringify({
+        synced,
+        removed,
+        created,
+        recoverMissing,
+        totalChecked: (orders || []).length,
+        details: results,
+      }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
@@ -201,7 +224,7 @@ serve(async (req) => {
     );
   } catch (error: any) {
     console.error("Stripe sync error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: error?.message || "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
