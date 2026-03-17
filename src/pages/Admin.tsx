@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2, CheckCircle } from "lucide-react";
+import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
