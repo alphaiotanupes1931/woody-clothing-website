@@ -234,7 +234,8 @@ const Admin = () => {
     (s) => Date.now() - new Date(s.subscribed_at).getTime() < 7 * 86400000
   ).length;
 
-  const totalRevenue = orders.reduce((sum, o) => sum + Number(o.total), 0);
+  const paidOrders = orders.filter((o) => o.status === "paid");
+  const totalRevenue = paidOrders.reduce((sum, o) => sum + Number(o.total), 0);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
