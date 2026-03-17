@@ -236,6 +236,8 @@ const Admin = () => {
 
   const paidOrders = orders.filter((o) => o.status === "paid");
   const totalRevenue = paidOrders.reduce((sum, o) => sum + Number(o.total), 0);
+  // Only show paid orders throughout the dashboard
+  const displayOrders = paidOrders;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
