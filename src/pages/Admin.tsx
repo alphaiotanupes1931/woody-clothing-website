@@ -305,7 +305,7 @@ const Admin = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-                All Orders ({orders.length})
+                All Orders ({orders.length}){orders.length !== paidOrders.length && ` -- ${paidOrders.length} paid`}
               </h2>
               <button
                 onClick={exportOrdersCSV}
