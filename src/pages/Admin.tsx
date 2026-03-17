@@ -148,6 +148,23 @@ const Admin = () => {
     fetchOrders();
   };
 
+  const syncWithStripe = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("stripe-sync");
+      if (error) throw error;
+      toast.success(
+        `Stripe sync complete: ${data.synced} verified, ${data.removed} unpaid removed.`
+      );
+      await fetchOrders();
+    } catch (err) {
+      console.error("Stripe sync error:", err);
+      toast.error("Failed to sync with Stripe.");
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   const deleteOrder = async (orderId: string, customerName: string) => {
     if (!confirm(`Delete order from "${customerName}"? This cannot be undone.`)) return;
     try {
