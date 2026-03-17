@@ -333,6 +333,13 @@ const Admin = () => {
                         <div className="flex items-center gap-3">
                           <span className="font-medium text-sm">{o.customer_name}</span>
                           <span className="text-xs text-muted-foreground">{o.customer_email}</span>
+                          <span className={`text-[10px] px-1.5 py-0.5 uppercase tracking-wider font-semibold border ${
+                            o.status === "paid"
+                              ? "border-green-600/30 text-green-600 bg-green-600/10"
+                              : "border-yellow-600/30 text-yellow-600 bg-yellow-600/10"
+                          }`}>
+                            {o.status}
+                          </span>
                         </div>
                         <div className="text-xs text-muted-foreground mt-1">
                           {o.items.map((i) => {
