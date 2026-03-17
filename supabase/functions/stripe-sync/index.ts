@@ -95,11 +95,17 @@ serve(async (req) => {
 
         const shippingAddr = session.shipping_details?.address || ({} as any);
 
+        const stripeCreatedAt = session.created
+          ? new Date(session.created * 1000).toISOString()
+          : undefined;
+
         const updateData: Record<string, any> = {
           status: "paid",
           customer_name: customerName,
           customer_email: customerEmail,
         };
+
+        if (stripeCreatedAt) updateData.created_at = stripeCreatedAt;
 
         if (shippingAddr.line1) updateData.shipping_address = shippingAddr.line1;
         if (shippingAddr.city) updateData.shipping_city = shippingAddr.city;
