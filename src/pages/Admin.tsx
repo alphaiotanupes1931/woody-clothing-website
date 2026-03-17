@@ -363,7 +363,10 @@ const Admin = () => {
                   </div>
                 ))}
               </div>
-            )}
+          </div>
+        )}
+
+        {tab === "inventory" && (
           <InventorySummary orders={paidOrders} loading={ordersLoading} />
         )}
 
