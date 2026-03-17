@@ -102,7 +102,7 @@ const CompletePackSection = ({ addToCart }: Props) => {
       <section className="px-4 md:px-14 py-16 md:py-24 bg-muted/30">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3"><p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">New Pack Alert</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">New Pack Alert</p>
             <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-4">
               THE ESSENTIALS
               <br />
