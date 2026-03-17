@@ -1,40 +1,34 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import { toast } from "sonner";
 import FadeIn from "./FadeIn";
 
-import flexKrimsonKap from "@/assets/products/flex-krimson-kap.jpg";
 import kreamTeeAchievers from "@/assets/products/kream-tee-achievers.jpg";
-import ktrZip from "@/assets/products/ktr-zip.jpg";
-import kreamSocks from "@/assets/products/kream-socks.jpg";
 import kreamTeeCorner from "@/assets/products/kream-tee-corner.png";
 import kreamTee1 from "@/assets/products/kream-tee-1.jpg";
 import kreamTeeAi95 from "@/assets/products/kream-tee-ai95.jpg";
 import krimsonTee95th from "@/assets/products/krimson-tee-95th.jpg";
 import dryFitPolo from "@/assets/products/dry-fit-polo.jpg";
 import kreamPerformancePolo from "@/assets/products/kream-performance-polo.jpg";
+import ktrZip from "@/assets/products/ktr-zip.jpg";
 
-const PACK_PRICE = 259;
-const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL"];
+const PACK_PRICE = 175;
+const ORIGINAL_PRICE = 217;
+const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
-const packItems = [
-  { id: "achievers-kream-tee", name: '"Achievers" KREAM Tee', image: kreamTeeAchievers, sizeKey: "tee" },
-  { id: "95th-anniversary-kream-tee", name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner, sizeKey: "tee" },
-  { id: "k-diamond-outline-tee-kream", name: "K-Diamond Outline Tee, Kream", image: kreamTee1, sizeKey: "tee" },
-  { id: "ai-95th-large-logo-tee", name: "AI 95th Large Logo Tee", image: kreamTeeAi95, sizeKey: "tee" },
-  { id: "krimson-95th-anniversary-tee", name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th, sizeKey: "tee" },
-  { id: "krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", image: dryFitPolo, sizeKey: "polo" },
-  { id: "kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", image: kreamPerformancePolo, sizeKey: "polo" },
-  { id: "krimson-quarter-zip-sweater", name: "KRIMSON Quarter-Zip Sweater", image: ktrZip, sizeKey: "zip" },
-  { id: "krimson-flexfit-k-diamond-kap", name: "KRIMSON FlexFit K-Diamond Kap", image: flexKrimsonKap, sizeKey: null },
-  { id: "kream-k-diamond-socks-pack", name: "KREAM K-Diamond Socks (3 pairs)", image: kreamSocks, sizeKey: null },
+const teeOptions = [
+  { id: "achievers-kream-tee", name: '"Achievers" KREAM Tee', image: kreamTeeAchievers },
+  { id: "95th-anniversary-kream-tee", name: '95th ANNIVERSARY "KREAM" Tee', image: kreamTeeCorner },
+  { id: "k-diamond-outline-tee-kream", name: "K-Diamond Outline Tee, Kream", image: kreamTee1 },
+  { id: "ai-95th-large-logo-tee", name: "AI 95th Large Logo Tee", image: kreamTeeAi95 },
+  { id: "krimson-95th-anniversary-tee", name: "KRIMSON 95th Anniversary Tee", image: krimsonTee95th },
 ];
 
 const previewItems = [
-  { img: flexKrimsonKap, label: "FlexFit Kap" },
-  { img: kreamTeeAchievers, label: "Achievers Tee" },
+  { img: kreamTeeAchievers, label: "Pick 2 Shirts" },
+  { img: dryFitPolo, label: "2 Polos" },
   { img: ktrZip, label: "Quarter-Zip" },
-  { img: kreamSocks, label: "K-Diamond Socks" },
+  { img: kreamPerformancePolo, label: "KREAM Polo" },
 ];
 
 interface Props {
@@ -61,29 +55,46 @@ const CompletePackSection = ({ addToCart }: Props) => {
   const [teeSize, setTeeSize] = useState("");
   const [poloSize, setPoloSize] = useState("");
   const [zipSize, setZipSize] = useState("");
+  const [selectedTees, setSelectedTees] = useState<string[]>([]);
+
+  const toggleTee = (id: string) => {
+    setSelectedTees((prev) => {
+      if (prev.includes(id)) return prev.filter((t) => t !== id);
+      if (prev.length >= 2) {
+        toast.error("You can only pick 2 shirts.");
+        return prev;
+      }
+      return [...prev, id];
+    });
+  };
 
   const handleAddPack = () => {
+    if (selectedTees.length !== 2) {
+      toast.error("Please select 2 shirts.");
+      return;
+    }
     if (!teeSize || !poloSize || !zipSize) {
       toast.error("Please select all sizes before adding to cart.");
       return;
     }
 
-    const unitPrice = (PACK_PRICE / packItems.length).toFixed(2);
-    packItems.forEach((item) => {
-      let size: string | undefined;
-      if (item.sizeKey === "tee") size = teeSize;
-      else if (item.sizeKey === "polo") size = poloSize;
-      else if (item.sizeKey === "zip") size = zipSize;
+    // 5 items total: 2 tees + 2 polos + 1 zip
+    const unitPrice = (PACK_PRICE / 5).toFixed(2);
 
-      addToCart({
-        id: `pack-${item.id}`,
-        name: item.name,
-        price: `$${unitPrice}`,
-        image: item.image,
-        size,
-      });
+    // Add selected tees
+    selectedTees.forEach((teeId) => {
+      const tee = teeOptions.find((t) => t.id === teeId)!;
+      addToCart({ id: `pack-${tee.id}`, name: tee.name, price: `$${unitPrice}`, image: tee.image, size: teeSize });
     });
-    toast.success("Complete Pack added to cart!");
+
+    // Add 2 polos
+    addToCart({ id: "pack-krimson-dry-fit-polo", name: "KRIMSON Dry-Fit Polo", price: `$${unitPrice}`, image: dryFitPolo, size: poloSize });
+    addToCart({ id: "pack-kream-dry-fit-polo", name: "KREAM Dry-Fit Polo", price: `$${unitPrice}`, image: kreamPerformancePolo, size: poloSize });
+
+    // Add quarter zip
+    addToCart({ id: "pack-krimson-quarter-zip", name: "KRIMSON Quarter-Zip Sweater", price: `$${unitPrice}`, image: ktrZip, size: zipSize });
+
+    toast.success("Pack added to cart!");
   };
 
   return (
@@ -91,45 +102,77 @@ const CompletePackSection = ({ addToCart }: Props) => {
       <section className="px-4 md:px-14 py-16 md:py-24 bg-muted/30">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">Limited Edition</p>
+            <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-3">New Pack Alert 🧨</p>
             <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground leading-[0.9] mb-4">
-              95TH ANNIVERSARY
+              THE ESSENTIALS
               <br />
-              COMPLETE PACK
+              PACK
             </h2>
             <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed mb-2">
-              Get the entire 95th Anniversary collection — 10 pieces including tees, polos, quarter-zip, hat, socks & skully. All for one price, with free shipping.
+              Pick 2 shirts, get both polos & the quarter-zip — 5 pieces, one price, free shipping.
             </p>
             <div className="flex items-center justify-center gap-3 mt-4">
-              <span className="text-muted-foreground line-through text-sm">$331</span>
-              <span className="font-display text-4xl text-foreground">$259</span>
+              <span className="text-muted-foreground line-through text-sm">${ORIGINAL_PRICE}</span>
+              <span className="font-display text-4xl text-foreground">${PACK_PRICE}</span>
             </div>
           </div>
 
+          {/* Preview images */}
           <div className="grid grid-cols-4 gap-2 md:gap-3 mb-10">
             {previewItems.map((item, i) => (
               <FadeIn key={i} delay={i * 80}>
                 <div className="aspect-square overflow-hidden bg-secondary">
-                  <img
-                    src={item.img}
-                    alt={item.label}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  />
+                  <img src={item.img} alt={item.label} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <p className="text-[10px] tracking-[0.15em] uppercase text-muted-foreground text-center mt-2 hidden md:block">{item.label}</p>
               </FadeIn>
             ))}
           </div>
 
+          {/* Tee selection */}
+          <div className="max-w-lg mx-auto mb-6">
+            <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-3 text-center">
+              Pick 2 of 5 Shirts ({selectedTees.length}/2 selected)
+            </p>
+            <div className="grid grid-cols-5 gap-2">
+              {teeOptions.map((tee) => {
+                const isSelected = selectedTees.includes(tee.id);
+                return (
+                  <button
+                    key={tee.id}
+                    onClick={() => toggleTee(tee.id)}
+                    className={`relative aspect-square overflow-hidden border-2 transition-all duration-200 cursor-pointer ${
+                      isSelected ? "border-foreground ring-1 ring-foreground" : "border-border hover:border-foreground/40"
+                    }`}
+                  >
+                    <img src={tee.image} alt={tee.name} className="w-full h-full object-cover" />
+                    {isSelected && (
+                      <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
+                        <Check size={20} className="text-background" strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex flex-wrap justify-center gap-1 mt-2">
+              {teeOptions.map((tee) => (
+                <span key={tee.id} className={`text-[8px] tracking-wide ${selectedTees.includes(tee.id) ? "text-foreground font-semibold" : "text-muted-foreground"}`}>
+                  {tee.name.replace(/"/g, "")}
+                </span>
+              ))}
+            </div>
+          </div>
+
           {/* Size selectors */}
           <div className="max-w-md mx-auto mb-6">
             <div className="grid grid-cols-3 gap-2">
-              <SizeSelect value={teeSize} onChange={setTeeSize} label="Tee Size" />
+              <SizeSelect value={teeSize} onChange={setTeeSize} label="Shirt Size" />
               <SizeSelect value={poloSize} onChange={setPoloSize} label="Polo Size" />
               <SizeSelect value={zipSize} onChange={setZipSize} label="Zip Size" />
             </div>
             <p className="text-[9px] text-muted-foreground text-center mt-2 tracking-wider">
-              Excludes Fitted Hat · All tees same size · Both polos same size
+              Both shirts same size · Both polos same size
             </p>
           </div>
 
@@ -138,9 +181,9 @@ const CompletePackSection = ({ addToCart }: Props) => {
               onClick={handleAddPack}
               className="inline-block bg-foreground text-background px-10 py-4 text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 transition-all duration-300 cursor-pointer disabled:opacity-50"
             >
-              Add to Cart · $259
+              Add to Cart · ${PACK_PRICE}
             </button>
-            <p className="text-[10px] text-muted-foreground mt-3 tracking-wide">10 ITEMS · FREE SHIPPING · SAVE $72</p>
+            <p className="text-[10px] text-muted-foreground mt-3 tracking-wide">5 ITEMS · FREE SHIPPING · SAVE ${ORIGINAL_PRICE - PACK_PRICE}</p>
           </div>
         </div>
       </section>
