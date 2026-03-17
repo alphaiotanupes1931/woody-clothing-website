@@ -159,7 +159,7 @@ const PromoModal = () => {
           {/* Header */}
           <div className="relative bg-foreground text-background px-4 py-2.5 sm:px-6 sm:py-3 flex items-center justify-between flex-shrink-0">
             <div>
-              <h2 className="text-sm sm:text-base font-bold tracking-[0.1em] uppercase leading-tight">New Pack Alert 🧨</h2>
+              <h2 className="text-sm sm:text-base font-bold tracking-[0.1em] uppercase leading-tight">New Pack Alert</h2>
               <p className="text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-background/50">Free Shipping Included</p>
             </div>
             <div className="flex items-center gap-3">
