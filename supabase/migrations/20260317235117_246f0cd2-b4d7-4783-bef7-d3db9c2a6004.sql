@@ -1,0 +1,1 @@
+DELETE FROM order_items WHERE product_name ILIKE 'Shipping:%' OR product_name ILIKE '%USPS%';
