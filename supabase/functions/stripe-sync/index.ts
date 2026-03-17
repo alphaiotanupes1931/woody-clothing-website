@@ -48,11 +48,15 @@ serve(async (req) => {
           expand: ["payment_intent", "line_items"],
         });
 
-        if (session.payment_status !== "paid") {
+        // Remove if not paid OR if refunded
+        const pi = (session as any).payment_intent;
+        const isRefunded = pi && typeof pi === "object" && (pi.status === "canceled" || (pi.charges?.data?.[0]?.refunded === true));
+
+        if (session.payment_status !== "paid" || isRefunded) {
           await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
           await supabaseAdmin.from("orders").delete().eq("id", order.id);
           removed++;
-          results.push(`Removed unpaid order ${order.id}`);
+          results.push(`Removed ${isRefunded ? "refunded" : "unpaid"} order ${order.id}`);
           continue;
         }
 
@@ -105,7 +109,7 @@ serve(async (req) => {
     let startingAfter: string | undefined;
 
     while (hasMore) {
-      const params: any = { limit: 100, status: "complete" };
+      const params: any = { limit: 100, status: "complete", expand: ["data.payment_intent"] };
       if (startingAfter) params.starting_after = startingAfter;
 
       const sessions = await stripe.checkout.sessions.list(params);
@@ -113,6 +117,10 @@ serve(async (req) => {
       for (const session of sessions.data) {
         if (session.payment_status !== "paid") continue;
         if (knownSessionIds.has(session.id)) continue;
+
+        // Skip refunded
+        const sPi = (session as any).payment_intent;
+        if (sPi && typeof sPi === "object" && (sPi.status === "canceled" || sPi.charges?.data?.[0]?.refunded === true)) continue;
 
         // This is a paid session missing from our DB -- create it
         const customerName =

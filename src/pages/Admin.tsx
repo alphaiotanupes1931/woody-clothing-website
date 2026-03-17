@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2, CheckCircle } from "lucide-react";
+import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
@@ -143,27 +143,24 @@ const Admin = () => {
     return <AdminLogin onAuth={() => setAuthed(true)} />;
   }
 
-  const refreshAll = () => {
-    fetchSubscribers();
-    fetchOrders();
-  };
-
-  const syncWithStripe = async () => {
+  const refreshAll = async () => {
     setSyncing(true);
     try {
       const { data, error } = await supabase.functions.invoke("stripe-sync");
       if (error) throw error;
       toast.success(
-        `Stripe sync complete: ${data.synced} verified, ${data.created || 0} recovered, ${data.removed} removed.`
+        `Synced: ${data.synced} verified, ${data.created || 0} recovered, ${data.removed} removed.`
       );
-      await fetchOrders();
     } catch (err) {
-      console.error("Stripe sync error:", err);
+      console.error("Sync error:", err);
       toast.error("Failed to sync with Stripe.");
     } finally {
       setSyncing(false);
     }
+    fetchSubscribers();
+    fetchOrders();
   };
+
 
   const deleteOrder = async (orderId: string, customerName: string) => {
     if (!confirm(`Delete order from "${customerName}"? This cannot be undone.`)) return;
@@ -251,20 +248,13 @@ const Admin = () => {
             <h1 className="font-display text-xl tracking-wider uppercase">Admin Dashboard</h1>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={syncWithStripe}
+          <button
+              onClick={refreshAll}
               disabled={syncing}
               className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase bg-foreground text-background px-3 py-1.5 hover:bg-foreground/90 transition-colors disabled:opacity-50"
             >
-              <CheckCircle size={13} className={syncing ? "animate-pulse" : ""} />
-              {syncing ? "Syncing..." : "Verify with Stripe"}
-            </button>
-            <button
-              onClick={refreshAll}
-              className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <RefreshCw size={14} className={loading || ordersLoading ? "animate-spin" : ""} />
-              Refresh
+              <RefreshCw size={13} className={syncing ? "animate-spin" : ""} />
+              {syncing ? "Syncing..." : "Refresh"}
             </button>
           </div>
         </div>
