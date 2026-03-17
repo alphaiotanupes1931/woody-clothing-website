@@ -143,7 +143,20 @@ const Admin = () => {
     return <AdminLogin onAuth={() => setAuthed(true)} />;
   }
 
-  const refreshAll = () => {
+  const refreshAll = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("stripe-sync");
+      if (error) throw error;
+      toast.success(
+        `Synced: ${data.synced} verified, ${data.created || 0} recovered, ${data.removed} removed.`
+      );
+    } catch (err) {
+      console.error("Sync error:", err);
+      toast.error("Failed to sync with Stripe.");
+    } finally {
+      setSyncing(false);
+    }
     fetchSubscribers();
     fetchOrders();
   };
