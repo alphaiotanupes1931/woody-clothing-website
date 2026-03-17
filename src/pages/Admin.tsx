@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2 } from "lucide-react";
+import { Download, Mail, Users, TrendingUp, RefreshCw, ShoppingBag, Package, Trash2, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
@@ -87,6 +87,7 @@ const Admin = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
@@ -145,6 +146,23 @@ const Admin = () => {
   const refreshAll = () => {
     fetchSubscribers();
     fetchOrders();
+  };
+
+  const syncWithStripe = async () => {
+    setSyncing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("stripe-sync");
+      if (error) throw error;
+      toast.success(
+        `Stripe sync complete: ${data.synced} verified, ${data.removed} unpaid removed.`
+      );
+      await fetchOrders();
+    } catch (err) {
+      console.error("Stripe sync error:", err);
+      toast.error("Failed to sync with Stripe.");
+    } finally {
+      setSyncing(false);
+    }
   };
 
   const deleteOrder = async (orderId: string, customerName: string) => {
@@ -216,7 +234,8 @@ const Admin = () => {
     (s) => Date.now() - new Date(s.subscribed_at).getTime() < 7 * 86400000
   ).length;
 
-  const totalRevenue = orders.reduce((sum, o) => sum + Number(o.total), 0);
+  const paidOrders = orders.filter((o) => o.status === "paid");
+  const totalRevenue = paidOrders.reduce((sum, o) => sum + Number(o.total), 0);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -229,13 +248,23 @@ const Admin = () => {
             </Link>
             <h1 className="font-display text-xl tracking-wider uppercase">Admin Dashboard</h1>
           </div>
-          <button
-            onClick={refreshAll}
-            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <RefreshCw size={14} className={loading || ordersLoading ? "animate-spin" : ""} />
-            Refresh
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={syncWithStripe}
+              disabled={syncing}
+              className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase bg-foreground text-background px-3 py-1.5 hover:bg-foreground/90 transition-colors disabled:opacity-50"
+            >
+              <CheckCircle size={13} className={syncing ? "animate-pulse" : ""} />
+              {syncing ? "Syncing..." : "Verify with Stripe"}
+            </button>
+            <button
+              onClick={refreshAll}
+              className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <RefreshCw size={14} className={loading || ordersLoading ? "animate-spin" : ""} />
+              Refresh
+            </button>
+          </div>
         </div>
       </div>
 
@@ -263,7 +292,7 @@ const Admin = () => {
           <div className="space-y-8">
             <TypingWelcome />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatCard icon={<ShoppingBag size={20} />} label="Total Orders" value={orders.length} />
+              <StatCard icon={<ShoppingBag size={20} />} label="Paid Orders" value={paidOrders.length} />
               <StatCard icon={<TrendingUp size={20} />} label="Gross Income" value={`$${totalRevenue.toFixed(2)}`} />
               <StatCard icon={<Users size={20} />} label="Subscribers" value={subscribers.length} />
               <StatCard icon={<Mail size={20} />} label="Signups This Week" value={weekCount} />
@@ -276,7 +305,7 @@ const Admin = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-                All Orders ({orders.length})
+                All Orders ({orders.length}){orders.length !== paidOrders.length && ` -- ${paidOrders.length} paid`}
               </h2>
               <button
                 onClick={exportOrdersCSV}
@@ -304,6 +333,13 @@ const Admin = () => {
                         <div className="flex items-center gap-3">
                           <span className="font-medium text-sm">{o.customer_name}</span>
                           <span className="text-xs text-muted-foreground">{o.customer_email}</span>
+                          <span className={`text-[10px] px-1.5 py-0.5 uppercase tracking-wider font-semibold border ${
+                            o.status === "paid"
+                              ? "border-green-600/30 text-green-600 bg-green-600/10"
+                              : "border-yellow-600/30 text-yellow-600 bg-yellow-600/10"
+                          }`}>
+                            {o.status}
+                          </span>
                         </div>
                         <div className="text-xs text-muted-foreground mt-1">
                           {o.items.map((i) => {
@@ -337,7 +373,7 @@ const Admin = () => {
         )}
 
         {tab === "inventory" && (
-          <InventorySummary orders={orders} loading={ordersLoading} />
+          <InventorySummary orders={paidOrders} loading={ordersLoading} />
         )}
 
         {tab === "subscribers" && (

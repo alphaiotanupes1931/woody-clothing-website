@@ -1,0 +1,126 @@
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import Stripe from "https://esm.sh/stripe@18.5.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2025-08-27.basil",
+    });
+
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") || "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
+    );
+
+    // Get all orders from DB
+    const { data: orders, error: ordersError } = await supabaseAdmin
+      .from("orders")
+      .select("id, stripe_session_id, status, customer_name, customer_email, shipping_address")
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    if (ordersError) throw ordersError;
+
+    let synced = 0;
+    let removed = 0;
+    const results: string[] = [];
+
+    for (const order of orders || []) {
+      if (!order.stripe_session_id) continue;
+
+      try {
+        const session = await stripe.checkout.sessions.retrieve(order.stripe_session_id, {
+          expand: ["payment_intent"],
+        });
+
+        const paymentStatus = session.payment_status;
+
+        // If not paid, delete the order (abandoned checkout)
+        if (paymentStatus !== "paid") {
+          await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
+          await supabaseAdmin.from("orders").delete().eq("id", order.id);
+          removed++;
+          results.push(`Removed unpaid order ${order.id} (${order.customer_name})`);
+          continue;
+        }
+
+        // Paid -- sync real data from Stripe
+        const customerName =
+          session.shipping_details?.name ||
+          session.customer_details?.name ||
+          (session as any).metadata?.customer_name ||
+          order.customer_name;
+
+        const customerEmail =
+          session.customer_details?.email ||
+          (session as any).customer_email ||
+          order.customer_email;
+
+        const shippingAddr = session.shipping_details?.address || {} as any;
+
+        const updateData: Record<string, any> = {
+          status: "paid",
+          customer_name: customerName,
+          customer_email: customerEmail,
+        };
+
+        if (shippingAddr.line1) updateData.shipping_address = shippingAddr.line1;
+        if (shippingAddr.city) updateData.shipping_city = shippingAddr.city;
+        if (shippingAddr.state) updateData.shipping_state = shippingAddr.state;
+        if (shippingAddr.postal_code) updateData.shipping_zip = shippingAddr.postal_code;
+
+        // Also sync the actual amount charged
+        const pi = (session as any).payment_intent;
+        if (pi && typeof pi === "object" && pi.amount_received) {
+          updateData.total = pi.amount_received / 100;
+        }
+
+        const { error: updateError } = await supabaseAdmin
+          .from("orders")
+          .update(updateData)
+          .eq("id", order.id);
+
+        if (updateError) {
+          results.push(`Failed to update ${order.id}: ${updateError.message}`);
+        } else {
+          synced++;
+        }
+      } catch (stripeErr: any) {
+        // Session not found in Stripe -- stale record
+        if (stripeErr.statusCode === 404) {
+          await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
+          await supabaseAdmin.from("orders").delete().eq("id", order.id);
+          removed++;
+          results.push(`Removed stale order ${order.id} (session not found in Stripe)`);
+        } else {
+          results.push(`Stripe error for ${order.id}: ${stripeErr.message}`);
+        }
+      }
+    }
+
+    return new Response(
+      JSON.stringify({ synced, removed, total: (orders || []).length, details: results }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Stripe sync error:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});
