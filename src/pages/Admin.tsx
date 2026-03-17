@@ -87,6 +87,7 @@ const Admin = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
