@@ -48,11 +48,15 @@ serve(async (req) => {
           expand: ["payment_intent", "line_items"],
         });
 
-        if (session.payment_status !== "paid") {
+        // Remove if not paid OR if refunded
+        const pi = (session as any).payment_intent;
+        const isRefunded = pi && typeof pi === "object" && (pi.status === "canceled" || (pi.charges?.data?.[0]?.refunded === true));
+
+        if (session.payment_status !== "paid" || isRefunded) {
           await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
           await supabaseAdmin.from("orders").delete().eq("id", order.id);
           removed++;
-          results.push(`Removed unpaid order ${order.id}`);
+          results.push(`Removed ${isRefunded ? "refunded" : "unpaid"} order ${order.id}`);
           continue;
         }
 
