@@ -79,21 +79,25 @@ Deno.serve(async (req) => {
     }
 
     // GET: Fetch orders with their items
-    const { data: orders, error: ordersError } = await supabaseAdmin
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
+    const { data: orders, error: ordersError } = await withRetry(() =>
+      supabaseAdmin
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(200)
+    );
 
     if (ordersError) throw ordersError;
 
     const orderIds = (orders || []).map((o: any) => o.id);
     let items: any[] = [];
     if (orderIds.length > 0) {
-      const { data: itemsData, error: itemsError } = await supabaseAdmin
-        .from("order_items")
-        .select("*")
-        .in("order_id", orderIds);
+      const { data: itemsData, error: itemsError } = await withRetry(() =>
+        supabaseAdmin
+          .from("order_items")
+          .select("*")
+          .in("order_id", orderIds)
+      );
 
       if (itemsError) throw itemsError;
       items = itemsData || [];
