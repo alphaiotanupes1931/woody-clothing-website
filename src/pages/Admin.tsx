@@ -154,7 +154,7 @@ const Admin = () => {
       const { data, error } = await supabase.functions.invoke("stripe-sync");
       if (error) throw error;
       toast.success(
-        `Stripe sync complete: ${data.synced} verified, ${data.removed} unpaid removed.`
+        `Stripe sync complete: ${data.synced} verified, ${data.created || 0} recovered, ${data.removed} removed.`
       );
       await fetchOrders();
     } catch (err) {
