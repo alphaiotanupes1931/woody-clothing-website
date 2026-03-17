@@ -373,7 +373,7 @@ const Admin = () => {
         )}
 
         {tab === "inventory" && (
-          <InventorySummary orders={orders} loading={ordersLoading} />
+          <InventorySummary orders={paidOrders} loading={ordersLoading} />
         )}
 
         {tab === "subscribers" && (
