@@ -109,7 +109,7 @@ serve(async (req) => {
     let startingAfter: string | undefined;
 
     while (hasMore) {
-      const params: any = { limit: 100, status: "complete" };
+      const params: any = { limit: 100, status: "complete", expand: ["data.payment_intent"] };
       if (startingAfter) params.starting_after = startingAfter;
 
       const sessions = await stripe.checkout.sessions.list(params);
@@ -117,6 +117,10 @@ serve(async (req) => {
       for (const session of sessions.data) {
         if (session.payment_status !== "paid") continue;
         if (knownSessionIds.has(session.id)) continue;
+
+        // Skip refunded
+        const sPi = (session as any).payment_intent;
+        if (sPi && typeof sPi === "object" && (sPi.status === "canceled" || sPi.charges?.data?.[0]?.refunded === true)) continue;
 
         // This is a paid session missing from our DB -- create it
         const customerName =
