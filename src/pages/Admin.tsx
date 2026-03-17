@@ -146,7 +146,9 @@ const Admin = () => {
   const refreshAll = async () => {
     setSyncing(true);
     try {
-      const { data, error } = await supabase.functions.invoke("stripe-sync");
+      const { data, error } = await supabase.functions.invoke("stripe-sync", {
+        body: { recoverMissing: true },
+      });
       if (error) throw error;
       toast.success(
         `Synced: ${data.synced} verified, ${data.created || 0} recovered, ${data.removed} removed.`
