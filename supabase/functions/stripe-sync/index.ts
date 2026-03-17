@@ -54,8 +54,15 @@ serve(async (req) => {
 
     const knownSessionIds = new Set<string>();
 
+    // Remove orders with no stripe session ID (unverifiable)
     for (const order of orders || []) {
-      if (!order.stripe_session_id) continue;
+      if (!order.stripe_session_id) {
+        await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
+        await supabaseAdmin.from("orders").delete().eq("id", order.id);
+        removed++;
+        results.push(`Removed unverifiable order ${order.id} (no Stripe session)`);
+        continue;
+      }
       knownSessionIds.add(order.stripe_session_id);
 
       try {
