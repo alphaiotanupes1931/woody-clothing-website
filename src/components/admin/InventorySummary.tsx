@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Download, Package, CalendarIcon, Loader2 } from "lucide-react";
+import { Download, Package, CalendarIcon, Loader2, ShieldCheck } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
