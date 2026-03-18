@@ -163,15 +163,23 @@ serve(async (req) => {
               });
             }
             results.push(`Expanded bundle order ${order.id} into ${itemNames.length} items`);
-          } else if (existingItems) {
-            // Fix existing items with missing sizes using metadata
-            for (const item of existingItems) {
-              if (!item.size) {
-                const inferredSize = inferSizeFromMeta(item.product_name, meta);
-                if (inferredSize) {
-                  await supabaseAdmin.from("order_items").update({ size: inferredSize }).eq("id", item.id);
-                  results.push(`Fixed size for "${item.product_name}" → ${inferredSize} in order ${order.id}`);
-                }
+          }
+        }
+
+        // Fix any items with missing sizes using session metadata (works for all orders)
+        if (meta.teeSize || meta.poloSize || meta.zipSize) {
+          const { data: itemsToFix } = await supabaseAdmin
+            .from("order_items")
+            .select("id, product_name, size")
+            .eq("order_id", order.id)
+            .is("size", null);
+
+          if (itemsToFix) {
+            for (const item of itemsToFix) {
+              const inferredSize = inferSizeFromMeta(item.product_name, meta);
+              if (inferredSize) {
+                await supabaseAdmin.from("order_items").update({ size: inferredSize }).eq("id", item.id);
+                results.push(`Fixed size for "${item.product_name}" → ${inferredSize} in order ${order.id}`);
               }
             }
           }
