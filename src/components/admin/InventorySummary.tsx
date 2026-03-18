@@ -77,6 +77,7 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
 
   const summary = useMemo(() => {
     const map: Record<string, ProductSummary> = {};
+    // Add order items
     filteredOrders.forEach((o) =>
       o.items.forEach((item) => {
         const key = item.product_name;
@@ -86,8 +87,17 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
         map[key].sizes[size] = (map[key].sizes[size] || 0) + item.quantity;
       })
     );
+    // Merge exception items (always included regardless of date filters)
+    exceptionItems.forEach((item) => {
+      const key = item.product_name;
+      if (!map[key]) map[key] = { name: key, totalQty: 0, sizes: {} };
+      map[key].totalQty += item.quantity;
+      map[key].hasExceptions = true;
+      const size = item.size || "One Size";
+      map[key].sizes[size] = (map[key].sizes[size] || 0) + item.quantity;
+    });
     return Object.values(map).sort((a, b) => b.totalQty - a.totalQty);
-  }, [filteredOrders]);
+  }, [filteredOrders, exceptionItems]);
 
   const clearDates = () => {
     setStartDate(undefined);
