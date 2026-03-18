@@ -209,12 +209,19 @@ const Admin = () => {
   };
 
   const exportOrdersCSV = () => {
-    const rows = ["Order Date,Customer,Email,Address,Items,Sizes,Subtotal,Shipping,Total,Status"];
+    const rows = ["Order Date,Customer,Email,Address,Product,Size,Qty,Unit Price,Subtotal,Shipping,Order Total,Status"];
     orders.forEach((o) => {
-      const itemNames = o.items.map((i) => `${i.product_name} x${i.quantity}`).join("; ");
-      const sizes = o.items.map((i) => i.size || "N/A").join("; ");
       const addr = [o.shipping_address, o.shipping_city, o.shipping_state, o.shipping_zip].filter(Boolean).join(", ");
-      rows.push(`"${new Date(o.created_at).toLocaleDateString()}","${o.customer_name}","${o.customer_email}","${addr}","${itemNames}","${sizes}",${o.subtotal},${o.shipping_cost},${o.total},${o.status}`);
+      const date = new Date(o.created_at).toLocaleDateString();
+      if (o.items.length > 0) {
+        o.items.forEach((item, idx) => {
+          rows.push(
+            `"${date}","${o.customer_name}","${o.customer_email}","${addr}","${item.product_name}","${item.size || "N/A"}",${item.quantity},${Number(item.unit_price).toFixed(2)},${idx === 0 ? o.subtotal : ""},${idx === 0 ? o.shipping_cost : ""},${idx === 0 ? o.total : ""},${idx === 0 ? o.status : ""}`
+          );
+        });
+      } else {
+        rows.push(`"${date}","${o.customer_name}","${o.customer_email}","${addr}","(no items)","N/A",0,0,${o.subtotal},${o.shipping_cost},${o.total},${o.status}`);
+      }
     });
     const blob = new Blob([rows.join("\n")], { type: "text/csv" });
     const url = URL.createObjectURL(blob);

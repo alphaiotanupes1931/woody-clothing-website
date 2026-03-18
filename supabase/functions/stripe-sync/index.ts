@@ -117,6 +117,41 @@ serve(async (req) => {
         }
 
         await supabaseAdmin.from("orders").update(updateData).eq("id", order.id);
+
+        // Fix bundle orders that were stored as a single "Pack" item
+        const meta = (session as any).metadata || {};
+        if (meta.bundle === "true" && meta.items) {
+          const { data: existingItems } = await supabaseAdmin
+            .from("order_items")
+            .select("product_name")
+            .eq("order_id", order.id);
+
+          const hasSinglePack = existingItems && existingItems.length === 1 &&
+            (existingItems[0].product_name.toLowerCase().includes("pack") ||
+             existingItems[0].product_name.toLowerCase().includes("bundle") ||
+             existingItems[0].product_name.toLowerCase().includes("essentials"));
+
+          if (hasSinglePack) {
+            await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
+            const itemNames = (meta.items || "").split(", ").filter(Boolean);
+            const orderTotal = updateData.total || (session.amount_total || 0) / 100;
+            const bundleUnitPrice = orderTotal / Math.max(itemNames.length, 1);
+            for (const itemName of itemNames) {
+              const sizeMatch = itemName.match(/\(([^)]+)\)$/);
+              const size = sizeMatch ? sizeMatch[1] : null;
+              const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+              await supabaseAdmin.from("order_items").insert({
+                order_id: order.id,
+                product_name: cleanName,
+                size,
+                quantity: 1,
+                unit_price: bundleUnitPrice,
+              });
+            }
+            results.push(`Expanded bundle order ${order.id} into ${itemNames.length} items`);
+          }
+        }
+
         synced++;
       } catch (stripeErr: any) {
         if (stripeErr?.statusCode === 404) {
@@ -198,19 +233,45 @@ serve(async (req) => {
           }
 
           try {
-            const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
-            for (const item of lineItems.data) {
-              // Skip shipping line items
-              const desc = item.description || "";
-              if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground")) {
-                continue;
+            const meta = (session as any).metadata || {};
+            const isBundle = meta.bundle === "true" && meta.items;
+
+            if (isBundle) {
+              // Parse individual items from metadata for bundle orders
+              const itemNames = (meta.items || "").split(", ").filter(Boolean);
+              const bundleUnitPrice = total / Math.max(itemNames.length, 1);
+              for (const itemName of itemNames) {
+                // Extract size from name like "Product Name (L)"
+                const sizeMatch = itemName.match(/\(([^)]+)\)$/);
+                const size = sizeMatch ? sizeMatch[1] : null;
+                const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+                await supabaseAdmin.from("order_items").insert({
+                  order_id: newOrder.id,
+                  product_name: cleanName,
+                  size,
+                  quantity: 1,
+                  unit_price: bundleUnitPrice,
+                });
               }
-              await supabaseAdmin.from("order_items").insert({
-                order_id: newOrder.id,
-                product_name: desc || "Unknown Product",
-                quantity: item.quantity || 1,
-                unit_price: (item.price?.unit_amount || 0) / 100,
-              });
+            } else {
+              const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
+              for (const item of lineItems.data) {
+                const desc = item.description || "";
+                if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground")) {
+                  continue;
+                }
+                // Extract size from description like "Product Name (L)"
+                const sizeMatch = desc.match(/\(([^)]+)\)$/);
+                const size = sizeMatch ? sizeMatch[1] : null;
+                const cleanName = sizeMatch ? desc.replace(/\s*\([^)]+\)$/, "") : desc;
+                await supabaseAdmin.from("order_items").insert({
+                  order_id: newOrder.id,
+                  product_name: cleanName,
+                  size,
+                  quantity: item.quantity || 1,
+                  unit_price: (item.price?.unit_amount || 0) / 100,
+                });
+              }
             }
           } catch (lineErr: any) {
             results.push(`Could not fetch line items for session ${session.id}: ${lineErr?.message || "Unknown error"}`);

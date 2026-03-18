@@ -97,10 +97,12 @@ const PromoModal = () => {
     try {
       const selectedTeeItems = selectedTees.map((id) => teeOptions.find((t) => t.id === id)!);
 
+      const unitPrice = BUNDLE_PRICE / 5;
       const checkoutItems = [
         ...selectedTeeItems.map((t) => ({
           name: `${t.name} (${teeSize})`,
-          price: 0, quantity: 1,
+          productId: t.id,
+          price: unitPrice, quantity: 1,
           image: t.image.startsWith("http") ? t.image : `${window.location.origin}${t.image}`,
           size: teeSize,
         })),
@@ -108,7 +110,8 @@ const PromoModal = () => {
           const size = item.sizeKey === "polo" ? poloSize : zipSize;
           return {
             name: `${item.name} (${size})`,
-            price: 0, quantity: 1,
+            productId: item.name.toLowerCase().replace(/\s+/g, "-"),
+            price: unitPrice, quantity: 1,
             image: item.image.startsWith("http") ? item.image : `${window.location.origin}${item.image}`,
             size,
           };
