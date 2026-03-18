@@ -117,6 +117,41 @@ serve(async (req) => {
         }
 
         await supabaseAdmin.from("orders").update(updateData).eq("id", order.id);
+
+        // Fix bundle orders that were stored as a single "Pack" item
+        const meta = (session as any).metadata || {};
+        if (meta.bundle === "true" && meta.items) {
+          const { data: existingItems } = await supabaseAdmin
+            .from("order_items")
+            .select("product_name")
+            .eq("order_id", order.id);
+
+          const hasSinglePack = existingItems && existingItems.length === 1 &&
+            (existingItems[0].product_name.toLowerCase().includes("pack") ||
+             existingItems[0].product_name.toLowerCase().includes("bundle") ||
+             existingItems[0].product_name.toLowerCase().includes("essentials"));
+
+          if (hasSinglePack) {
+            await supabaseAdmin.from("order_items").delete().eq("order_id", order.id);
+            const itemNames = (meta.items || "").split(", ").filter(Boolean);
+            const orderTotal = updateData.total || (session.amount_total || 0) / 100;
+            const bundleUnitPrice = orderTotal / Math.max(itemNames.length, 1);
+            for (const itemName of itemNames) {
+              const sizeMatch = itemName.match(/\(([^)]+)\)$/);
+              const size = sizeMatch ? sizeMatch[1] : null;
+              const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+              await supabaseAdmin.from("order_items").insert({
+                order_id: order.id,
+                product_name: cleanName,
+                size,
+                quantity: 1,
+                unit_price: bundleUnitPrice,
+              });
+            }
+            results.push(`Expanded bundle order ${order.id} into ${itemNames.length} items`);
+          }
+        }
+
         synced++;
       } catch (stripeErr: any) {
         if (stripeErr?.statusCode === 404) {
