@@ -176,6 +176,7 @@ const Admin = () => {
     }
     fetchSubscribers();
     fetchOrders();
+    fetchExceptions();
   };
 
 
