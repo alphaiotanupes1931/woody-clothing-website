@@ -105,7 +105,7 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
     const rows = ["Product,Total Qty,Size Breakdown,Shipped"];
     summary.forEach((p) => {
       const sizeStr = Object.entries(p.sizes)
-        .map(([s, q]) => `${q} ${s}`)
+        .map(([s, q]) => `${s}: ${q}`)
         .join("; ");
       rows.push(`"${p.name}",${p.totalQty},"${sizeStr}",${shippedMap[p.name] ? "Yes" : "No"}`);
     });
