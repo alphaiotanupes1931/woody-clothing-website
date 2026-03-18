@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import InventorySummary from "@/components/admin/InventorySummary";
 import OrderDetail from "@/components/admin/OrderDetail";
 import AdminLogin from "@/components/admin/AdminLogin";
+import ExceptionsTab, { type ExceptionItem } from "@/components/admin/ExceptionsTab";
 
 const getGreeting = () => {
   const estHour = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" })).getHours();
@@ -88,8 +89,9 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "subscribers">("overview");
+  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "exceptions" | "subscribers">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [exceptionItems, setExceptionItems] = useState<ExceptionItem[]>([]);
 
   const fetchSubscribers = async () => {
     setLoading(true);
@@ -117,10 +119,23 @@ const Admin = () => {
     }
   };
 
+  const fetchExceptions = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-orders", {
+        body: { action: "get_exceptions" },
+      });
+      if (error) throw error;
+      setExceptionItems(data.exceptions || []);
+    } catch (err) {
+      console.error("Failed to fetch exceptions:", err);
+    }
+  };
+
   useEffect(() => {
     if (!authed) return;
     fetchSubscribers();
     fetchOrders();
+    fetchExceptions();
 
     const channel = supabase
       .channel('admin-orders-realtime')
@@ -161,6 +176,7 @@ const Admin = () => {
     }
     fetchSubscribers();
     fetchOrders();
+    fetchExceptions();
   };
 
 
@@ -282,7 +298,7 @@ const Admin = () => {
       {/* Tabs */}
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-4 flex gap-0">
-          {(["overview", "orders", "inventory", "subscribers"] as const).map((t) => (
+          {(["overview", "orders", "inventory", "exceptions", "subscribers"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -377,7 +393,11 @@ const Admin = () => {
         )}
 
         {tab === "inventory" && (
-          <InventorySummary orders={paidOrders} loading={ordersLoading} />
+          <InventorySummary orders={paidOrders} loading={ordersLoading} exceptionItems={exceptionItems} />
+        )}
+
+        {tab === "exceptions" && (
+          <ExceptionsTab onExceptionsLoaded={setExceptionItems} />
         )}
 
         {tab === "subscribers" && (

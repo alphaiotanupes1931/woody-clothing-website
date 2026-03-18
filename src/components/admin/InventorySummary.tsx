@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Download, Package, CalendarIcon, Loader2 } from "lucide-react";
+import { Download, Package, CalendarIcon, Loader2, ShieldCheck } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -32,9 +32,19 @@ interface ProductSummary {
   name: string;
   totalQty: number;
   sizes: Record<string, number>;
+  hasExceptions?: boolean;
 }
 
-const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boolean }) => {
+interface ExceptionItem {
+  id: string;
+  customer_name: string;
+  product_name: string;
+  size: string | null;
+  quantity: number;
+  created_at: string;
+}
+
+const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Order[]; loading: boolean; exceptionItems?: ExceptionItem[] }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [shippedMap, setShippedMap] = useState<Record<string, boolean>>({});
@@ -67,6 +77,7 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
 
   const summary = useMemo(() => {
     const map: Record<string, ProductSummary> = {};
+    // Add order items
     filteredOrders.forEach((o) =>
       o.items.forEach((item) => {
         const key = item.product_name;
@@ -76,8 +87,17 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
         map[key].sizes[size] = (map[key].sizes[size] || 0) + item.quantity;
       })
     );
+    // Merge exception items (always included regardless of date filters)
+    exceptionItems.forEach((item) => {
+      const key = item.product_name;
+      if (!map[key]) map[key] = { name: key, totalQty: 0, sizes: {} };
+      map[key].totalQty += item.quantity;
+      map[key].hasExceptions = true;
+      const size = item.size || "One Size";
+      map[key].sizes[size] = (map[key].sizes[size] || 0) + item.quantity;
+    });
     return Object.values(map).sort((a, b) => b.totalQty - a.totalQty);
-  }, [filteredOrders]);
+  }, [filteredOrders, exceptionItems]);
 
   const clearDates = () => {
     setStartDate(undefined);
@@ -258,6 +278,11 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
                     <span className={cn("font-medium text-sm", isShipped && "line-through text-muted-foreground")}>
                       {p.name}
                     </span>
+                    {p.hasExceptions && (
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" title="Includes exception orders">
+                        <ShieldCheck size={12} />
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="text-sm font-semibold">{p.totalQty} pcs</span>

@@ -56,6 +56,33 @@ export type Database = {
         }
         Relationships: []
       }
+      order_exceptions: {
+        Row: {
+          created_at: string
+          customer_name: string
+          id: string
+          product_name: string
+          quantity: number
+          size: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          id?: string
+          product_name: string
+          quantity?: number
+          size?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          id?: string
+          product_name?: string
+          quantity?: number
+          size?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           id: string

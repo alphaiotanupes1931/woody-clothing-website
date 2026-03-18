@@ -78,6 +78,66 @@ Deno.serve(async (req) => {
       });
     }
 
+    // === EXCEPTIONS CRUD ===
+    if (body.action === "get_exceptions") {
+      const { data, error } = await supabaseAdmin
+        .from("order_exceptions")
+        .select("*")
+        .order("customer_name", { ascending: true })
+        .order("product_name", { ascending: true });
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ exceptions: data || [] }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (body.action === "add_exception") {
+      const { customer_name, product_name, size, quantity } = body;
+      if (!customer_name || !product_name) throw new Error("customer_name and product_name required");
+
+      const { data, error } = await supabaseAdmin
+        .from("order_exceptions")
+        .insert({ customer_name, product_name, size: size || null, quantity: quantity || 1 })
+        .select()
+        .single();
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ success: true, exception: data }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (body.action === "delete_exception") {
+      const { exceptionId } = body;
+      if (!exceptionId) throw new Error("exceptionId is required");
+
+      const { error } = await supabaseAdmin
+        .from("order_exceptions")
+        .delete()
+        .eq("id", exceptionId);
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (body.action === "delete_exception_customer") {
+      const { customerName } = body;
+      if (!customerName) throw new Error("customerName is required");
+
+      const { error } = await supabaseAdmin
+        .from("order_exceptions")
+        .delete()
+        .eq("customer_name", customerName);
+      if (error) throw error;
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // GET: Fetch orders with their items
     const { data: orders, error: ordersError } = await withRetry(() =>
       supabaseAdmin
