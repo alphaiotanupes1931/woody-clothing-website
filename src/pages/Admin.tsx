@@ -208,8 +208,15 @@ const Admin = () => {
     URL.revokeObjectURL(url);
   };
 
+  const getUnitLabel = (name: string, qty: number) => {
+    const lower = name.toLowerCase();
+    if (lower.includes("hat") || lower.includes("fitted") || lower.includes("kap") || lower.includes("bucket")) return qty === 1 ? "hat" : "hats";
+    if (lower.includes("sock")) return qty === 1 ? "pair" : "pairs";
+    if (lower.includes("skully")) return qty === 1 ? "skully" : "skullies";
+    return qty === 1 ? "pc" : "pcs";
+  };
+
   const exportOrdersCSV = () => {
-    // Aggregate items across all orders by product + size for manufacturer
     const agg: Record<string, number> = {};
     orders.forEach((o) => {
       o.items.forEach((item) => {
@@ -217,12 +224,14 @@ const Admin = () => {
         agg[key] = (agg[key] || 0) + item.quantity;
       });
     });
-    const rows = ["Product,Size,Qty"];
+    const rows = ["Product,Breakdown"];
     Object.entries(agg)
       .sort(([a], [b]) => a.localeCompare(b))
       .forEach(([key, qty]) => {
         const [name, size] = key.split("|||");
-        rows.push(`"${name}","${size}",${qty}`);
+        const unit = getUnitLabel(name, qty);
+        const sizeLabel = size === "One Size" ? "" : `, size ${size}`;
+        rows.push(`"${name}","${qty} ${unit}${sizeLabel}"`);
       });
     const blob = new Blob([rows.join("\n")], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
