@@ -209,20 +209,21 @@ const Admin = () => {
   };
 
   const exportOrdersCSV = () => {
-    const rows = ["Order Date,Customer,Email,Address,Product,Size,Qty,Unit Price,Subtotal,Shipping,Order Total,Status"];
+    // Aggregate items across all orders by product + size for manufacturer
+    const agg: Record<string, number> = {};
     orders.forEach((o) => {
-      const addr = [o.shipping_address, o.shipping_city, o.shipping_state, o.shipping_zip].filter(Boolean).join(", ");
-      const date = new Date(o.created_at).toLocaleDateString();
-      if (o.items.length > 0) {
-        o.items.forEach((item, idx) => {
-          rows.push(
-            `"${date}","${o.customer_name}","${o.customer_email}","${addr}","${item.product_name}","${item.size || "N/A"}",${item.quantity},${Number(item.unit_price).toFixed(2)},${idx === 0 ? o.subtotal : ""},${idx === 0 ? o.shipping_cost : ""},${idx === 0 ? o.total : ""},${idx === 0 ? o.status : ""}`
-          );
-        });
-      } else {
-        rows.push(`"${date}","${o.customer_name}","${o.customer_email}","${addr}","(no items)","N/A",0,0,${o.subtotal},${o.shipping_cost},${o.total},${o.status}`);
-      }
+      o.items.forEach((item) => {
+        const key = `${item.product_name}|||${item.size || "One Size"}`;
+        agg[key] = (agg[key] || 0) + item.quantity;
+      });
     });
+    const rows = ["Product,Size,Qty"];
+    Object.entries(agg)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .forEach(([key, qty]) => {
+        const [name, size] = key.split("|||");
+        rows.push(`"${name}","${size}",${qty}`);
+      });
     const blob = new Blob([rows.join("\n")], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
