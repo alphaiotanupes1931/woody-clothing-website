@@ -283,11 +283,7 @@ const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boole
                   {Object.entries(p.sizes)
                     .sort(([a], [b]) => a.localeCompare(b))
                     .map(([size, qty]) => {
-                      const lower = p.name.toLowerCase();
-                      const isHat = lower.includes("hat") || lower.includes("fitted") || lower.includes("kap") || lower.includes("bucket");
-                      const isSock = lower.includes("sock");
-                      const isSkully = lower.includes("skully");
-                      const unit = isHat ? (qty === 1 ? "hat" : "hats") : isSock ? (qty === 1 ? "pair" : "pairs") : isSkully ? (qty === 1 ? "skully" : "skullies") : (qty === 1 ? "pc" : "pcs");
+                      const unit = getUnitLabel(p.name, qty);
                       const sizeLabel = size === "One Size" ? "" : `, size ${size}`;
                       return (
                         <span
