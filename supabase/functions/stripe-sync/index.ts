@@ -8,6 +8,19 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// Infer size from metadata based on product name keywords
+const inferSizeFromMeta = (productName: string, meta: Record<string, string>): string | null => {
+  const lower = productName.toLowerCase();
+  const teeKeywords = ["tee", "t-shirt", "shirt"];
+  const poloKeywords = ["polo"];
+  const zipKeywords = ["zip", "sweater", "quarter"];
+  
+  if (poloKeywords.some(k => lower.includes(k)) && meta.poloSize) return meta.poloSize;
+  if (zipKeywords.some(k => lower.includes(k)) && meta.zipSize) return meta.zipSize;
+  if (teeKeywords.some(k => lower.includes(k)) && meta.teeSize) return meta.teeSize;
+  return null;
+};
+
 const isRefundedIntent = (intent: any) => {
   if (!intent || typeof intent !== "object") return false;
 
