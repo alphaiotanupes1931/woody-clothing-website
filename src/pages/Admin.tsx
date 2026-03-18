@@ -119,10 +119,23 @@ const Admin = () => {
     }
   };
 
+  const fetchExceptions = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-orders", {
+        body: { action: "get_exceptions" },
+      });
+      if (error) throw error;
+      setExceptionItems(data.exceptions || []);
+    } catch (err) {
+      console.error("Failed to fetch exceptions:", err);
+    }
+  };
+
   useEffect(() => {
     if (!authed) return;
     fetchSubscribers();
     fetchOrders();
+    fetchExceptions();
 
     const channel = supabase
       .channel('admin-orders-realtime')
