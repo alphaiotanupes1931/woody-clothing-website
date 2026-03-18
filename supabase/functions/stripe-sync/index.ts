@@ -136,7 +136,7 @@ serve(async (req) => {
         if (meta.bundle === "true" && meta.items) {
           const { data: existingItems } = await supabaseAdmin
             .from("order_items")
-            .select("product_name")
+            .select("id, product_name, size")
             .eq("order_id", order.id);
 
           const hasSinglePack = existingItems && existingItems.length === 1 &&
@@ -151,8 +151,9 @@ serve(async (req) => {
             const bundleUnitPrice = orderTotal / Math.max(itemNames.length, 1);
             for (const itemName of itemNames) {
               const sizeMatch = itemName.match(/\(([^)]+)\)$/);
-              const size = sizeMatch ? sizeMatch[1] : null;
+              let size = sizeMatch ? sizeMatch[1] : null;
               const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+              if (!size) size = inferSizeFromMeta(cleanName, meta);
               await supabaseAdmin.from("order_items").insert({
                 order_id: order.id,
                 product_name: cleanName,
@@ -162,6 +163,17 @@ serve(async (req) => {
               });
             }
             results.push(`Expanded bundle order ${order.id} into ${itemNames.length} items`);
+          } else if (existingItems) {
+            // Fix existing items with missing sizes using metadata
+            for (const item of existingItems) {
+              if (!item.size) {
+                const inferredSize = inferSizeFromMeta(item.product_name, meta);
+                if (inferredSize) {
+                  await supabaseAdmin.from("order_items").update({ size: inferredSize }).eq("id", item.id);
+                  results.push(`Fixed size for "${item.product_name}" → ${inferredSize} in order ${order.id}`);
+                }
+              }
+            }
           }
         }
 
