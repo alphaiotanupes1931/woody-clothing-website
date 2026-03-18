@@ -278,6 +278,11 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
                     <span className={cn("font-medium text-sm", isShipped && "line-through text-muted-foreground")}>
                       {p.name}
                     </span>
+                    {p.hasExceptions && (
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" title="Includes exception orders">
+                        <ShieldCheck size={12} />
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="text-sm font-semibold">{p.totalQty} pcs</span>
