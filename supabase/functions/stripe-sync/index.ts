@@ -268,8 +268,9 @@ serve(async (req) => {
               for (const itemName of itemNames) {
                 // Extract size from name like "Product Name (L)"
                 const sizeMatch = itemName.match(/\(([^)]+)\)$/);
-                const size = sizeMatch ? sizeMatch[1] : null;
+                let size = sizeMatch ? sizeMatch[1] : null;
                 const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+                if (!size) size = inferSizeFromMeta(cleanName, meta);
                 await supabaseAdmin.from("order_items").insert({
                   order_id: newOrder.id,
                   product_name: cleanName,
