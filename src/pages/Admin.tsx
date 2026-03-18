@@ -379,7 +379,11 @@ const Admin = () => {
         )}
 
         {tab === "inventory" && (
-          <InventorySummary orders={paidOrders} loading={ordersLoading} />
+          <InventorySummary orders={paidOrders} loading={ordersLoading} exceptionItems={exceptionItems} />
+        )}
+
+        {tab === "exceptions" && (
+          <ExceptionsTab onExceptionsLoaded={setExceptionItems} />
         )}
 
         {tab === "subscribers" && (
