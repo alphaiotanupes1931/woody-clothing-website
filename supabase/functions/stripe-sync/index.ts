@@ -291,7 +291,7 @@ serve(async (req) => {
               const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
               for (const item of lineItems.data) {
                 const desc = item.description || "";
-                if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground")) {
+                if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground") || desc.trim().toLowerCase() === "kream") {
                   continue;
                 }
                 // Extract size from description like "Product Name (L)"
