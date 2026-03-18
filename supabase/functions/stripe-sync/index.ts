@@ -8,6 +8,19 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// Infer size from metadata based on product name keywords
+const inferSizeFromMeta = (productName: string, meta: Record<string, string>): string | null => {
+  const lower = productName.toLowerCase();
+  const teeKeywords = ["tee", "t-shirt", "shirt"];
+  const poloKeywords = ["polo"];
+  const zipKeywords = ["zip", "sweater", "quarter"];
+  
+  if (poloKeywords.some(k => lower.includes(k)) && meta.poloSize) return meta.poloSize;
+  if (zipKeywords.some(k => lower.includes(k)) && meta.zipSize) return meta.zipSize;
+  if (teeKeywords.some(k => lower.includes(k)) && meta.teeSize) return meta.teeSize;
+  return null;
+};
+
 const isRefundedIntent = (intent: any) => {
   if (!intent || typeof intent !== "object") return false;
 
@@ -123,7 +136,7 @@ serve(async (req) => {
         if (meta.bundle === "true" && meta.items) {
           const { data: existingItems } = await supabaseAdmin
             .from("order_items")
-            .select("product_name")
+            .select("id, product_name, size")
             .eq("order_id", order.id);
 
           const hasSinglePack = existingItems && existingItems.length === 1 &&
@@ -138,8 +151,9 @@ serve(async (req) => {
             const bundleUnitPrice = orderTotal / Math.max(itemNames.length, 1);
             for (const itemName of itemNames) {
               const sizeMatch = itemName.match(/\(([^)]+)\)$/);
-              const size = sizeMatch ? sizeMatch[1] : null;
+              let size = sizeMatch ? sizeMatch[1] : null;
               const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+              if (!size) size = inferSizeFromMeta(cleanName, meta);
               await supabaseAdmin.from("order_items").insert({
                 order_id: order.id,
                 product_name: cleanName,
@@ -149,6 +163,25 @@ serve(async (req) => {
               });
             }
             results.push(`Expanded bundle order ${order.id} into ${itemNames.length} items`);
+          }
+        }
+
+        // Fix any items with missing sizes using session metadata (works for all orders)
+        if (meta.teeSize || meta.poloSize || meta.zipSize) {
+          const { data: itemsToFix } = await supabaseAdmin
+            .from("order_items")
+            .select("id, product_name, size")
+            .eq("order_id", order.id)
+            .is("size", null);
+
+          if (itemsToFix) {
+            for (const item of itemsToFix) {
+              const inferredSize = inferSizeFromMeta(item.product_name, meta);
+              if (inferredSize) {
+                await supabaseAdmin.from("order_items").update({ size: inferredSize }).eq("id", item.id);
+                results.push(`Fixed size for "${item.product_name}" → ${inferredSize} in order ${order.id}`);
+              }
+            }
           }
         }
 
@@ -243,8 +276,9 @@ serve(async (req) => {
               for (const itemName of itemNames) {
                 // Extract size from name like "Product Name (L)"
                 const sizeMatch = itemName.match(/\(([^)]+)\)$/);
-                const size = sizeMatch ? sizeMatch[1] : null;
+                let size = sizeMatch ? sizeMatch[1] : null;
                 const cleanName = sizeMatch ? itemName.replace(/\s*\([^)]+\)$/, "") : itemName;
+                if (!size) size = inferSizeFromMeta(cleanName, meta);
                 await supabaseAdmin.from("order_items").insert({
                   order_id: newOrder.id,
                   product_name: cleanName,
@@ -257,7 +291,7 @@ serve(async (req) => {
               const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50 });
               for (const item of lineItems.data) {
                 const desc = item.description || "";
-                if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground")) {
+                if (desc.toLowerCase().startsWith("shipping:") || desc.toLowerCase().includes("usps") || desc.toLowerCase().includes("fedex") || desc.toLowerCase().includes("ups ground") || desc.trim().toLowerCase() === "kream") {
                   continue;
                 }
                 // Extract size from description like "Product Name (L)"
