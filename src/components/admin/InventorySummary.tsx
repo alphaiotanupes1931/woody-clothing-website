@@ -32,9 +32,19 @@ interface ProductSummary {
   name: string;
   totalQty: number;
   sizes: Record<string, number>;
+  hasExceptions?: boolean;
 }
 
-const InventorySummary = ({ orders, loading }: { orders: Order[]; loading: boolean }) => {
+interface ExceptionItem {
+  id: string;
+  customer_name: string;
+  product_name: string;
+  size: string | null;
+  quantity: number;
+  created_at: string;
+}
+
+const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Order[]; loading: boolean; exceptionItems?: ExceptionItem[] }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [shippedMap, setShippedMap] = useState<Record<string, boolean>>({});
