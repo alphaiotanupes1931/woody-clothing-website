@@ -284,7 +284,7 @@ const Admin = () => {
       {/* Tabs */}
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-4 flex gap-0">
-          {(["overview", "orders", "inventory", "subscribers"] as const).map((t) => (
+          {(["overview", "orders", "inventory", "exceptions", "subscribers"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
