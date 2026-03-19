@@ -36,8 +36,8 @@ const TypingWelcome = () => {
   }, []);
 
   return (
-    <div className="border border-border p-6 bg-muted/10">
-      <h2 className="font-display text-3xl sm:text-4xl tracking-wide">
+    <div className="border border-border p-4 sm:p-6 bg-muted/10">
+      <h2 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-wide">
         {displayed}
         <span
           className="inline-block w-[3px] h-[1em] bg-primary ml-1 align-middle"
@@ -268,79 +268,79 @@ const Admin = () => {
 
   const paidOrders = orders.filter((o) => o.status === "paid");
   const totalRevenue = paidOrders.reduce((sum, o) => sum + Number(o.total), 0);
-  // Only show paid orders throughout the dashboard
   const displayOrders = paidOrders;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <div className="border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              ← Back to site
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <Link to="/" className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap">
+              ← Back
             </Link>
-            <h1 className="font-display text-xl tracking-wider uppercase">Admin Dashboard</h1>
+            <h1 className="font-display text-base sm:text-xl tracking-wider uppercase truncate">Admin Dashboard</h1>
           </div>
-          <div className="flex items-center gap-3">
           <button
-              onClick={refreshAll}
-              disabled={syncing}
-              className="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase bg-foreground text-background px-3 py-1.5 hover:bg-foreground/90 transition-colors disabled:opacity-50"
-            >
-              <RefreshCw size={13} className={syncing ? "animate-spin" : ""} />
-              {syncing ? "Syncing..." : "Refresh"}
-            </button>
+            onClick={refreshAll}
+            disabled={syncing}
+            className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold tracking-wider uppercase bg-foreground text-background px-2.5 sm:px-3 py-1.5 hover:bg-foreground/90 transition-colors disabled:opacity-50 whitespace-nowrap flex-shrink-0"
+          >
+            <RefreshCw size={13} className={syncing ? "animate-spin" : ""} />
+            <span className="hidden sm:inline">{syncing ? "Syncing..." : "Refresh"}</span>
+            <span className="sm:hidden">{syncing ? "..." : "Sync"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Tabs — horizontally scrollable on mobile */}
+      <div className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 overflow-x-auto scrollbar-hide">
+          <div className="flex gap-0 min-w-max">
+            {(["overview", "orders", "inventory", "exceptions", "subscribers"] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`px-3 sm:px-5 py-2.5 sm:py-3 text-[10px] sm:text-xs font-semibold tracking-[0.12em] sm:tracking-[0.15em] uppercase border-b-2 transition-colors whitespace-nowrap ${
+                  tab === t
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 flex gap-0">
-          {(["overview", "orders", "inventory", "exceptions", "subscribers"] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-5 py-3 text-xs font-semibold tracking-[0.15em] uppercase border-b-2 transition-colors ${
-                tab === t
-                  ? "border-foreground text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-5 sm:py-8">
         {tab === "overview" && (
-          <div className="space-y-8">
+          <div className="space-y-5 sm:space-y-8">
             <TypingWelcome />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatCard icon={<ShoppingBag size={20} />} label="Paid Orders" value={paidOrders.length} />
-              <StatCard icon={<TrendingUp size={20} />} label="Gross Income" value={`$${totalRevenue.toFixed(2)}`} />
-              <StatCard icon={<Users size={20} />} label="Subscribers" value={subscribers.length} />
-              <StatCard icon={<Mail size={20} />} label="Signups This Week" value={weekCount} />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <StatCard icon={<ShoppingBag size={18} />} label="Paid Orders" value={paidOrders.length} />
+              <StatCard icon={<TrendingUp size={18} />} label="Gross Income" value={`$${totalRevenue.toFixed(2)}`} />
+              <StatCard icon={<Users size={18} />} label="Subscribers" value={subscribers.length} />
+              <StatCard icon={<Mail size={18} />} label="This Week" value={weekCount} />
             </div>
-
           </div>
         )}
 
         {tab === "orders" && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
                 Paid Orders ({displayOrders.length})
               </h2>
               <button
                 onClick={exportOrdersCSV}
                 disabled={displayOrders.length === 0}
-                className="flex items-center gap-2 bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
+                className="flex items-center gap-1.5 sm:gap-2 bg-foreground text-background px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40 whitespace-nowrap flex-shrink-0"
               >
-                <Download size={14} />
-                Export CSV
+                <Download size={13} />
+                <span className="hidden sm:inline">Export CSV</span>
+                <span className="sm:hidden">CSV</span>
               </button>
             </div>
 
@@ -354,14 +354,14 @@ const Admin = () => {
                   <div key={o.id} className="border border-border overflow-hidden">
                     <button
                       onClick={() => setExpandedOrder(expandedOrder === o.id ? null : o.id)}
-                      className="w-full text-left px-4 py-4 flex items-center justify-between hover:bg-muted/20 transition-colors"
+                      className="w-full text-left px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between hover:bg-muted/20 transition-colors gap-2"
                     >
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <span className="font-medium text-sm">{o.customer_name}</span>
-                          <span className="text-xs text-muted-foreground">{o.customer_email}</span>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
+                          <span className="font-medium text-sm truncate">{o.customer_name}</span>
+                          <span className="text-xs text-muted-foreground truncate">{o.customer_email}</span>
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1">
+                        <div className="text-xs text-muted-foreground mt-1 line-clamp-2">
                           {o.items.map((i) => {
                             const parts = [i.product_name];
                             if (i.size) parts.push(`(${i.size})`);
@@ -370,10 +370,10 @@ const Admin = () => {
                           }).join(", ")}
                         </div>
                       </div>
-                      <div className="text-right flex-shrink-0 ml-4">
+                      <div className="text-right flex-shrink-0 ml-2">
                         <div className="font-medium text-sm">${Number(o.total).toFixed(2)}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {new Date(o.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                        <div className="text-[10px] sm:text-xs text-muted-foreground">
+                          {new Date(o.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                       </div>
                     </button>
@@ -402,17 +402,18 @@ const Admin = () => {
 
         {tab === "subscribers" && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-                All Subscribers ({subscribers.length})
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+                Subscribers ({subscribers.length})
               </h2>
               <button
                 onClick={exportCSV}
                 disabled={subscribers.length === 0}
-                className="flex items-center gap-2 bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
+                className="flex items-center gap-1.5 sm:gap-2 bg-foreground text-background px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40 whitespace-nowrap flex-shrink-0"
               >
-                <Download size={14} />
-                Export CSV
+                <Download size={13} />
+                <span className="hidden sm:inline">Export CSV</span>
+                <span className="sm:hidden">CSV</span>
               </button>
             </div>
 
@@ -421,40 +422,63 @@ const Admin = () => {
             ) : subscribers.length === 0 ? (
               <p className="text-sm text-muted-foreground">No subscribers yet.</p>
             ) : (
-              <div className="border border-border overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border bg-muted/30">
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Email</th>
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Source</th>
-                      <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Date</th>
-                      <th className="text-right px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subscribers.map((s) => (
-                      <tr key={s.id} className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors">
-                        <td className="px-4 py-3 font-medium">{s.email}</td>
-                        <td className="px-4 py-3 text-muted-foreground capitalize">{s.source || "popup"}</td>
-                        <td className="px-4 py-3 text-muted-foreground">
-                          {new Date(s.subscribed_at).toLocaleDateString("en-US", {
-                            month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
-                          })}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <button
-                            onClick={() => deleteSubscriber(s.id, s.email)}
-                            className="text-destructive hover:text-destructive/80 transition-colors"
-                            title="Delete subscriber"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </td>
+              <>
+                {/* Desktop table */}
+                <div className="border border-border overflow-hidden hidden sm:block">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border bg-muted/30">
+                        <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Email</th>
+                        <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Source</th>
+                        <th className="text-left px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Date</th>
+                        <th className="text-right px-4 py-3 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {subscribers.map((s) => (
+                        <tr key={s.id} className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors">
+                          <td className="px-4 py-3 font-medium">{s.email}</td>
+                          <td className="px-4 py-3 text-muted-foreground capitalize">{s.source || "popup"}</td>
+                          <td className="px-4 py-3 text-muted-foreground">
+                            {new Date(s.subscribed_at).toLocaleDateString("en-US", {
+                              month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
+                            })}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <button
+                              onClick={() => deleteSubscriber(s.id, s.email)}
+                              className="text-destructive hover:text-destructive/80 transition-colors"
+                              title="Delete subscriber"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile card list */}
+                <div className="sm:hidden space-y-2">
+                  {subscribers.map((s) => (
+                    <div key={s.id} className="border border-border p-3 flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium truncate">{s.email}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {s.source || "popup"} · {new Date(s.subscribed_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => deleteSubscriber(s.id, s.email)}
+                        className="text-destructive hover:text-destructive/80 transition-colors flex-shrink-0 mt-0.5"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         )}
@@ -464,9 +488,12 @@ const Admin = () => {
 };
 
 const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) => (
-  <div className="border border-border p-6 space-y-2">
-    <div className="flex items-center gap-2 text-muted-foreground">{icon}<span className="text-xs font-semibold tracking-[0.15em] uppercase">{label}</span></div>
-    <p className="font-display text-4xl">{value}</p>
+  <div className="border border-border p-3 sm:p-6 space-y-1 sm:space-y-2">
+    <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+      {icon}
+      <span className="text-[10px] sm:text-xs font-semibold tracking-[0.1em] sm:tracking-[0.15em] uppercase truncate">{label}</span>
+    </div>
+    <p className="font-display text-2xl sm:text-4xl">{value}</p>
   </div>
 );
 

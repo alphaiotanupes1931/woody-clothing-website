@@ -82,7 +82,6 @@ const ExceptionsTab = ({ onExceptionsLoaded }: ExceptionsTabProps) => {
     return qty === 1 ? "pc" : "pcs";
   };
 
-  // Group by customer
   const grouped = exceptions.reduce<Record<string, ExceptionItem[]>>((acc, e) => {
     if (!acc[e.customer_name]) acc[e.customer_name] = [];
     acc[e.customer_name].push(e);
@@ -91,18 +90,18 @@ const ExceptionsTab = ({ onExceptionsLoaded }: ExceptionsTabProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <h2 className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
             Exceptions
           </h2>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-[10px] sm:text-xs text-muted-foreground">
             {Object.keys(grouped).length} customers · {exceptions.length} items
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <ShieldCheck size={14} />
-          <span>Bypasses Stripe sync — always in inventory</span>
+        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground">
+          <ShieldCheck size={13} />
+          <span>Bypasses Stripe sync</span>
         </div>
       </div>
 
@@ -114,18 +113,18 @@ const ExceptionsTab = ({ onExceptionsLoaded }: ExceptionsTabProps) => {
         <div className="space-y-4">
           {Object.entries(grouped).map(([customer, items]) => (
             <div key={customer} className="border border-border overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-muted/20 border-b border-border">
-                <div className="flex items-center gap-2">
-                  <UserPlus size={16} className="text-muted-foreground" />
-                  <span className="font-medium text-sm">{customer}</span>
-                  <span className="text-xs text-muted-foreground">({items.length} items)</span>
+              <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-muted/20 border-b border-border gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <UserPlus size={15} className="text-muted-foreground flex-shrink-0" />
+                  <span className="font-medium text-sm truncate">{customer}</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground flex-shrink-0">({items.length})</span>
                 </div>
                 <button
                   onClick={() => deleteCustomer(customer)}
-                  className="text-destructive hover:text-destructive/80 transition-colors text-xs flex items-center gap-1"
+                  className="text-destructive hover:text-destructive/80 transition-colors text-[10px] sm:text-xs flex items-center gap-1 whitespace-nowrap flex-shrink-0"
                 >
-                  <Trash2 size={13} />
-                  Remove all
+                  <Trash2 size={12} />
+                  <span className="hidden sm:inline">Remove all</span>
                 </button>
               </div>
               <div className="divide-y divide-border">
@@ -133,16 +132,16 @@ const ExceptionsTab = ({ onExceptionsLoaded }: ExceptionsTabProps) => {
                   const unit = getUnitLabel(item.product_name, item.quantity);
                   const sizeLabel = item.size && item.size !== "One Size" ? `, size ${item.size}` : item.size === "One Size" ? " (One Size)" : "";
                   return (
-                    <div key={item.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-muted/10 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm">{item.product_name}</span>
-                        <span className="text-xs text-muted-foreground">
+                    <div key={item.id} className="flex items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 hover:bg-muted/10 transition-colors gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm truncate">{item.product_name}</p>
+                        <p className="text-[10px] sm:text-xs text-muted-foreground">
                           {item.quantity} {unit}{sizeLabel}
-                        </span>
+                        </p>
                       </div>
                       <button
                         onClick={() => deleteSingleItem(item.id)}
-                        className="text-destructive/60 hover:text-destructive transition-colors"
+                        className="text-destructive/60 hover:text-destructive transition-colors flex-shrink-0 mt-0.5 sm:mt-0"
                         title="Remove item"
                       >
                         <Trash2 size={13} />
