@@ -70,11 +70,11 @@ const OrderDetail = ({
     });
 
   return (
-    <div className="border-t border-border px-4 py-5 bg-muted/5 space-y-5">
+    <div className="border-t border-border px-3 sm:px-4 py-4 sm:py-5 bg-muted/5 space-y-4 sm:space-y-5">
       {/* Charged to header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <CreditCard size={16} className="text-muted-foreground" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <CreditCard size={16} className="text-muted-foreground flex-shrink-0" />
           <span className="text-sm font-medium">
             Charged to {order.customer_name}
           </span>
@@ -84,17 +84,16 @@ const OrderDetail = ({
         </div>
         <button
           onClick={() => onDelete(order.id, order.customer_name)}
-          className="flex items-center gap-1.5 text-xs text-destructive hover:text-destructive/80 transition-colors"
+          className="flex items-center gap-1.5 text-xs text-destructive hover:text-destructive/80 transition-colors self-end sm:self-auto"
         >
           <Trash2 size={13} />
           Delete
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
         {/* Left column: Activity + Notes */}
         <div className="lg:col-span-1 space-y-4">
-          {/* Activity timeline */}
           <div>
             <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-3">
               Recent Activity
@@ -113,8 +112,6 @@ const OrderDetail = ({
               />
             </div>
           </div>
-
-          {/* Add note placeholder */}
           <div className="border border-dashed border-border px-3 py-2.5 flex items-center gap-2 text-xs text-muted-foreground cursor-default">
             <FileText size={12} />
             <span>Add note</span>
@@ -134,7 +131,7 @@ const OrderDetail = ({
                 <User size={11} />
                 Customer
               </div>
-              <p className="text-sm">{order.customer_email}</p>
+              <p className="text-sm truncate">{order.customer_email}</p>
               <p className="text-sm font-medium">{order.customer_name}</p>
             </div>
             <div className="space-y-1">
@@ -154,7 +151,7 @@ const OrderDetail = ({
             </div>
           </div>
 
-          {/* Items table */}
+          {/* Items */}
           <div>
             {isBundle && (
               <div className="flex items-center gap-1.5 mb-2">
@@ -164,25 +161,17 @@ const OrderDetail = ({
                 </span>
               </div>
             )}
-            <div className="border border-border overflow-hidden">
+
+            {/* Desktop table */}
+            <div className="border border-border overflow-hidden hidden sm:block">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
-                    <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">
-                      Items
-                    </th>
-                    <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-16">
-                      Size
-                    </th>
-                    <th className="text-center px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-12">
-                      Qty
-                    </th>
-                    <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-24">
-                      Unit price
-                    </th>
-                    <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-24">
-                      Amount
-                    </th>
+                    <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground">Items</th>
+                    <th className="text-left px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-16">Size</th>
+                    <th className="text-center px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-12">Qty</th>
+                    <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-24">Unit price</th>
+                    <th className="text-right px-3 py-2 text-xs font-semibold tracking-wider uppercase text-muted-foreground w-24">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -191,22 +180,35 @@ const OrderDetail = ({
                       <td className="px-3 py-2">{item.product_name}</td>
                       <td className="px-3 py-2 text-muted-foreground">{item.size || "—"}</td>
                       <td className="px-3 py-2 text-center">{item.quantity}</td>
-                      <td className="px-3 py-2 text-right text-muted-foreground">
-                        ${Number(item.unit_price).toFixed(2)}
-                      </td>
-                      <td className="px-3 py-2 text-right">
-                        ${(Number(item.unit_price) * item.quantity).toFixed(2)}
-                      </td>
+                      <td className="px-3 py-2 text-right text-muted-foreground">${Number(item.unit_price).toFixed(2)}</td>
+                      <td className="px-3 py-2 text-right">${(Number(item.unit_price) * item.quantity).toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile item cards */}
+            <div className="sm:hidden space-y-2">
+              {order.items.map((item) => (
+                <div key={item.id} className="border border-border p-2.5 flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium leading-tight">{item.product_name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {item.size ? `Size ${item.size}` : "One Size"} · Qty {item.quantity}
+                    </p>
+                  </div>
+                  <span className="text-sm font-medium flex-shrink-0">
+                    ${(Number(item.unit_price) * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Totals */}
           <div className="flex justify-end">
-            <div className="space-y-1 text-sm w-48">
+            <div className="space-y-1 text-sm w-40 sm:w-48">
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span>
                 <span>${Number(order.subtotal).toFixed(2)}</span>

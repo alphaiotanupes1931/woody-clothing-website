@@ -50,7 +50,6 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
   const [shippedMap, setShippedMap] = useState<Record<string, boolean>>({});
   const [togglingProduct, setTogglingProduct] = useState<string | null>(null);
 
-  // Fetch shipped statuses on mount
   useEffect(() => {
     const fetchShipped = async () => {
       try {
@@ -77,7 +76,6 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
 
   const summary = useMemo(() => {
     const map: Record<string, ProductSummary> = {};
-    // Add order items
     filteredOrders.forEach((o) =>
       o.items.forEach((item) => {
         const key = item.product_name;
@@ -87,7 +85,6 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
         map[key].sizes[size] = (map[key].sizes[size] || 0) + item.quantity;
       })
     );
-    // Merge exception items (always included regardless of date filters)
     exceptionItems.forEach((item) => {
       const key = item.product_name;
       if (!map[key]) map[key] = { name: key, totalQty: 0, sizes: {} };
@@ -158,97 +155,99 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
   return (
     <div className="space-y-4">
       {/* Date Range Filters */}
-      <div className="flex flex-wrap items-end gap-3 border border-border p-4">
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-            From
-          </label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-[180px] justify-start text-left font-normal h-9 text-sm",
-                  !startDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-3.5 w-3.5" />
-                {startDate ? format(startDate, "MMM d, yyyy") : "Start date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={setStartDate}
-                initialFocus
-                className={cn("p-3 pointer-events-auto")}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
+      <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-end gap-3 border border-border p-3 sm:p-4">
+        <div className="flex flex-wrap items-end gap-3 w-full sm:w-auto">
+          <div className="space-y-1.5 flex-1 sm:flex-initial">
+            <label className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+              From
+            </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full sm:w-[180px] justify-start text-left font-normal h-9 text-sm",
+                    !startDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-3.5 w-3.5" />
+                  {startDate ? format(startDate, "MMM d, yyyy") : "Start date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={startDate}
+                  onSelect={setStartDate}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
-            To
-          </label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-[180px] justify-start text-left font-normal h-9 text-sm",
-                  !endDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-3.5 w-3.5" />
-                {endDate ? format(endDate, "MMM d, yyyy") : "End date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={endDate}
-                onSelect={setEndDate}
-                initialFocus
-                className={cn("p-3 pointer-events-auto")}
-              />
-            </PopoverContent>
-          </Popover>
+          <div className="space-y-1.5 flex-1 sm:flex-initial">
+            <label className="text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+              To
+            </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full sm:w-[180px] justify-start text-left font-normal h-9 text-sm",
+                    !endDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-3.5 w-3.5" />
+                  {endDate ? format(endDate, "MMM d, yyyy") : "End date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={endDate}
+                  onSelect={setEndDate}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
 
         {(startDate || endDate) && (
-          <button
-            onClick={clearDates}
-            className="text-xs text-muted-foreground hover:text-foreground underline transition-colors pb-1"
-          >
-            Clear dates
-          </button>
-        )}
-
-        {(startDate || endDate) && (
-          <span className="text-xs text-muted-foreground pb-1 ml-auto">
-            Showing {filteredOrders.length} of {orders.length} orders
-          </span>
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+            <button
+              onClick={clearDates}
+              className="text-xs text-muted-foreground hover:text-foreground underline transition-colors"
+            >
+              Clear dates
+            </button>
+            <span className="text-xs text-muted-foreground">
+              {filteredOrders.length} of {orders.length} orders
+            </span>
+          </div>
         )}
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+          <h2 className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
             Inventory Summary
           </h2>
-          <span className="text-xs text-muted-foreground">
-            {summary.length} products · {totalItems} total pcs · {shippedCount} shipped
+          <span className="text-[10px] sm:text-xs text-muted-foreground">
+            {summary.length} products · {totalItems} total · {shippedCount} shipped
           </span>
         </div>
         <button
           onClick={exportInventoryCSV}
           disabled={summary.length === 0}
-          className="flex items-center gap-2 bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
+          className="flex items-center gap-1.5 sm:gap-2 bg-foreground text-background px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40 whitespace-nowrap"
         >
-          <Download size={14} />
-          Export CSV
+          <Download size={13} />
+          <span className="hidden sm:inline">Export CSV</span>
+          <span className="sm:hidden">CSV</span>
         </button>
       </div>
 
@@ -268,23 +267,23 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
               <div
                 key={p.name}
                 className={cn(
-                  "border px-4 py-4 transition-colors",
+                  "border px-3 sm:px-4 py-3 sm:py-4 transition-colors",
                   isShipped ? "border-primary/30 bg-primary/5" : "border-border"
                 )}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Package size={16} className="text-muted-foreground" />
-                    <span className={cn("font-medium text-sm", isShipped && "line-through text-muted-foreground")}>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Package size={16} className="text-muted-foreground flex-shrink-0" />
+                    <span className={cn("font-medium text-sm truncate", isShipped && "line-through text-muted-foreground")}>
                       {p.name}
                     </span>
                     {p.hasExceptions && (
-                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground" title="Includes exception orders">
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground flex-shrink-0" title="Includes exception orders">
                         <ShieldCheck size={12} />
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
                     <span className="text-sm font-semibold">{p.totalQty} pcs</span>
                     <div className="flex items-center gap-2">
                       {isToggling && <Loader2 size={14} className="animate-spin text-muted-foreground" />}
@@ -295,7 +294,7 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
                           disabled={isToggling}
                         />
                         <span className={cn(
-                          "text-xs font-semibold tracking-wider uppercase",
+                          "text-[10px] sm:text-xs font-semibold tracking-wider uppercase whitespace-nowrap",
                           isShipped ? "text-primary" : "text-muted-foreground"
                         )}>
                           {isShipped ? "Shipped" : "Not Shipped"}
@@ -304,7 +303,7 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {Object.entries(p.sizes)
                     .sort(([a], [b]) => a.localeCompare(b))
                     .map(([size, qty]) => {
@@ -313,7 +312,7 @@ const InventorySummary = ({ orders, loading, exceptionItems = [] }: { orders: Or
                       return (
                         <span
                           key={size}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs border border-border bg-muted/20"
+                          className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs border border-border bg-muted/20"
                         >
                           <span className="font-semibold">{qty}</span>
                           <span className="text-muted-foreground">{unit}{sizeLabel}</span>
