@@ -81,6 +81,14 @@
   display: none;
 }
 
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Smooth image hover zoom */
 .product-image-hover {
   @apply transition-transform duration-700 ease-out;
