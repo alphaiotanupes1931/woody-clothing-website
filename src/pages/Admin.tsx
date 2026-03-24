@@ -8,6 +8,7 @@ import OrderDetail from "@/components/admin/OrderDetail";
 import AdminLogin from "@/components/admin/AdminLogin";
 import ExceptionsTab, { type ExceptionItem } from "@/components/admin/ExceptionsTab";
 import PhoneDirectory from "@/components/admin/PhoneDirectory";
+import EmailList from "@/components/admin/EmailList";
 
 const getGreeting = () => {
   const estHour = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" })).getHours();
@@ -90,7 +91,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "exceptions" | "subscribers" | "directory">("overview");
+  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "exceptions" | "subscribers" | "directory" | "emails">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [exceptionItems, setExceptionItems] = useState<ExceptionItem[]>([]);
 
@@ -298,7 +299,7 @@ const Admin = () => {
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 overflow-x-auto scrollbar-hide">
           <div className="flex gap-0 min-w-max">
-            {(["overview", "orders", "inventory", "exceptions", "subscribers", "directory"] as const).map((t) => (
+            {(["overview", "orders", "inventory", "exceptions", "subscribers", "directory", "emails"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
@@ -402,6 +403,8 @@ const Admin = () => {
         )}
 
         {tab === "directory" && <PhoneDirectory />}
+
+        {tab === "emails" && <EmailList subscribers={subscribers} />}
 
         {tab === "subscribers" && (
           <div className="space-y-4">
