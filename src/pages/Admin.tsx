@@ -7,6 +7,7 @@ import InventorySummary from "@/components/admin/InventorySummary";
 import OrderDetail from "@/components/admin/OrderDetail";
 import AdminLogin from "@/components/admin/AdminLogin";
 import ExceptionsTab, { type ExceptionItem } from "@/components/admin/ExceptionsTab";
+import PhoneDirectory from "@/components/admin/PhoneDirectory";
 
 const getGreeting = () => {
   const estHour = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" })).getHours();
