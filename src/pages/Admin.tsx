@@ -91,7 +91,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "exceptions" | "subscribers" | "directory">("overview");
+  const [tab, setTab] = useState<"overview" | "orders" | "inventory" | "exceptions" | "subscribers" | "directory" | "emails">("overview");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [exceptionItems, setExceptionItems] = useState<ExceptionItem[]>([]);
 
