@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Search, Phone } from "lucide-react";
+import { Search, Phone, Download, Plus, X } from "lucide-react";
 
 interface Contact {
   name: string;
   phone: string;
 }
 
-const contacts: Contact[] = [
+const initialContacts: Contact[] = [
   { name: "Roscoe C. Webb 2nd", phone: "(301) 807-5594" },
   { name: "Isaiah Aina", phone: "(443) 322-4313" },
   { name: "Shaun Alfred", phone: "(240) 676-1135" },
@@ -94,6 +94,10 @@ const contacts: Contact[] = [
 
 const PhoneDirectory = () => {
   const [search, setSearch] = useState("");
+  const [contacts, setContacts] = useState<Contact[]>(initialContacts);
+  const [showAdd, setShowAdd] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
 
   const filtered = contacts.filter(
     (c) =>
@@ -101,23 +105,105 @@ const PhoneDirectory = () => {
       c.phone.includes(search)
   );
 
+  const addContact = () => {
+    const name = newName.trim();
+    const phone = newPhone.trim();
+    if (!name || !phone) return;
+    const updated = [...contacts, { name, phone }].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setContacts(updated);
+    setNewName("");
+    setNewPhone("");
+    setShowAdd(false);
+  };
+
+  const exportCSV = () => {
+    const csv = ["Name,Phone"]
+      .concat(contacts.map((c) => `"${c.name}","${c.phone}"`))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `brothers-directory-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <h2 className="text-xs sm:text-sm font-semibold tracking-[0.15em] uppercase text-muted-foreground">
           Brothers Directory ({filtered.length})
         </h2>
-        <div className="relative w-full sm:w-64">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search name or number…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm border border-border bg-background focus:outline-none focus:ring-1 focus:ring-foreground/20"
-          />
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:w-56 sm:flex-none">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-3 py-2 text-sm border border-border bg-background focus:outline-none focus:ring-1 focus:ring-foreground/20"
+            />
+          </div>
+          <button
+            onClick={() => setShowAdd(!showAdd)}
+            className="flex items-center gap-1.5 bg-foreground text-background px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors flex-shrink-0"
+          >
+            <Plus size={13} />
+            <span className="hidden sm:inline">Add</span>
+          </button>
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-1.5 bg-foreground text-background px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.15em] uppercase hover:bg-foreground/90 transition-colors flex-shrink-0"
+          >
+            <Download size={13} />
+            <span className="hidden sm:inline">CSV</span>
+          </button>
         </div>
       </div>
+
+      {showAdd && (
+        <div className="border border-border p-3 sm:p-4 flex flex-col sm:flex-row gap-2 sm:items-end">
+          <div className="flex-1 space-y-1">
+            <label className="text-[10px] font-semibold tracking-wider uppercase text-muted-foreground">Name</label>
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Full name"
+              className="w-full px-3 py-2 text-sm border border-border bg-background focus:outline-none focus:ring-1 focus:ring-foreground/20"
+            />
+          </div>
+          <div className="flex-1 space-y-1">
+            <label className="text-[10px] font-semibold tracking-wider uppercase text-muted-foreground">Phone</label>
+            <input
+              type="tel"
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+              placeholder="(xxx) xxx-xxxx"
+              className="w-full px-3 py-2 text-sm border border-border bg-background focus:outline-none focus:ring-1 focus:ring-foreground/20"
+            />
+          </div>
+          <div className="flex gap-2 sm:flex-shrink-0">
+            <button
+              onClick={addContact}
+              disabled={!newName.trim() || !newPhone.trim()}
+              className="flex-1 sm:flex-none bg-foreground text-background px-4 py-2 text-xs font-semibold tracking-wider uppercase hover:bg-foreground/90 transition-colors disabled:opacity-40"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => { setShowAdd(false); setNewName(""); setNewPhone(""); }}
+              className="flex-1 sm:flex-none border border-border px-4 py-2 text-xs font-semibold tracking-wider uppercase hover:bg-muted/20 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Desktop table */}
       <div className="border border-border overflow-hidden hidden sm:block">
@@ -130,7 +216,7 @@ const PhoneDirectory = () => {
           </thead>
           <tbody>
             {filtered.map((c) => (
-              <tr key={c.name} className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors">
+              <tr key={c.name + c.phone} className="border-b border-border last:border-0 hover:bg-muted/20 transition-colors">
                 <td className="px-4 py-3 font-medium">{c.name}</td>
                 <td className="px-4 py-3 text-muted-foreground">
                   <a href={`tel:${c.phone}`} className="hover:text-foreground transition-colors flex items-center gap-1.5">
@@ -147,7 +233,7 @@ const PhoneDirectory = () => {
       {/* Mobile cards */}
       <div className="sm:hidden space-y-2">
         {filtered.map((c) => (
-          <div key={c.name} className="border border-border p-3 flex items-center justify-between gap-2">
+          <div key={c.name + c.phone} className="border border-border p-3 flex items-center justify-between gap-2">
             <p className="text-sm font-medium truncate">{c.name}</p>
             <a
               href={`tel:${c.phone}`}
