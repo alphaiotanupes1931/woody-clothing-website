@@ -299,7 +299,7 @@ const Admin = () => {
       <div className="border-b border-border">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 overflow-x-auto scrollbar-hide">
           <div className="flex gap-0 min-w-max">
-            {(["overview", "orders", "inventory", "exceptions", "subscribers", "directory"] as const).map((t) => (
+            {(["overview", "orders", "inventory", "exceptions", "subscribers", "directory", "emails"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
