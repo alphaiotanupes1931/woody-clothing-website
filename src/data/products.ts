@@ -84,6 +84,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: kreamTeeCorner,
     images: [kreamTeeCorner, lifestyle95thFront, lifestyle95thBackDesign, kreamTee95thBack],
     name: '95th ANNIVERSARY "KREAM" Tee',
+    soldOut: true,
     price: "$31.00",
     category: "Tees",
     description:
@@ -93,6 +94,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: kreamTee1,
     images: [kreamTee1, lifestyleKdiamondFront2],
     name: "K-Diamond Outline Tee, Kream",
+    soldOut: true,
     price: "$31.00",
     category: "Tees",
     description:
@@ -111,6 +113,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: krimsonTee95th,
     images: [krimsonTee95th, lifestyleKrimsonTee95th],
     name: "KRIMSON 95th Anniversary Tee",
+    soldOut: true,
     price: "$31.00",
     category: "Tees",
     description:
@@ -120,6 +123,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: dryFitPolo,
     name: "KRIMSON Dry-Fit Polo",
+    soldOut: true,
     price: "$45.00",
     category: "Polos",
     description:
@@ -128,6 +132,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: kreamPerformancePolo,
     name: "KREAM Dry-Fit Polo",
+    soldOut: true,
     price: "$45.00",
     category: "Polos",
     description:
@@ -138,6 +143,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: krimsonFittedFront1,
     images: [krimsonFittedFront1, krimsonFittedSide2, krimsonFittedBack],
     name: "KRIMSON K-Diamond Fitted Hat",
+    soldOut: true,
     price: "$40.00",
     category: "Headwear",
     sizeType: "fitted-hat",
@@ -148,6 +154,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: krimsonBucketFront,
     images: [krimsonBucketFront, krimsonBucketBack],
     name: "KRIMSON K-Diamond Bucket Hat",
+    soldOut: true,
     price: "$24.00",
     category: "Headwear",
     sizeType: "one-size",
@@ -157,6 +164,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: krimsonSkully,
     name: "KRIMSON K-Diamond Skully",
+    soldOut: true,
     price: "$18.00",
     category: "Headwear",
     sizeType: "one-size",
@@ -167,6 +175,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: flexKrimsonKap,
     images: [flexKrimsonKap, flexKrimsonKapBack],
     name: "KRIMSON FlexFit K-Diamond Kap",
+    soldOut: true,
     price: "$25.00",
     category: "Headwear",
     sizeType: "one-size",
@@ -205,6 +214,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: ktrZip,
     images: [ktrZip, lifestyleQuarterzip],
     name: "KRIMSON Quarter-Zip Sweater",
+    soldOut: true,
     price: "$50.00",
     category: "Outerwear",
     description:
