@@ -309,7 +309,7 @@ const ProductDetail = () => {
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {relatedProducts.map((p) => (
-                  <ProductCard key={p.id} id={p.id} image={p.image} name={p.name} price={p.price} />
+                  <ProductCard key={p.id} id={p.id} image={p.image} name={p.name} price={p.price} soldOut={p.soldOut} />
                 ))}
               </div>
             </section>
