@@ -182,6 +182,24 @@ const ProductDetail = () => {
                     </a>
                   </div>
                 </div>
+              ) : product.soldOut ? (
+                <div className="space-y-4 sm:space-y-6">
+                  <p className="text-lg text-muted-foreground line-through">{product.price}</p>
+                  <div className="border border-border p-5 space-y-3 text-center">
+                    <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-foreground">
+                      Sold Out
+                    </p>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      This item is no longer available for purchase. Brothers, you missed out.
+                    </p>
+                  </div>
+                  <button
+                    disabled
+                    className="w-full bg-muted text-muted-foreground px-10 py-4 text-sm md:text-xs font-semibold tracking-[0.2em] uppercase cursor-not-allowed"
+                  >
+                    Sold Out
+                  </button>
+                </div>
               ) : (
                 <>
                   <p className="text-lg text-foreground mb-6 md:mb-8">{product.price}</p>
