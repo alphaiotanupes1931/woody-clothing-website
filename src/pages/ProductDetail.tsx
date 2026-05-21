@@ -81,6 +81,10 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (product.registrationOnly) return;
+    if (product.soldOut) {
+      toast.error("This item is sold out");
+      return;
+    }
     if (!isSingleSize && !selectedSize) {
       toast.error("Please select a size");
       return;
@@ -94,7 +98,6 @@ const ProductDetail = () => {
         size: isSingleSize ? undefined : selectedSize,
       });
     }
-    // Cart drawer opens automatically, no toast needed
     setQuantity(1);
   };
 
