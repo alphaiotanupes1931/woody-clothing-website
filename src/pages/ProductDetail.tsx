@@ -81,6 +81,10 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (product.registrationOnly) return;
+    if (product.soldOut) {
+      toast.error("This item is sold out");
+      return;
+    }
     if (!isSingleSize && !selectedSize) {
       toast.error("Please select a size");
       return;
@@ -94,7 +98,6 @@ const ProductDetail = () => {
         size: isSingleSize ? undefined : selectedSize,
       });
     }
-    // Cart drawer opens automatically, no toast needed
     setQuantity(1);
   };
 
@@ -178,6 +181,24 @@ const ProductDetail = () => {
                       Click Here to Register
                     </a>
                   </div>
+                </div>
+              ) : product.soldOut ? (
+                <div className="space-y-4 sm:space-y-6">
+                  <p className="text-lg text-muted-foreground line-through">{product.price}</p>
+                  <div className="border border-border p-5 space-y-3 text-center">
+                    <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-foreground">
+                      Sold Out
+                    </p>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      This item is no longer available for purchase. Brothers, you missed out.
+                    </p>
+                  </div>
+                  <button
+                    disabled
+                    className="w-full bg-muted text-muted-foreground px-10 py-4 text-sm md:text-xs font-semibold tracking-[0.2em] uppercase cursor-not-allowed"
+                  >
+                    Sold Out
+                  </button>
                 </div>
               ) : (
                 <>
@@ -288,7 +309,7 @@ const ProductDetail = () => {
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {relatedProducts.map((p) => (
-                  <ProductCard key={p.id} id={p.id} image={p.image} name={p.name} price={p.price} />
+                  <ProductCard key={p.id} id={p.id} image={p.image} name={p.name} price={p.price} soldOut={p.soldOut} />
                 ))}
               </div>
             </section>

@@ -140,6 +140,7 @@ const Shop = () => {
                 image={product.image}
                 name={product.name}
                 price={product.price}
+                soldOut={product.soldOut}
               />
             </FadeIn>
           ))}
