@@ -94,7 +94,7 @@ const Index = () => {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-8 stagger-children">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 md:gap-x-3 md:gap-y-6 stagger-children">
           {allProducts.map((product, i) => (
             <FadeIn key={product.id} delay={i * 80}>
               <ProductCard

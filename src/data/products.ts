@@ -71,7 +71,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: painFront,
     images: [painFront, painBack],
-    name: "Pain of the Game · AI in 5 Tee",
+    name: "Pain of the Game · Tee",
     price: "$40.00",
     category: "Tees",
     sizeType: "apparel",
