@@ -18,7 +18,7 @@ const Footer = () => {
             </div>
             <div className="text-left md:text-right">
               <p className="text-xs text-primary-foreground/50 uppercase tracking-[0.2em] mb-3">
-                Pain of the Game · AI in 5
+                The AI Collection
               </p>
               <Link
                 to="/shop"
