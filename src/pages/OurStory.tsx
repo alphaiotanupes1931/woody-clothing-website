@@ -223,7 +223,7 @@ const OurStory = () => {
               </p>
               <p>
                 Our product line includes limited-edition and seasonal collections tied to chapter milestones, 
-                including the Pain of the Game drop. We release new designs throughout the year 
+                including the current AI Collection. We release new designs throughout the year 
                 and offer pre-order options for upcoming drops. Customers can browse our full catalog, select 
                 sizes, and check out seamlessly on our website.
               </p>
