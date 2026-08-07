@@ -5,7 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import logo from "@/assets/logo.png";
 
-const navLinks = [
+const navLinks: { label: string; href: string; external?: boolean }[] = [
   { label: "Shop", href: "/shop" },
   { label: "Our Story", href: "/our-story" },
   { label: "Contact", href: "/contact" },

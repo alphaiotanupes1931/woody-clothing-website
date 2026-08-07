@@ -19,7 +19,7 @@ const ShippingReturns = () => {
             </h1>
           </TextReveal>
           <p className="text-sm text-muted-foreground text-center mb-12">
-            Alpha Iota 95th Anniversary Commemorative Collection. Please review all policies carefully before placing your order.
+            Pain of the Game · AI in 5 Tee. Please review all policies carefully before placing your order.
           </p>
 
           <div className="space-y-12">
@@ -46,11 +46,11 @@ const ShippingReturns = () => {
                 </p>
                 <ul className="space-y-3">
                   {[
-                    "Orders placed on or before March 14 are expected to arrive no later than April 21, in time for the 95th Anniversary celebration.",
+                    "Orders placed on or before March 14 are expected to arrive no later than April 21.",
                     "Production will begin after the pre-order window closes.",
                     "Orders will ship within 5–7 business days once production is complete.",
                     "All customers will receive a tracking number via email once their order has shipped.",
-                    "Orders placed after March 14 are not guaranteed to arrive prior to the 95th Anniversary, but will still be produced and shipped.",
+                    "Orders placed after March 14 will still be produced and shipped, but delivery timing is not guaranteed.",
                   ].map((item, j) => (
                     <li key={j} className="flex items-start gap-3 text-sm text-muted-foreground leading-relaxed">
                       <span className="w-1 h-1 rounded-full bg-foreground mt-2 shrink-0" />
@@ -110,7 +110,7 @@ const ShippingReturns = () => {
                   Returns, Exchanges & Refunds
                 </h2>
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                  Due to the custom and commemorative nature of the Alpha Iota 95th Anniversary Collection:
+                  Due to the custom nature of this drop:
                 </p>
                 <ul className="space-y-3">
                   {[

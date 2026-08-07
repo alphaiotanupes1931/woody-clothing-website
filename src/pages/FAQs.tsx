@@ -25,7 +25,7 @@ const faqs = [
   {
     question: "Is this a pre-order?",
     answer:
-      "Yes. This collection is pre-order only. Orders placed on or before March 14 are expected to arrive no later than April 21, in time for the 95th Anniversary celebration. Orders placed after March 14 will still be produced and shipped but are not guaranteed to arrive before the event.",
+      "Yes. This collection is pre-order only. Orders placed on or before March 14 are expected to arrive no later than April 21. Orders placed after March 14 will still be produced and shipped but delivery timing is not guaranteed.",
   },
   {
     question: "How long does shipping take?",
