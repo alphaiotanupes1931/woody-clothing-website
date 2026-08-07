@@ -13,7 +13,7 @@ const Wishlist = () => {
   const { wishlist } = useWishlist();
   const products = wishlist
     .map((id) => getProductById(id))
-    .filter(Boolean) as NonNullable<ReturnType<typeof getProductById>>[];
+    .filter((p) => p && !p.hidden) as NonNullable<ReturnType<typeof getProductById>>[];
 
   return (
     <div className="min-h-screen bg-background">
