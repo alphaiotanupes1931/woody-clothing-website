@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 
 const messages = [
-  "The AI Collection · New drops available. Shop now",
-  "Free shipping on orders over $149",
-  "Pre-orders ship by April 21",
-  "95th Anniversary Exclusives · Register to unlock",
-  "Limited edition fitted hats now available",
+  "Pain of the Game · AI in 5 Tee · Now available",
+  "Vintage-wash heavyweight cotton · $40",
+  "Front x-ray graphic · Full back schedule print",
   "Secure checkout · All major cards, Google Pay & Apple Pay",
 ];
 
