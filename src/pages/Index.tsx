@@ -8,12 +8,10 @@ import ProductCard from "@/components/ProductCard";
 import { allProducts } from "@/data/products";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
+import heroVideo from "@/assets/hero.mp4.asset.json";
 
-/**
- * Hero media. Drop a video file in src/assets and swap HERO_VIDEO to its import
- * to run video in the hero · the poster image stays as the fallback.
- */
-const HERO_VIDEO: string | null = null;
+/** Hero media · video with the photo as poster fallback. */
+const HERO_VIDEO: string | null = heroVideo.url;
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
