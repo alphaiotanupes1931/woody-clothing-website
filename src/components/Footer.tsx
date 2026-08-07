@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { REGISTRATION_URL } from "@/data/products";
 
 const Footer = () => {
   return (
@@ -19,16 +18,14 @@ const Footer = () => {
             </div>
             <div className="text-left md:text-right">
               <p className="text-xs text-primary-foreground/50 uppercase tracking-[0.2em] mb-3">
-                95th Anniversary Celebration
+                Pain of the Game · AI in 5
               </p>
-              <a
-                href={REGISTRATION_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/shop"
                 className="inline-block text-xs font-semibold tracking-[0.2em] uppercase border border-primary-foreground/30 px-6 py-3 hover:bg-primary-foreground hover:text-foreground transition-all duration-300"
               >
-                Register Now
-              </a>
+                Shop the Tee
+              </Link>
             </div>
           </div>
 
@@ -43,12 +40,7 @@ const Footer = () => {
               </h4>
               <ul className="space-y-3">
                 <li><Link to="/shop" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Shop All</Link></li>
-                <li><Link to="/shop?category=Headwear" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Headwear</Link></li>
-                <li><Link to="/shop?category=Tees" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Tees</Link></li>
-                <li><Link to="/shop?category=Polos" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Polos</Link></li>
-                <li><Link to="/shop?category=Outerwear" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Outerwear</Link></li>
-                <li><Link to="/shop?category=Accessories" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Accessories</Link></li>
-              </ul>
+                </ul>
             </div>
             <div>
               <h4 className="text-[10px] font-bold tracking-[0.25em] uppercase text-primary-foreground/40 mb-5">
@@ -57,8 +49,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 <li><Link to="/our-story" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Our Story</Link></li>
                 <li><a href="https://ainupes1931.com/" target="_blank" rel="noopener noreferrer" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">Official AI Chapter Page</a></li>
-                <li><Link to="/our-story" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">95th Anniversary</Link></li>
-              </ul>
+                </ul>
             </div>
             <div>
               <h4 className="text-[10px] font-bold tracking-[0.25em] uppercase text-primary-foreground/40 mb-5">

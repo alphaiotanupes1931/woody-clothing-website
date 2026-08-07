@@ -8,7 +8,6 @@ import logo from "@/assets/logo.png";
 const navLinks = [
   { label: "Shop", href: "/shop" },
   { label: "Our Story", href: "/our-story" },
-  { label: "95th Registration", href: "https://alphaiota95.com/", external: true },
   { label: "Contact", href: "/contact" },
 ];
 

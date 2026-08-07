@@ -9,7 +9,7 @@ const reviews = [
   },
   {
     name: "Darius W.",
-    title: "95th Anniversary tee is fire",
+    title: "Pain of the Game tee is fire",
     text: "Copped the KREAM tee as soon as it dropped. The cream colorway with the krimson print is sharp. Fabric is heavyweight and the fit is boxy just how I like it. Already ordered a second one.",
   },
   {

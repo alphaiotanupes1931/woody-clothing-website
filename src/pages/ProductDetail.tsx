@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getProductById, allProducts, REGISTRATION_URL } from "@/data/products";
+import { getProductById, allProducts } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Header from "@/components/Header";
@@ -76,11 +76,10 @@ const ProductDetail = () => {
   const isSingleSize = sizes.length === 1 && sizes[0] === "One Size";
 
   const relatedProducts = allProducts
-    .filter((p) => p.category === product.category && p.id !== product.id && !p.registrationOnly)
+    .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
   const handleAddToCart = () => {
-    if (product.registrationOnly) return;
     if (product.soldOut) {
       toast.error("This item is sold out");
       return;
@@ -162,27 +161,8 @@ const ProductDetail = () => {
                 {product.name}
               </h1>
 
-              {product.registrationOnly ? (
-                /* Registration-only product */
-                <div className="space-y-4 sm:space-y-6">
-                  <p className="text-xs sm:text-sm font-semibold text-foreground uppercase tracking-wider">
-                    Registration Exclusive
-                  </p>
-                  <div className="border border-border p-4 sm:p-5 space-y-3 sm:space-y-4">
-                    {product.registrationNote?.split("\n\n").map((para, i) => (
-                      <p key={i} className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{para}</p>
-                    ))}
-                    <a
-                      href={REGISTRATION_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block w-full sm:w-auto text-center bg-foreground text-background px-6 sm:px-8 py-3.5 sm:py-4 text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase hover:bg-foreground/90 active:bg-foreground/80 transition-all duration-300"
-                    >
-                      Click Here to Register
-                    </a>
-                  </div>
-                </div>
-              ) : product.soldOut ? (
+              {product.soldOut ? (
+
                 <div className="space-y-4 sm:space-y-6">
                   <p className="text-lg text-muted-foreground line-through">{product.price}</p>
                   <div className="border border-border p-5 space-y-3 text-center">
