@@ -18,7 +18,7 @@ const pillars = [
 const productCategories = [
   {
     title: "Premium Tees",
-    description: "Heavyweight cotton tees featuring exclusive 95th Anniversary designs, screen-printed graphics, and custom AI branding. Available in crew neck and relaxed fits.",
+    description: "Heavyweight vintage-wash cotton tees with screen-printed graphics and custom AI branding.",
   },
   {
     title: "Performance Polos",
@@ -223,7 +223,7 @@ const OurStory = () => {
               </p>
               <p>
                 Our product line includes limited-edition and seasonal collections tied to chapter milestones, 
-                including our current 95th Anniversary Collection. We release new designs throughout the year 
+                including the Pain of the Game drop. We release new designs throughout the year 
                 and offer pre-order options for upcoming drops. Customers can browse our full catalog, select 
                 sizes, and check out seamlessly on our website.
               </p>

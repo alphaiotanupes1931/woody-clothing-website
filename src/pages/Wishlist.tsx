@@ -55,7 +55,7 @@ const Wishlist = () => {
                   id={product.id}
                   image={product.image}
                   name={product.name}
-                  price={product.registrationOnly ? "Registration Only" : product.price}
+                  price={product.price}
                   soldOut={product.soldOut}
                 />
               </FadeIn>
