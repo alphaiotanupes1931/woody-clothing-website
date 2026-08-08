@@ -73,8 +73,8 @@ const ProductDetail = () => {
 
   const baseImages = product.images && product.images.length > 1 ? product.images : [product.image];
   const media: { type: "video" | "image"; src: string }[] = [
-    ...(product.video ? [{ type: "video" as const, src: product.video }] : []),
     ...baseImages.map((src) => ({ type: "image" as const, src })),
+    ...(product.video ? [{ type: "video" as const, src: product.video }] : []),
   ];
   
   const sizes = getSizesForProduct(product);
