@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import { allProducts } from "@/data/products";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/lifestyle/lifestyle-kdiamond-front-1.jpg";
-import heroVideo from "@/assets/hero.mp4.asset.json";
+import heroVideo from "@/assets/hero-main.mp4.asset.json";
 
 /** Hero media · video with the photo as poster fallback. */
 const HERO_VIDEO: string | null = heroVideo.url;
