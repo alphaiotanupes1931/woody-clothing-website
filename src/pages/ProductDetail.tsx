@@ -71,7 +71,12 @@ const ProductDetail = () => {
     );
   }
 
-  const images = product.images && product.images.length > 1 ? product.images : [product.image];
+  const baseImages = product.images && product.images.length > 1 ? product.images : [product.image];
+  const media: { type: "video" | "image"; src: string }[] = [
+    ...(product.video ? [{ type: "video" as const, src: product.video }] : []),
+    ...baseImages.map((src) => ({ type: "image" as const, src })),
+  ];
+  const images = baseImages;
   const sizes = getSizesForProduct(product);
   const isSingleSize = sizes.length === 1 && sizes[0] === "One Size";
 
