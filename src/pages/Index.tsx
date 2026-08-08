@@ -37,6 +37,8 @@ const Index = () => {
             muted
             loop
             playsInline
+            preload="auto"
+            onCanPlay={(e) => { void e.currentTarget.play().catch(() => {}); }}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
