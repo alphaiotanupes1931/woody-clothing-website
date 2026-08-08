@@ -52,6 +52,8 @@ export interface Product {
   id: string;
   image: string;
   images?: string[];
+  /** Optional product video shown first in the gallery. */
+  video?: string;
   name: string;
   price: string;
   category: string;
