@@ -36,7 +36,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           phase === "enter" ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
         }`}
       >
-        Built for Achievers
+        The AI Collection
       </p>
     </div>
   );
