@@ -46,7 +46,6 @@ import painFront from "@/assets/products/pain-front.jpg";
 import painBack from "@/assets/products/pain-back.jpg";
 import painModelFront from "@/assets/products/pain-model-front.jpg";
 import painModelBack from "@/assets/products/pain-model-back.jpg";
-import painVideoAsset from "@/assets/hero.mp4.asset.json";
 
 export interface Product {
   id: string;
@@ -76,7 +75,7 @@ const rawProducts: Omit<Product, "id">[] = [
   {
     image: painModelFront,
     images: [painModelFront, painModelBack, painFront, painBack],
-    video: painVideoAsset.url,
+    video: "/videos/hero.mp4",
     name: "Pain of the Game · Tee",
     price: "$40.00",
     category: "Tees",
