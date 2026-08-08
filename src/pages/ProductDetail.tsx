@@ -76,7 +76,7 @@ const ProductDetail = () => {
     ...(product.video ? [{ type: "video" as const, src: product.video }] : []),
     ...baseImages.map((src) => ({ type: "image" as const, src })),
   ];
-  const images = baseImages;
+  
   const sizes = getSizesForProduct(product);
   const isSingleSize = sizes.length === 1 && sizes[0] === "One Size";
 
