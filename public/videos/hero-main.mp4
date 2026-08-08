@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Nupes | Premium Kappa Alpha Psi Apparel · The AI Collection</title>
+    <meta name="description" content="Shop the AI Collection by AI Nupes. Premium heavyweight tees and limited-run apparel for Alpha Iota, Kappa Alpha Psi." />
+    <meta name="keywords" content="AI Nupes, Kappa Alpha Psi, Alpha Iota, fraternity apparel, Greek merchandise, fitted hats, krimson, kream, tees, AI collection" />
+    <meta name="author" content="AI Nupes" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#8B1A1A" />
+
+    <link rel="icon" href="/logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+
+    <meta property="og:title" content="AI Nupes | Premium Kappa Alpha Psi Apparel" />
+    <meta property="og:description" content="The AI Collection by AI Nupes. Premium limited-run apparel." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image:alt" content="AI Nupes K-Diamond Logo" />
+    <meta property="og:site_name" content="AI Nupes" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ainupes" />
+    <meta name="twitter:title" content="AI Nupes | The AI Collection" />
+    <meta name="twitter:description" content="The AI Collection by AI Nupes. Premium limited-run apparel." />
+    <meta name="twitter:image" content="/logo.png" />
+
+    <link rel="canonical" href="/" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "AI Nupes",
+      "description": "Premium Kappa Alpha Psi apparel from AI Nupes.",
+      "url": "/",
+      "logo": "/logo.png",
+      "image": "/logo.png",
+      "priceRange": "$9 - $259",
+      "currenciesAccepted": "USD",
+      "paymentAccepted": "Credit Card, Apple Pay, Google Pay"
+    }
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx?t=1786150953332"></script>
+  </body>
+</html>
