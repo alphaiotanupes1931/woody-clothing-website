@@ -48,6 +48,20 @@ const Checkout = () => {
   const [ratesFetched, setRatesFetched] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
 
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; amount: number } | null>(null);
+
+  const PROMO_CODES: Record<string, number> = { MNK5: 5 };
+
+  const applyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    if (!code) { toast.error("Enter a promo code."); return; }
+    const amount = PROMO_CODES[code];
+    if (!amount) { toast.error("That promo code isn't valid."); return; }
+    setAppliedPromo({ code, amount });
+    toast.success(`Promo ${code} applied · $${amount.toFixed(2)} off`);
+  };
+
   const subtotal = isBundle ? (bundleData?.items?.[0]?.price || 259) : parseFloat(cartTotal);
   const freeGroundShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
 
@@ -165,7 +179,8 @@ const Checkout = () => {
   }, [zip, fetchRates, isBundle, freeGroundShipping]);
 
   const shippingCost = selectedRate?.price || 0;
-  const orderTotal = (subtotal + shippingCost).toFixed(2);
+  const discount = appliedPromo ? Math.min(appliedPromo.amount, subtotal) : 0;
+  const orderTotal = Math.max(0, subtotal + shippingCost - discount).toFixed(2);
 
   const handleCheckout = async () => {
     const trimmedName = name.trim();
@@ -200,6 +215,7 @@ const Checkout = () => {
             service: selectedRate?.service || "unknown",
             estimate: selectedRate?.estimate || "",
           },
+          ...(appliedPromo ? { promoCode: appliedPromo.code } : {}),
         };
       } else {
         const checkoutItems = items.map((item) => {
@@ -239,6 +255,7 @@ const Checkout = () => {
           customerEmail: trimmedEmail,
           customerName: trimmedName,
           shippingAddress: { address: trimmedAddress, city: trimmedCity, state: trimmedState, zip: trimmedZip },
+          ...(appliedPromo ? { promoCode: appliedPromo.code } : {}),
         };
       }
 
@@ -460,11 +477,47 @@ const Checkout = () => {
                   </div>
                 )}
 
+                <div className="border-t border-border pt-3 mb-3">
+                  <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-2">
+                    Promo Code
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyPromo(); } }}
+                      placeholder="Enter code"
+                      className="flex-1 border border-border bg-background px-3 py-2 text-sm tracking-wider uppercase focus:outline-none focus:border-foreground"
+                    />
+                    <button
+                      onClick={applyPromo}
+                      className="px-4 py-2 border border-foreground text-[10px] font-semibold tracking-[0.2em] uppercase hover:bg-foreground hover:text-background transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+
                 <div className="border-t border-border pt-3 space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
                     <span>${displayTotal}</span>
                   </div>
+                  {appliedPromo && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">
+                        Promo · {appliedPromo.code}
+                        <button
+                          onClick={() => { setAppliedPromo(null); setPromoInput(""); }}
+                          className="ml-2 text-[10px] uppercase tracking-wider underline"
+                        >
+                          Remove
+                        </button>
+                      </span>
+                      <span>-${discount.toFixed(2)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
                     <span>
