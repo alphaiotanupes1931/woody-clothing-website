@@ -59,6 +59,8 @@ export interface Product {
   soldOut?: boolean;
   description?: string;
   sizeType?: "apparel" | "fitted-hat" | "one-size";
+  /** Optional explicit size list. When provided, overrides the category-based defaults. */
+  sizes?: string[];
   /** Hidden products stay in the catalog (past orders, easy re-launch) but are not listed anywhere on the storefront. */
   hidden?: boolean;
 }
@@ -80,6 +82,7 @@ const rawProducts: Omit<Product, "id">[] = [
     price: "$40.00",
     category: "Tees",
     sizeType: "apparel",
+    sizes: ["S", "M", "L", "XL", "2XL"],
     description:
       "Vintage-wash heavyweight cotton tee. The front carries an x-ray study of the hand · five AI rings, every fracture, every strain, every ache earned along the way. The back runs the schedule: line after line, class after class, the ones who took the hits and kept moving.\n\nPain of the Game is not a slogan. It is the record.\n\n• Material: 100% Cotton\n• Fabric Weight: 300 GSM (8.8 oz)\n• Wash: Vintage / Garment Washed\n• Fit: Relaxed / Standard\n• Collar: Ribbed Crewneck\n• Print: Front & full back panel",
   },

@@ -37,7 +37,8 @@ const apparelSizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 const hatSizes = ["6 7/8", "7", "7 1/8", "7 1/4", "7 3/8", "7 1/2", "7 5/8", "7 3/4", "7 7/8", "8"];
 const oneSize = ["One Size"];
 
-function getSizesForProduct(product: { category: string; sizeType?: string }): string[] {
+function getSizesForProduct(product: { category: string; sizeType?: string; sizes?: string[] }): string[] {
+  if (product.sizes?.length) return product.sizes;
   if (product.sizeType === "one-size") return oneSize;
   if (product.sizeType === "fitted-hat") return hatSizes;
   if (product.category === "Headwear") return hatSizes;
