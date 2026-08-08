@@ -127,28 +127,50 @@ const ProductDetail = () => {
           <FadeIn>
             <div>
               <div className="relative bg-secondary aspect-[3/4] overflow-hidden">
-                {!imageLoaded && (
-                  <div className="absolute inset-0 skeleton-shimmer" />
+                {media[activeImageIndex]?.type === "video" ? (
+                  <video
+                    src={media[activeImageIndex].src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <>
+                    {!imageLoaded && (
+                      <div className="absolute inset-0 skeleton-shimmer" />
+                    )}
+                    <img
+                      src={media[activeImageIndex]?.src}
+                      alt={product.name}
+                      className={`w-full h-full object-cover transition-all duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                  </>
                 )}
-                <img
-                  src={images[activeImageIndex]}
-                  alt={product.name}
-                  className={`w-full h-full object-cover transition-all duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-                  onLoad={() => setImageLoaded(true)}
-                />
               </div>
               {/* Thumbnail strip */}
-              {images.length > 1 && (
-                <div className="flex gap-2 mt-3">
-                  {images.map((img, i) => (
+              {media.length > 1 && (
+                <div className="flex gap-2 mt-3 overflow-x-auto">
+                  {media.map((item, i) => (
                     <button
                       key={i}
                       onClick={() => { setActiveImageIndex(i); setImageLoaded(false); }}
-                      className={`w-16 h-20 md:w-20 md:h-24 overflow-hidden border-2 transition-all duration-300 ${
+                      className={`relative shrink-0 w-16 h-20 md:w-20 md:h-24 overflow-hidden border-2 transition-all duration-300 ${
                         activeImageIndex === i ? "border-foreground scale-[1.02]" : "border-transparent opacity-60 hover:opacity-100"
                       }`}
                     >
-                      <img src={img} alt={`${product.name} view ${i + 1}`} className="w-full h-full object-cover" />
+                      {item.type === "video" ? (
+                        <>
+                          <video src={item.src} muted playsInline className="w-full h-full object-cover" />
+                          <span className="absolute inset-0 flex items-center justify-center bg-foreground/30 text-[9px] tracking-[0.2em] uppercase text-primary-foreground">
+                            Video
+                          </span>
+                        </>
+                      ) : (
+                        <img src={item.src} alt={`${product.name} view ${i + 1}`} className="w-full h-full object-cover" />
+                      )}
                     </button>
                   ))}
                 </div>
