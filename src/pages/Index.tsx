@@ -51,7 +51,7 @@ const Index = () => {
 
         <div className="relative z-10 w-full px-6 md:px-14 pb-16 md:pb-24 text-primary-foreground">
           <p className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-primary-foreground/70 mb-4">
-            AI Nupes · Built for Achievers
+            AI Nupes · The AI Collection
           </p>
           <h1 className="font-display text-5xl sm:text-7xl md:text-8xl leading-[0.9] tracking-tight max-w-4xl mb-6">
             THE AI COLLECTION
@@ -114,7 +114,7 @@ const Index = () => {
         <FadeIn>
           <div className="max-w-3xl">
             <h2 className="font-display text-3xl md:text-5xl tracking-tight text-foreground mb-5">
-              BUILT FOR ACHIEVERS
+              MADE TO LAST
             </h2>
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-8">
               Heavyweight fabrics, considered graphics, limited runs. Every piece is made for brothers

@@ -243,7 +243,7 @@ const OurStory = () => {
         <FadeIn>
           <section className="px-4 md:px-14 max-w-2xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-5xl tracking-wide text-foreground mb-4">
-              BUILT FOR ACHIEVERS
+              WEAR THE LEGACY
             </h2>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
               Every piece in the AI Collection is designed to honor 95 years of legacy. 

@@ -13,7 +13,7 @@ const Footer = () => {
                 AI NUPES
               </h3>
               <p className="text-sm text-primary-foreground/60 tracking-wide">
-                Built for Achievers.
+                The AI Collection.
               </p>
             </div>
             <div className="text-left md:text-right">
