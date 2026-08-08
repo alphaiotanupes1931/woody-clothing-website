@@ -74,8 +74,8 @@ function slugify(name: string): string {
 const rawProducts: Omit<Product, "id">[] = [
   // ===== CURRENT DROP =====
   {
-    image: painModelFrontAsset.url,
-    images: [painModelFrontAsset.url, painModelBackAsset.url, painFront, painBack],
+    image: painModelFront,
+    images: [painModelFront, painModelBack, painFront, painBack],
     video: painVideoAsset.url,
     name: "Pain of the Game · Tee",
     price: "$40.00",
