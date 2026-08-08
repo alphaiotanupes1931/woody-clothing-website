@@ -27,6 +27,7 @@ serve(async (req) => {
       shippingAddress,
       bundleItems: bundleItemsRaw,
       collectShipping,
+      promoCode,
     } = await req.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -137,6 +138,32 @@ serve(async (req) => {
           },
         },
       };
+    }
+
+    // Promo code: MNK5 = $5 off the order
+    const PROMO_CODES: Record<string, number> = { MNK5: 500 };
+    const normalizedPromo = typeof promoCode === "string" ? promoCode.trim().toUpperCase() : "";
+    const promoAmountOff = PROMO_CODES[normalizedPromo] || 0;
+
+    if (promoAmountOff > 0) {
+      sessionParams.metadata.promo_code = normalizedPromo;
+      sessionParams.metadata.promo_discount = String(promoAmountOff / 100);
+      try {
+        const coupon = await stripe.coupons.create({
+          amount_off: promoAmountOff,
+          currency: "usd",
+          duration: "once",
+          name: `${normalizedPromo} ($${(promoAmountOff / 100).toFixed(2)} off)`,
+        });
+        sessionParams.discounts = [{ coupon: coupon.id }];
+      } catch (couponError) {
+        // Fallback: apply the discount directly to the first product line item
+        console.error("Coupon creation failed, applying inline discount", couponError);
+        const first = line_items[0];
+        const discounted = Math.max(50, first.price_data.unit_amount - Math.round(promoAmountOff / first.quantity));
+        first.price_data.unit_amount = discounted;
+        first.price_data.product_data.name = `${first.price_data.product_data.name} (${normalizedPromo} applied)`;
+      }
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams);
