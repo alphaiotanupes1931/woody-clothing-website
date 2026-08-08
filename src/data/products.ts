@@ -44,6 +44,9 @@ import kreamSocks from "@/assets/products/kream-socks.jpg";
 // Current drop
 import painFront from "@/assets/products/pain-front.jpg";
 import painBack from "@/assets/products/pain-back.jpg";
+import painModelFrontAsset from "@/assets/products/pain-model-front.png.asset.json";
+import painModelBackAsset from "@/assets/products/pain-model-back.png.asset.json";
+import painVideoAsset from "@/assets/hero.mp4.asset.json";
 
 export interface Product {
   id: string;
