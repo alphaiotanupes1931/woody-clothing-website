@@ -44,8 +44,8 @@ import kreamSocks from "@/assets/products/kream-socks.jpg";
 // Current drop
 import painFront from "@/assets/products/pain-front.jpg";
 import painBack from "@/assets/products/pain-back.jpg";
-import painModelFrontAsset from "@/assets/products/pain-model-front.png.asset.json";
-import painModelBackAsset from "@/assets/products/pain-model-back.png.asset.json";
+import painModelFront from "@/assets/products/pain-model-front.jpg";
+import painModelBack from "@/assets/products/pain-model-back.jpg";
 import painVideoAsset from "@/assets/hero.mp4.asset.json";
 
 export interface Product {
@@ -74,8 +74,8 @@ function slugify(name: string): string {
 const rawProducts: Omit<Product, "id">[] = [
   // ===== CURRENT DROP =====
   {
-    image: painModelFrontAsset.url,
-    images: [painModelFrontAsset.url, painModelBackAsset.url, painFront, painBack],
+    image: painModelFront,
+    images: [painModelFront, painModelBack, painFront, painBack],
     video: painVideoAsset.url,
     name: "Pain of the Game · Tee",
     price: "$40.00",
