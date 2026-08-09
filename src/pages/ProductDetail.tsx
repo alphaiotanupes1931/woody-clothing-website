@@ -135,6 +135,7 @@ const ProductDetail = () => {
                     muted
                     loop
                     playsInline
+                    preload="auto"
                     className="w-full h-full object-cover"
                   />
                 ) : (
