@@ -39,27 +39,10 @@ const ShippingReturns = () => {
             <FadeIn delay={100}>
               <div>
                 <h2 className="font-display text-2xl tracking-wide text-foreground mb-4">
-                  Shipping (Pre-Order Policy)
+                  Shipping
                 </h2>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed font-semibold">
-                  This collection is pre-order only.
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    "Orders placed on or before March 14 are expected to arrive no later than April 21.",
-                    "Production will begin after the pre-order window closes.",
-                    "Orders will ship within 5–7 business days once production is complete.",
-                    "All customers will receive a tracking number via email once their order has shipped.",
-                    "Orders placed after March 14 will still be produced and shipped, but delivery timing is not guaranteed.",
-                  ].map((item, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-muted-foreground leading-relaxed">
-                      <span className="w-1 h-1 rounded-full bg-foreground mt-2 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-sm text-muted-foreground mt-4 italic leading-relaxed">
-                  We appreciate your patience as we prepare this limited commemorative release.
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Orders are processed and shipped within 5–7 business days. All customers will receive a tracking number via email once their order has shipped.
                 </p>
               </div>
             </FadeIn>
