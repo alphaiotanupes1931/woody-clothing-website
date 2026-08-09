@@ -281,10 +281,6 @@ const ProductDetail = () => {
                   >
                     Add to Cart
                   </button>
-
-                  <p className="text-[10px] tracking-wider uppercase text-muted-foreground text-center mt-3">
-                    Pre-order · Ships after March 14
-                  </p>
                 </>
               )}
 
