@@ -11,19 +11,9 @@ import FilmGrain from "@/components/FilmGrain";
 import PageTransition from "@/components/PageTransition";
 import ScrollProgress from "@/components/ScrollProgress";
 import CustomCursor from "@/components/CustomCursor";
-import Index from "./pages/Index";
-import Shop from "./pages/Shop";
-import ProductDetail from "./pages/ProductDetail";
-import OrderConfirmation from "./pages/OrderConfirmation";
-import Checkout from "./pages/Checkout";
-import OurStory from "./pages/OurStory";
-import FAQs from "./pages/FAQs";
-import Contact from "./pages/Contact";
-import ShippingReturns from "./pages/ShippingReturns";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import NotFound from "./pages/NotFound";
-import Wishlist from "./pages/Wishlist";
+import Offline from "./pages/Offline";
 import Admin from "./pages/Admin";
+
 
 const queryClient = new QueryClient();
 
