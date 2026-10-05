@@ -11,7 +11,18 @@ import FilmGrain from "@/components/FilmGrain";
 import PageTransition from "@/components/PageTransition";
 import ScrollProgress from "@/components/ScrollProgress";
 import CustomCursor from "@/components/CustomCursor";
-import Offline from "./pages/Offline";
+import Index from "./pages/Index";
+import Shop from "./pages/Shop";
+import ProductDetail from "./pages/ProductDetail";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import OurStory from "./pages/OurStory";
+import FAQs from "./pages/FAQs";
+import Contact from "./pages/Contact";
+import ShippingReturns from "./pages/ShippingReturns";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Wishlist from "./pages/Wishlist";
+import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 
 
@@ -41,7 +52,18 @@ const App = () => (
             <PageTransition>
               <Routes>
                 <Route path="/admin" element={<Admin />} />
-                <Route path="*" element={<Offline />} />
+                <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-confirmation" element={<OrderConfirmation />} />
+                <Route path="/our-story" element={<OurStory />} />
+                <Route path="/faqs" element={<FAQs />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/shipping-returns" element={<ShippingReturns />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
 
             </PageTransition>
