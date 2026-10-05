@@ -78,6 +78,7 @@ const rawProducts: Omit<Product, "id">[] = [
     image: painModelFront,
     images: [painModelFront, painModelBack, painFront, painBack],
     video: "/videos/pain-product.mp4",
+    soldOut: true,
     name: "Pain of the Game · Tee",
     price: "$40.00",
     category: "Tees",
